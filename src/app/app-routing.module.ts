@@ -9,7 +9,9 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
             {
                 path: '', component: AppLayoutComponent,
                 children: [
-                    { path: 'pages', loadChildren: () => import('./dashboard/components/pages/pages.module').then(m => m.PagesModule) }
+                    { 
+                        path: 'manage-patients', loadChildren: () => import('./dashboard/components/manage-patients/manage-patients.module').then(m => m.ManagePatientsModule) 
+                    }
                 ]
             },
             { path: 'auth', loadChildren: () => import('./dashboard/components/auth/auth.module').then(m => m.AuthModule) },
