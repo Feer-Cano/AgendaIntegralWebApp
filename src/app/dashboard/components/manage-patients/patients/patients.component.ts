@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { TranslateService } from '../../../services/translate.service';
 import { Patient } from "../../../models/patient";
 import { PatientService } from '../../../services/patient.service';
 import { NewPatientComponent } from "./dialogs/new-patient/new-patient.component";
 
 import { Table } from 'primeng/table';
 
+type TranslateData = {
+  [key: string]: string;
+};
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -28,14 +31,19 @@ export class PatientsComponent {
   rowsPerPageOptions = [5, 10, 20];
 
   cols: any[] = [];
-
+  translatedStrings: TranslateData = {};
   @ViewChild( NewPatientComponent ) dialogPatient!: NewPatientComponent;
-
+  
   constructor(
-    private patientService: PatientService
+    private patientService: PatientService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
+    this.translateService.getTranslations().subscribe((translations: TranslateData) => {
+      this.translatedStrings = translations;
+    });
+
 
     this.patientService.getPatients().subscribe( (result: Patient[]) => {
       this.patients = result;
