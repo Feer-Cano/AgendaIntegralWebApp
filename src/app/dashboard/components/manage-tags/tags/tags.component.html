@@ -1,0 +1,128 @@
+<div class="grid">
+
+  <div class="col-12">
+      <div class="card px-6 py-6">
+          <!-- <p-toast></p-toast> -->
+          <p-toolbar styleClass="mb-4">
+              <ng-template pTemplate="left">
+                  <div class="my-2">
+                      <button
+                          pButton pRipple
+                          label="{{ translatedStrings['nuevotag'] }}"
+                          icon="pi pi-plus"
+                          class="p-button-success mr-2"
+                          (click)="openNew()">
+                      </button>
+
+
+                      <button
+                          pButton pRipple
+                          label="{{ translatedStrings['eliminartag'] }}"
+                          icon="pi pi-trash"
+                          class="p-button-danger mr-2"
+                          (click)="deleteSelectedTags()"
+                          [disabled]="!selectedTags || !selectedTags.length">
+                      </button>
+
+                  </div>
+              </ng-template>
+          </p-toolbar>
+
+          <p-table
+              #dt
+              responsiveLayout="scroll"
+              currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+              selectionMode="multiple"
+              [rowHover]="true"
+              dataKey="id"
+              [value]="tags"
+              [rows]="10"
+              [columns]="cols"
+              [paginator]="true"
+              [globalFilterFields]="['name']"
+              [rowsPerPageOptions]="[10,20,30]"
+              [showCurrentPageReport]="true"
+              [(selection)]="selectedTags" >
+
+              <ng-template pTemplate="caption">
+                  <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                      <h5 class="m-0">Lista de Etiquetas</h5>
+                      <span class="block mt-2 md:mt-0 p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                      </span>
+                  </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                      <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+                      <th pSortableColumn="entity">Entidad <p-sortIcon field="entidad"></p-sortIcon></th>
+
+                      <th></th>
+
+                  </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-tag>
+                  <tr>
+                      <td>
+                          <p-tableCheckbox [value]="tag"></p-tableCheckbox>
+                      </td>
+                      <td style="width:6%; min-width:10rem;"><span class="p-column-title">Id</span>
+                          {{tag.id}}
+                      </td>
+                      <td style="width:18%; min-width:10rem;">
+                          <span class="p-column-title">Nombre</span>
+                          {{tag.name}}
+                      </td>
+                      <td style="width:18%; min-width:10rem;">
+                        <span class="p-column-title">Entidad</span>
+                        {{tag.typeEntityId.name}}
+                      </td>
+                      <td>
+                          <div class="flex">
+                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTag(tag)"></button>
+                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTag(tag)"></button>
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+
+      <app-new-tag></app-new-tag>
+
+      <p-dialog [(visible)]="deleteTagDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+
+          <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+              <span *ngIf="tag">¿Está seguro de que desea eliminar al tag<b>{{tag.name}}</b>?</span>
+          </div>
+
+          <ng-template pTemplate="footer">
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteTagDialog = false"></button>
+              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+          </ng-template>
+
+      </p-dialog>
+
+      <p-dialog [(visible)]="deleteTagsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+
+          <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+              <span>¿Está seguro de que desea eliminar los tags seleccionados?</span>
+          </div>
+
+          <ng-template pTemplate="footer">
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteTagsDialog = false"></button>
+              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+          </ng-template>
+
+      </p-dialog>
+  </div>
+</div>

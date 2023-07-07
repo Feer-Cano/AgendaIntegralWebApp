@@ -1,5 +1,8 @@
 {
-    "nuevopx": "Nuevo paciente pp",
-    "eliminarpx": "Eliminar paciente json",
-    "editarpx": "Editar paciente"
+    "nuevopx": "Nuevo paciente",
+    "eliminarpx": "Eliminar pacientes",
+    "editarpx": "Editar paciente",
+    "nuevotag": "Nueva etiqueta",
+    "eliminartag": "Eliminar etiquetas",
+    "editartag": "Editar etiqueta"
   }

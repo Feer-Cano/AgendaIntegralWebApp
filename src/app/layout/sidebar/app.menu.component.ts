@@ -39,7 +39,19 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/auth/error']
                             }
                         ]
-                    }
+                    },
+                    {
+                      label: 'Administrar Etiquetas',
+                      icon: 'pi pi-fw pi-tag',
+                      items: [
+                          {
+                              label: 'Etiquetas',
+                              icon: 'pi pi-fw pi-sign-in',
+                              routerLink: ['/manage-tags/tag']
+                          }
+                      ]
+                  }
+
                 ]
             }
         ];
