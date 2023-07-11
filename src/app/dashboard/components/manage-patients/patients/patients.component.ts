@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { TranslateData } from "../../../interfaces/translate-data";
 import { Patient } from "../../../models/patient";
 
-import { NewPatientComponent } from "./dialogs/new-patient/new-patient.component";
+import { DialogPatientComponent } from "./dialogs/dialog-patient/dialog-patient.component";
 
 import { PatientService } from '../../../services/patient.service';
 import { TranslateService } from '../../../services/translate.service';
@@ -32,8 +32,12 @@ export class PatientsComponent {
   rowsPerPageOptions = [5, 10, 20];
 
   cols: any[] = [];
+
+  birthSex: any[] = [];
+
   translatedStrings: TranslateData = {};
-  @ViewChild( NewPatientComponent ) dialogPatient!: NewPatientComponent;
+
+  @ViewChild( DialogPatientComponent ) dialogPatient!: DialogPatientComponent;
   
   constructor(
     private patientService: PatientService,
@@ -42,10 +46,11 @@ export class PatientsComponent {
 
   ngOnInit() {
 
-    this.translateService.getTranslations().subscribe((translations: TranslateData) => {
+    this.birthSex = this.patientService.birthSex;
+
+    this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
       this.translatedStrings = translations;
     });
-
 
     this.patientService.getPatients().subscribe( (result: Patient[]) => {
       this.patients = result;

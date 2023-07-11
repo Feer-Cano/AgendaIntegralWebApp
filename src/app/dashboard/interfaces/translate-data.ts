@@ -1,7 +1,7 @@
 
 export interface TranslateData {
-    [key: string]: {
-      [key: string]: string;
-    };
+  [key: string]: {
+    [key: string]: string;
+  };
 }
   

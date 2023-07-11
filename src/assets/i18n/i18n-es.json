@@ -2,7 +2,8 @@
   "patients": {
     "newPatient": "Nuevo paciente",
     "deletePatients": "Eliminar pacientes",
-    "editPatient": "Editar paciente"
+    "editPatient": "Editar paciente",
+    "listPatients": "Lista de Pacientes"
   },
   "tags": {
     "newTag": "Nueva etiqueta",

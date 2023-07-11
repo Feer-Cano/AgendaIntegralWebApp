@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ManagePatientsRoutingModule } from './manage-patients-routing.module';
 import { PatientsComponent } from './patients/patients.component';
-import { NewPatientComponent } from './patients/dialogs/new-patient/new-patient.component';
+import { DialogPatientComponent } from './patients/dialogs/dialog-patient/dialog-patient.component';
 
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -29,7 +29,7 @@ import { PrimeNGConfig } from 'primeng/api';
 @NgModule({
   declarations: [
     PatientsComponent,
-    NewPatientComponent
+    DialogPatientComponent
   ],
   imports: [
     CommonModule,

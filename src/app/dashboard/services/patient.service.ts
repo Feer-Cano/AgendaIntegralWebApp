@@ -19,8 +19,8 @@ export class PatientService {
   ];
 
   birthSex: any[]  = [
-    { name: 'Mujer', value: 0 },
-    { name: 'Hombre', value: 1 }
+    { name: 'Mujer', value: 0, badge: 'women' },
+    { name: 'Hombre', value: 1, badge: 'man' }
   ];
 
   constructor( 

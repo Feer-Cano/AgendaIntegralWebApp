@@ -10,12 +10,12 @@ import localeEsMX from '@angular/common/locales/es-MX';
 registerLocaleData( localeEsMX );
 
 @Component({
-  selector: 'app-new-patient',
-  templateUrl: './new-patient.component.html',
-  styleUrls: ['./new-patient.component.scss'],
+  selector: 'app-dialog-patient',
+  templateUrl: './dialog-patient.component.html',
+  styleUrls: ['./dialog-patient.component.scss'],
   providers: [{ provide: LOCALE_ID, useValue: 'es-MX' }],
 })
-export class NewPatientComponent implements OnInit {
+export class DialogPatientComponent implements OnInit {
 
   datePipe: DatePipe = new DatePipe('es-MX');
 
