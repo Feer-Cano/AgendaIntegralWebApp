@@ -1,5 +1,8 @@
+
 {
-    "addpx": "New patient pp",
-    "deletepx": "Delete patient json",
-    "editpx": "Edit patient"
-  }
+  "patient": {
+    "newPatient": "New patient",
+    "deletePatient": "Delete patient",
+    "editPatient": "Edit patient"
+  } 
+}

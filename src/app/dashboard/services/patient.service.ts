@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 import { Patient } from '../models/patient';
 
@@ -11,11 +11,11 @@ import { Patient } from '../models/patient';
 export class PatientService {
 
   maritalStatus: any[] = [
-    { label: 'Soltera/Soltero', value: 'single' },
-    { label: 'Casada/Casado', value: 'married' },
-    { label: 'Divorciada/Divorciado', value: 'divorced' },
-    { label: 'Viuda/Viudo', value: 'widowed' },
-    { label: 'Union libre', value: 'domesticPartnership' }
+    { label: 'Soltera/Soltero', value: 'SINGLE' },
+    { label: 'Casada/Casado', value: 'MARRIED' },
+    { label: 'Divorciada/Divorciado', value: 'DIVORCED' },
+    { label: 'Viuda/Viudo', value: 'WIDOWED' },
+    { label: 'Union libre', value: 'DOMESTIC_PARTNERSHIP' }
   ];
 
   birthSex: any[]  = [
@@ -82,8 +82,6 @@ export class PatientService {
 
   createPatient( patient: Patient ): Observable<any> {
 
-    console.log({patient})
-
     return this.apollo.mutate({
       mutation: gql`
         mutation createPatient(
@@ -91,7 +89,8 @@ export class PatientService {
           $lastName: String!,
           $birthSex: Int!,
           $birthDate: String!,
-          $maritalStatus: String!
+          $maritalStatus: String!,
+          $isActive: Int!
         ) {
           createPatient(
             firstName: $firstName,
@@ -99,6 +98,7 @@ export class PatientService {
             birthSex: $birthSex,
             birthDate: $birthDate,
             maritalStatus: $maritalStatus,
+            isActive: $isActive
           ) {
             id
           }
@@ -106,7 +106,45 @@ export class PatientService {
       `,
       variables: { ...patient },
     }).pipe(
-      map( (result: any) => result.data.createPatient )
+      map( (result: any) => result.data.createPatient ),
+    );
+  }
+
+  updatePatient( patient: Patient ): Observable<any> {
+
+    patient = {
+      ...patient,
+      id: Number( patient.id ),
+    }
+
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation updatePatient(
+          $id: Int!,
+          $firstName: String!,
+          $lastName: String!,
+          $birthSex: Int!,
+          $birthDate: String!,
+          $maritalStatus: String!,
+          $isActive: Int!
+        ) {
+          updatePatient(
+            id: $id
+            firstName: $firstName,
+            lastName: $lastName,
+            birthSex: $birthSex,
+            birthDate: $birthDate,
+            maritalStatus: $maritalStatus,
+            isActive: $isActive
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { ...patient },
+    }).pipe(
+      map( (result: any) => result.data.updatePatient ),
+      take(1)
     );
   }
 }

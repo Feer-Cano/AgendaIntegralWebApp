@@ -1,13 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { Tag } from '../../../models/tag';
+import { TranslateData } from "../../../interfaces/translate-data";
+
 import { NewTagComponent } from './dialogs/new-tag/new-tag.component';
+
 import { TagService } from '../../../services/tag.service';
-import { Table } from 'primeng/table';
 import { TranslateService } from '../../../services/translate.service';
 
-type TranslateData = {
-  [key: string]: string;
-};
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-tags',
@@ -40,7 +41,8 @@ export class TagsComponent {
   ) {}
 
   ngOnInit() {
-    this.TranslateService.getTranslations().subscribe((translations: TranslateData) => {
+
+    this.TranslateService.getTranslations().subscribe( (translations: TranslateData) => {
       this.translatedStrings = translations;
     });
 

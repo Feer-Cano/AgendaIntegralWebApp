@@ -1,9 +1,12 @@
 {
-    "nuevopx": "Nuevo paciente",
-    "eliminarpx": "Eliminar pacientes",
-    "editarpx": "Editar paciente",
-    "nuevotag": "Nueva etiqueta",
-    "eliminartag": "Eliminar etiquetas",
-    "editartag": "Editar etiqueta",
-    "prueba": "prueba etiqueta"
+  "patients": {
+    "newPatient": "Nuevo paciente",
+    "deletePatients": "Eliminar pacientes",
+    "editPatient": "Editar paciente"
+  },
+  "tags": {
+    "newTag": "Nueva etiqueta",
+    "deleteTags": "Eliminar etiquetas",
+    "editTag": "Editar etiqueta"
   }
+}

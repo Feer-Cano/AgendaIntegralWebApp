@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import * as translateData from '../../../assets/i18n/i18n-es.json';
-import * as inglesData from '../../../assets/i18n/i18n-en.json';
-type TranslateData = {
-  [key: string]: string;
-};
+import { TranslateData} from "../interfaces/translate-data";
 
 @Injectable({
   providedIn: 'root'

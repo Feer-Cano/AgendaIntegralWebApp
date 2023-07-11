@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService } from '../../../services/translate.service';
+import { Component, ViewChild } from '@angular/core';
+
+import { TranslateData } from "../../../interfaces/translate-data";
 import { Patient } from "../../../models/patient";
-import { PatientService } from '../../../services/patient.service';
+
 import { NewPatientComponent } from "./dialogs/new-patient/new-patient.component";
+
+import { PatientService } from '../../../services/patient.service';
+import { TranslateService } from '../../../services/translate.service';
 
 import { Table } from 'primeng/table';
 
-type TranslateData = {
-  [key: string]: string;
-};
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
@@ -40,6 +41,7 @@ export class PatientsComponent {
   ) {}
 
   ngOnInit() {
+
     this.translateService.getTranslations().subscribe((translations: TranslateData) => {
       this.translatedStrings = translations;
     });
@@ -53,12 +55,13 @@ export class PatientsComponent {
   
   openNew() {
     
-    this.dialogPatient.patient = {};
+    this.dialogPatient.typeDialog = 'new';
+    this.dialogPatient.patient = new Patient({ isActive: 1 });
     this.dialogPatient.submitted = false;
     this.dialogPatient.patientDialog = true;
 
-    this.dialogPatient.patientCreated.subscribe( (newPatient: Patient) => {
-      if ( newPatient ) {
+    this.dialogPatient.patientEmitter.subscribe( (patient: Patient) => {
+      if ( patient ) {
         this.patientService.getPatients().subscribe( (result: Patient[]) => {
           this.patients = result;
         });
@@ -70,19 +73,30 @@ export class PatientsComponent {
     this.deletePatientsDialog = true;
   }
 
-  editPatient(patient: Patient) {
+  editPatient( patient: Patient ) {
+
+    this.dialogPatient.typeDialog = 'edit';
     this.dialogPatient.patient = { ...patient };
     this.dialogPatient.patientDialog = true;
+    this.dialogPatient.setValuesForm();
+
+    this.dialogPatient.patientEmitter.subscribe( (patient: Patient) => {
+      if ( patient ) {
+        this.patientService.getPatients().subscribe( (result: Patient[]) => {
+          this.patients = result;
+        });
+      }
+    });
   }
 
-  deletePatient(patient: Patient) {
+  deletePatient( patient: Patient ) {
     this.deletePatientDialog = true;
     this.dialogPatient.patient = { ...patient };
   }
 
   confirmDeleteSelected() {
     this.deletePatientsDialog = false;
-    this.patients = this.patients.filter(val => !this.selectedPatients.includes(val));
+    this.patients = this.patients.filter(val => !this.selectedPatients.includes( val ));
     this.selectedPatients = [];
   }
 
@@ -92,7 +106,7 @@ export class PatientsComponent {
     this.dialogPatient.patient = {};
   }
 
-  findIndexById(id: number): number {
+  findIndexById( id: number ): number {
     let index = -1;
     for (let i = 0; i < this.patients.length; i++) {
       if (this.patients[i].id === id) {

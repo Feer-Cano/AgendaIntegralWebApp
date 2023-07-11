@@ -8,16 +8,15 @@
                     <div class="my-2">
                         <button 
                             pButton pRipple 
-                            label="{{ translatedStrings['nuevopx'] }}" 
+                            label="{{ translatedStrings['patients']['newPatient'] }}"
                             icon="pi pi-plus" 
                             class="p-button-success mr-2" 
                             (click)="openNew()">
                         </button>
                         
-
                         <button 
                             pButton pRipple 
-                            label="{{ translatedStrings['eliminarpx'] }}"  
+                            label="{{ translatedStrings['patients']['deletePatients']  }}"  
                             icon="pi pi-trash" 
                             class="p-button-danger mr-2" 
                             (click)="deleteSelectedPatients()" 
