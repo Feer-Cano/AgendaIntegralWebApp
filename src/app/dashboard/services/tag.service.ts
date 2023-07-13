@@ -89,4 +89,36 @@ export class TagService {
       map((result: any) => result.data.createTags)
     );
   }
+
+  updateTag( tag: Tag ): Observable<any> {
+
+    tag = {
+      ...tag,
+      id: Number( tag.id ),
+    }
+
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation updateTag(
+          $id: Int!,
+          $name: String!,
+          $typeEntityId: Int!,
+          $isActive: Int!
+        ) {
+          updateTag(
+            id: $id
+            name: $name,
+            typeEntityId: $typeEntityId,
+            isActive: $isActive
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { ...tag },
+    }).pipe(
+      map( (result: any) => result.data.updateTag ),
+      take(1)
+    );
+  }
 }

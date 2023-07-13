@@ -5,9 +5,18 @@
     "editPatient": "Editar paciente",
     "listPatients": "Lista de Pacientes"
   },
+
   "tags": {
     "newTag": "Nueva etiqueta",
     "deleteTags": "Eliminar etiquetas",
-    "editTag": "Editar etiqueta"
+    "editTag": "Editar etiqueta",
+    "listTags": "Lista de etiquetas"
+  },
+
+  "hcps": {
+    "newHcp": "Nuevo HCP",
+    "deleteHcps": "Eliminar HCPS",
+    "editHcp": "Editar HCP",
+    "listHcps": "Lista de HCPS"
   }
 }

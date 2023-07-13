@@ -50,7 +50,18 @@ export class AppMenuComponent implements OnInit {
                               routerLink: ['/manage-tags/tag']
                           }
                       ]
-                  }
+                  },
+                  {
+                    label: 'Administrar Personal',
+                    icon: 'pi pi-users pi-tag',
+                    items: [
+                        {
+                            label: 'Personal',
+                            icon: 'pi pi-pencil pi-sign-in',
+                            routerLink: ['/manage-hcps/hcp']
+                        }
+                    ]
+                }
 
                 ]
             }

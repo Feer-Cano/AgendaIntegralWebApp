@@ -1,0 +1,54 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <p-dialog [(visible)]="hcpDialog" [style]="{width: '450px'}" header="Nuevo Personal" [modal]="true" class="p-fluid">
+
+      <ng-template pTemplate="content">
+
+          <div class="field">
+              <label for="firstName">Nombre</label>
+              <input formControlName="firstName" type="text" pInputText id="firstName" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.firstName}"/>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.firstName">Este campo es requerido.</small>
+          </div>
+
+          <div class="field">
+              <label for="lastName">Apellidos</label>
+              <input formControlName="lastName" type="text" pInputText id="lastName" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.lastName}"/>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.lastName">Este campo es requerido.</small>
+          </div>
+
+          <div class="field">
+            <label for="birthSex">Sexo al nacer</label>
+            <p-selectButton [options]="birthSex" id="birthSex" formControlName="birthSex" optionLabel="name" optionValue="value" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.birthSex}"></p-selectButton>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthSex">Este campo es requerido.</small>
+        </div>
+
+          <div class="field">
+              <label for="birthDate">Fecha de nacimiento</label>
+              <p-calendar [showIcon]="true" inputId="icon" formControlName="birthDate" id="birthDate" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.birthDate}"></p-calendar>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthDate">Este campo es requerido.</small>
+          </div>
+
+          <div class="field">
+            <label for="professionalLicense">Licencia profesional</label>
+            <input formControlName="professionalLicense" type="string" pInputText id="professionalLicense" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.professionalLicense}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.professionalLicense">Este campo es requerido.</small>
+          </div>
+
+          <div class="field">
+              <label for="type">Tipo</label>
+              <p-dropdown [options]="type" formControlName="type" id="type" placeholder="Selecciona un estado civil" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.type}"></p-dropdown>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.type">Este campo es requerido.</small>
+          </div>
+          <div class="field">
+            <label for="hcpTypeId">hcpTypeId</label>
+            <input formControlName="hcpTypeId" type="number" pInputText id="hcpTypeId" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.hcpTypeId}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.hcpTypeId">Este campo es requerido.</small>
+        </div>
+
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+          <button type="submit" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"></button>
+      </ng-template>
+  </p-dialog>
+</form>

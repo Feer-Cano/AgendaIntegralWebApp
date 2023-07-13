@@ -1,9 +1,16 @@
+import { TypeEntity } from "./../interfaces/type-entity";
+
 export class Tag {
-  public id?: number | string;
-  public typeEntityId?: {
-    id?: number ;
-    name?: string;
-  };
+  public id?: number;
+  public typeEntityId?: TypeEntity;
   public name?: string;
-  public isActive?: boolean;
+  public isActive?: number;
+
+  constructor (
+    options: {
+        isActive: number
+    }
+) {
+    this.isActive = options.isActive;
+}
 }

@@ -6,6 +6,14 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
 @NgModule({
     imports: [
         RouterModule.forRoot([
+             {
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                        path: 'manage-hcps', loadChildren: () => import('./dashboard/components/manage-hcps/manage-hcps.module').then(m => m.ManageHcpsModule)
+                    }
+                ]
+            },
             {
                 path: '', component: AppLayoutComponent,
                 children: [

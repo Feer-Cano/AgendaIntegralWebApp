@@ -1,14 +1,14 @@
 <div class="grid">
 
-  <div class="col-8">
-      <div class="card px-4 py-4">
+  <div class="col-12">
+      <div class="card px-6 py-6">
           <!-- <p-toast></p-toast> -->
           <p-toolbar styleClass="mb-4">
               <ng-template pTemplate="left">
                   <div class="my-2">
                       <button
                           pButton pRipple
-                          label="{{ translatedStrings['tags']['newTag'] }}"
+                          label="{{ translatedStrings['hcps']['newHcp'] }}"
                           icon="pi pi-plus"
                           class="p-button-success mr-2"
                           (click)="openNew()">
@@ -17,11 +17,11 @@
 
                       <button
                           pButton pRipple
-                          label="{{ translatedStrings['tags']['deleteTags'] }}"
+                          label="{{ translatedStrings['hcps']['deleteHcps'] }}"
                           icon="pi pi-trash"
                           class="p-button-danger mr-2"
-                          (click)="deleteSelectedTags()"
-                          [disabled]="!selectedTags || !selectedTags.length">
+                          (click)="deleteSelectedHcps()"
+                          [disabled]="!selectedHcps || !selectedHcps.length">
                       </button>
 
                   </div>
@@ -35,18 +35,18 @@
               selectionMode="multiple"
               [rowHover]="true"
               dataKey="id"
-              [value]="tags"
+              [value]="hcps"
               [rows]="10"
               [columns]="cols"
               [paginator]="true"
-              [globalFilterFields]="['name']"
+              [globalFilterFields]="['firstName','lastName','birthSex', 'type']"
               [rowsPerPageOptions]="[10,20,30]"
               [showCurrentPageReport]="true"
-              [(selection)]="selectedTags" >
+              [(selection)]="selectedHcps" >
 
               <ng-template pTemplate="caption">
                   <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                      <h5 class="m-0">Lista de Etiquetas</h5>
+                      <h5 class="m-0">Lista de Personal</h5>
                       <span class="block mt-2 md:mt-0 p-input-icon-left">
                           <i class="pi pi-search"></i>
                           <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
@@ -60,34 +60,48 @@
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                       </th>
                       <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                      <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
-                      <th pSortableColumn="entity">Entidad <p-sortIcon field="entidad"></p-sortIcon></th>
-
+                      <th pSortableColumn="firstName">Nombre <p-sortIcon field="firstName"></p-sortIcon></th>
+                      <th pSortableColumn="lastName">Apellidos <p-sortIcon field="lastName"></p-sortIcon></th>
+                      <th pSortableColumn="birthSex">Entidad<p-sortIcon field="birthSex"></p-sortIcon></th>
+                      <th pSortableColumn="professionalLicense">Licencia Profesional <p-sortIcon field="professionalLicense"></p-sortIcon></th>
+                      <th pSortableColumn="maritalStatus">Type <p-sortIcon field="type"></p-sortIcon></th>
                       <th></th>
 
                   </tr>
               </ng-template>
 
-              <ng-template pTemplate="body" let-tag>
+              <ng-template pTemplate="body" let-hcp>
                   <tr>
                       <td>
-                          <p-tableCheckbox [value]="tag"></p-tableCheckbox>
+                          <p-tableCheckbox [value]="hcp"></p-tableCheckbox>
                       </td>
-                      <td style="width:6%; min-width:10rem;"><span class="p-column-title">Id</span>
-                          {{tag.id}}
+                      <td style="width:6%; min-width:auto;"><span class="p-column-title">Id</span>
+                          {{hcp.id}}
                       </td>
-                      <td style="width:18%; min-width:10rem;">
+                      <td style="width:18%; min-width:4rem;">
                           <span class="p-column-title">Nombre</span>
-                          {{tag.name}}
+                          {{hcp.firstName}}
                       </td>
                       <td style="width:18%; min-width:10rem;">
-                        <span class="p-column-title">Entidad</span>
-                        {{tag.typeEntityId.name}}
+                          <span class="p-column-title">Apellidos</span>
+                          {{hcp.lastName}}
+                      </td>
+                      <td style="width:18%; min-width:10rem;">
+                          <span class="p-column-title">Entidad</span>
+                          {{hcp.hcpTypeId.name}}
+                      </td>
+                      <td style="width:18%; min-width:10rem;">
+                        <span class="p-column-title">Licencia</span>
+                        {{hcp.professionalLicense}}
+                    </td>
+                      <td style="width:18%; min-width:10rem;">
+                          <span class="p-column-title">Tipo</span>
+                          {{hcp.type}}
                       </td>
                       <td>
                           <div class="flex">
-                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTag(tag)"></button>
-                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTag(tag)"></button>
+                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editHcp(hcp)"></button>
+                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteHcp(hcp)"></button>
                           </div>
                       </td>
                   </tr>
@@ -95,31 +109,31 @@
           </p-table>
       </div>
 
-      <app-new-tag></app-new-tag>
+      <app-new-hcp></app-new-hcp>
 
-      <p-dialog [(visible)]="deleteTagDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+      <p-dialog [(visible)]="deleteHcpDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
 
           <div class="flex align-items-center justify-content-center">
               <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-              <span *ngIf="tag">¿Está seguro de que desea eliminar al tag<b>{{tag.name}}</b>?</span>
+              <span *ngIf="hcp">¿Está seguro de que desea eliminar al paciente<b>{{hcp.firstName}} {{ hcp.lastName }}</b>?</span>
           </div>
 
           <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteTagDialog = false"></button>
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteHcpDialog = false"></button>
               <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
           </ng-template>
 
       </p-dialog>
 
-      <p-dialog [(visible)]="deleteTagsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+      <p-dialog [(visible)]="deleteHcpDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
 
           <div class="flex align-items-center justify-content-center">
               <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-              <span>¿Está seguro de que desea eliminar los tags seleccionados?</span>
+              <span>¿Está seguro de que desea eliminar los pacientes seleccionados?</span>
           </div>
 
           <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteTagsDialog = false"></button>
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteHcpDialog = false"></button>
               <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
           </ng-template>
 
