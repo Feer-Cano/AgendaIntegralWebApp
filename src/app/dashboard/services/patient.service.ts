@@ -11,10 +11,10 @@ import { Patient } from '../models/patient';
 export class PatientService {
 
   maritalStatus: any[] = [
-    { label: 'Soltera/Soltero', value: 'SINGLE' },
-    { label: 'Casada/Casado', value: 'MARRIED' },
-    { label: 'Divorciada/Divorciado', value: 'DIVORCED' },
-    { label: 'Viuda/Viudo', value: 'WIDOWED' },
+    { label: 'Soltera(o)', value: 'SINGLE' },
+    { label: 'Casada(o)', value: 'MARRIED' },
+    { label: 'Divorciada(o)', value: 'DIVORCED' },
+    { label: 'Viuda(o)', value: 'WIDOWED' },
     { label: 'Union libre', value: 'DOMESTIC_PARTNERSHIP' }
   ];
 
@@ -25,60 +25,62 @@ export class PatientService {
 
   constructor( 
     private apollo: Apollo 
-    ) {}
+  ) {}
 
-    getPatients(): Observable<any> {
+  getPatients( isActive: number ): Observable<any> {
 
-      return this.apollo
-        .watchQuery({
-          query: gql`
-            query {
-              getPatients {
-                id,
-                firstName,
-                lastName,
-                birthSex,
-                birthDate,
-                maritalStatus,
-                medicalRecord,
-                isActive
-              }
+    console.log(isActive)
+    return this.apollo
+      .watchQuery({
+        query: gql`
+        query getPatients($isActive: Int!) {
+          getPatients(isActive: $isActive) {
+            id,
+            firstName,
+            lastName,
+            birthSex,
+            birthDate,
+            maritalStatus,
+            medicalRecord,
+            isActive
+          }
+        }
+        `,
+        variables: { isActive },
+        fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
+      })
+      .valueChanges.pipe( 
+        map( (result: any) => result.data.getPatients ),
+        take(1) 
+      );
+  }
+
+  getPatient( id: number ): Observable<any> {
+
+    return this.apollo
+      .watchQuery({
+        query: gql`
+          query getPatient($id: ID!) {
+            getPatient(id: $id) {
+              id,
+              firstName,
+              lastName,
+              birthSex,
+              birthDate,
+              maritalStatus,
+              medicalRecord,
+              isActive
             }
-          `,
-          fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
-        })
-        .valueChanges.pipe( 
-          map( (result: any) => result.data.getPatients ),
-          take(1) 
-        );
-    }
-  
-    getPatient( id: number ): Observable<any> {
-  
-      return this.apollo
-        .watchQuery({
-          query: gql`
-            query getPatient($id: ID!) {
-              patient(id: $id) {
-                id,
-                firstName,
-                lastName,
-                birthSex,
-                birthDate,
-                maritalStatus,
-                medicalRecord,
-                isActive
-              }
-            }
-          `,
-          variables: { id },
-          fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
-        })
-        .valueChanges.pipe( 
-          map( (result: any) => result.data.getPatient ),
-          take(1) 
-        );
-    } 
+          }
+        `,
+        variables: { id },
+        fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
+      })
+      .valueChanges.pipe( 
+        map( (result: any) => result.data.getPatient ),
+        take(1) 
+      );
+  } 
 
   createPatient( patient: Patient ): Observable<any> {
 
@@ -129,7 +131,7 @@ export class PatientService {
           $isActive: Int!
         ) {
           updatePatient(
-            id: $id
+            id: $id,
             firstName: $firstName,
             lastName: $lastName,
             birthSex: $birthSex,
@@ -144,6 +146,27 @@ export class PatientService {
       variables: { ...patient },
     }).pipe(
       map( (result: any) => result.data.updatePatient ),
+      take(1)
+    );
+  }
+
+  removePatient( id: number ): Observable<any> {
+
+    id = Number(id);
+
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation removePatient($id: Int!) {
+          removePatient(
+            id: $id
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { id },
+    }).pipe(
+      map( (result: any) => result.data.removePatient ),
       take(1)
     );
   }

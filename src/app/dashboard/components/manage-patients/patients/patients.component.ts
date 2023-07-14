@@ -1,23 +1,28 @@
 import { Component, ViewChild } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { take } from 'rxjs';
 
 import { TranslateData } from "../../../interfaces/translate-data";
 import { Patient } from "../../../models/patient";
 
 import { DialogPatientComponent } from "./dialogs/dialog-patient/dialog-patient.component";
 
+import { RemovePatientComponent } from "./dialogs/remove-patient/remove-patient.component";
+
 import { PatientService } from '../../../services/patient.service';
 import { TranslateService } from '../../../services/translate.service';
 
-import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
-  styleUrls: ['./patients.component.scss']
+  styleUrls: ['./patients.component.scss'],
+  providers: [MessageService]
 })
 export class PatientsComponent {
 
-  deletePatientDialog: boolean = false;
+  removePatientDialog: boolean = false;
 
   deletePatientsDialog: boolean = false;
 
@@ -38,9 +43,11 @@ export class PatientsComponent {
   translatedStrings: TranslateData = {};
 
   @ViewChild( DialogPatientComponent ) dialogPatient!: DialogPatientComponent;
+  @ViewChild( RemovePatientComponent ) dialogRemovePatient!: RemovePatientComponent;
   
   constructor(
     private patientService: PatientService,
+    private messageService: MessageService,
     private translateService: TranslateService
   ) {}
 
@@ -52,63 +59,52 @@ export class PatientsComponent {
       this.translatedStrings = translations;
     });
 
-    this.patientService.getPatients().subscribe( (result: Patient[]) => {
-      this.patients = result;
+    this.reloadTable();
+  }
+
+  reloadTable() {
+    this.patientService.getPatients( 1 ).subscribe( (result: Patient[]) => {
+      this.patients = result;          
     });
-  
   }
   
-  openNew() {
+  dialogNewPatient() {
     
     this.dialogPatient.typeDialog = 'new';
     this.dialogPatient.patient = new Patient({ isActive: 1 });
     this.dialogPatient.submitted = false;
     this.dialogPatient.patientDialog = true;
 
-    this.dialogPatient.patientEmitter.subscribe( (patient: Patient) => {
-      if ( patient ) {
-        this.patientService.getPatients().subscribe( (result: Patient[]) => {
-          this.patients = result;
-        });
-      }
+    this.dialogPatient.patientEmitter.pipe( take(1) ).subscribe( (patient: Patient) => {
+      patient ? ( this.successSaveToast(), this.reloadTable() ) : this.errorSaveToast();
     });
   }
 
-  deleteSelectedPatients() {
-    this.deletePatientsDialog = true;
-  }
-
-  editPatient( patient: Patient ) {
-
+  dialogEditPatient( patient: Patient ) {
+    
     this.dialogPatient.typeDialog = 'edit';
     this.dialogPatient.patient = { ...patient };
     this.dialogPatient.patientDialog = true;
     this.dialogPatient.setValuesForm();
-
-    this.dialogPatient.patientEmitter.subscribe( (patient: Patient) => {
-      if ( patient ) {
-        this.patientService.getPatients().subscribe( (result: Patient[]) => {
-          this.patients = result;
-        });
-      }
+    
+    this.dialogPatient.patientEmitter.pipe( take(1) ).subscribe( (patient: Patient) => {
+      patient ? ( this.successSaveToast(), this.reloadTable() ) : this.errorSaveToast();
     });
   }
-
-  deletePatient( patient: Patient ) {
-    this.deletePatientDialog = true;
-    this.dialogPatient.patient = { ...patient };
+  
+  deleteSelectedPatients() {
+    this.deletePatientsDialog = true;
   }
 
-  confirmDeleteSelected() {
-    this.deletePatientsDialog = false;
-    this.patients = this.patients.filter(val => !this.selectedPatients.includes( val ));
-    this.selectedPatients = [];
-  }
+  dialogDeletePatient( patient: Patient ) {
+    this.dialogRemovePatient.removePatientDialog = true;
+    this.dialogRemovePatient.patient = { ...patient };
 
-  confirmDelete() {
-    this.deletePatientDialog = false;
-    this.patients = this.patients.filter(val => val.id !== this.dialogPatient.patient.id);
-    this.dialogPatient.patient = {};
+    this.dialogRemovePatient.patientEmitter.pipe( take(1) ).subscribe( (result: any) => {
+      if ( result.id ) {
+        this.reloadTable();
+      }
+    });
   }
 
   findIndexById( id: number ): number {
@@ -123,8 +119,28 @@ export class PatientsComponent {
     return index;
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  successSaveToast() {
+    this.messageService.add({ 
+      severity: 'success', 
+      summary: 'OK!', 
+      detail: 'Los datos del paciente se guardaron correctamente'
+    });
   }
 
+  errorSaveToast() {
+    this.messageService.add({ 
+      severity: 'error', 
+      summary: 'ERROR!', 
+      detail: 'Error al guardar los datos del paciente'
+    });
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal( (event.target as HTMLInputElement).value, 'contains' );
+  }
+
+  getMaritalStatusLabel( value: string ): string {
+    const status = this.patientService.maritalStatus.find( item => item.value === value );
+    return status ? status.label : '';
+  }
 }

@@ -1,4 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="save()">
+
+    <p-toast></p-toast> 
+    
     <p-dialog [(visible)]="patientDialog" [style]="{width: '450px'}" header="Nuevo Paciente" [modal]="true" class="p-fluid">
 
         <ng-template pTemplate="content">
@@ -30,7 +33,7 @@
             <div class="field">
                 <label for="maritalStatus">Estado civil</label>
                 <p-dropdown [options]="maritalStatus" formControlName="maritalStatus" id="maritalStatus" placeholder="Selecciona un estado civil" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.maritalStatus}"></p-dropdown>
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.maritalStatus">Este campo es requerido.</small>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.maritalStatus"></small>
             </div>
 
         </ng-template>

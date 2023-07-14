@@ -1,22 +1,35 @@
+
 {
   "patients": {
-    "newPatient": "Nuevo paciente",
-    "deletePatients": "Eliminar pacientes",
-    "editPatient": "Editar paciente",
-    "listPatients": "Lista de Pacientes"
+    "new": "Nuevo paciente",
+    "delete": "Eliminar pacientes",
+    "edit": "Editar paciente",
+    "list": "Lista de Pacientes",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "dialogDelete": "¿Está seguro de que desea eliminar al paciente:",
+    "confirmDelete": "Escribe 'eliminar' para confirmar"
   },
-
-  "tags": {
-    "newTag": "Nueva etiqueta",
-    "deleteTags": "Eliminar etiquetas",
-    "editTag": "Editar etiqueta",
-    "listTags": "Lista de etiquetas"
-  },
-
   "hcps": {
-    "newHcp": "Nuevo HCP",
-    "deleteHcps": "Eliminar HCPS",
-    "editHcp": "Editar HCP",
-    "listHcps": "Lista de HCPS"
+    "new": "Nuevo HCP",
+    "delete": "Eliminar HCPS",
+    "edit": "Editar HCP",
+    "list": "Lista de HCPS"
+  },
+  "tags": {
+    "new": "Nueva etiqueta",
+    "delete": "Eliminar etiqueta",
+    "edit": "Editar etiqueta"
+  },
+  "warnings": {
+    "requiredField": "Este campo es requerido."
+  },
+  "actions": {
+    "yes": "Si",
+    "no": "No",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar"
   }
 }
+
