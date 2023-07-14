@@ -46,12 +46,16 @@ export class NewTagComponent implements OnInit{
   ngOnInit(): void {
     this.entities = this.tagService.entities;
 
+    console.log(this.entities)
   }
 
   setValuesForm() {
+
+    console.log(typeof this.tag.typeEntityId?.id)
+
     this.form.patchValue({
       name: this.tag.name,
-      entities: this.tag.typeEntityId?.name,
+      entities: Number( this.tag.typeEntityId?.id),
       isActive: 1
     });
   }

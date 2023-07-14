@@ -14,7 +14,8 @@
     "new": "Nuevo HCP",
     "delete": "Eliminar HCPS",
     "edit": "Editar HCP",
-    "list": "Lista de HCPS"
+    "list": "Lista de HCPS",
+    "entity": "Entidad"
   },
   "tags": {
     "new": "Nueva etiqueta",
@@ -22,7 +23,8 @@
     "edit": "Editar etiqueta"
   },
   "warnings": {
-    "requiredField": "Este campo es requerido."
+    "requiredField": "Este campo es requerido.",
+    "noData": "Sin datos"
   },
   "actions": {
     "yes": "Si",

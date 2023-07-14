@@ -9,17 +9,11 @@ import { Tag } from '../models/tag';
 })
 export class TagService {
 
-  constructor(private apollo: Apollo) {
-    // this.loadEntities(); // Llama al método para cargar los datos al inicializar el servicio
+  constructor(
+    private apollo: Apollo
+  ) {
+
   }
-
-  // loadEntities() {
-
-  //   this.getTags().subscribe(tags => {
-  //     this.entities = tags.map(tag => ({ label: tag.typeEntityId?.name, value: tag.typeEntityId?.id }));
-  //   });
-  // }
-
   entities: any[] = [
     { label: 'Pecoso', value: 1 },
     { label: 'HCP', value: 2 },

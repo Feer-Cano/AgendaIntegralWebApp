@@ -87,8 +87,8 @@
                           {{hcp.lastName}}
                       </td>
                       <td style="width:18%; min-width:10rem;">
-                          <span class="p-column-title">Entidad</span>
-                          {{hcp.hcpTypeId.name}}
+                          <span class="p-column-title">{{  translatedStrings['hcps']['entity'] }}</span>
+                          {{ ( hcp.hcpTypeId ) ? hcp.hcpTypeId.name :  translatedStrings['warnings']['noData'] }}
                       </td>
                       <td style="width:18%; min-width:10rem;">
                         <span class="p-column-title">Licencia</span>

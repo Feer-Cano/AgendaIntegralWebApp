@@ -16,6 +16,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./tags.component.scss']
 })
 export class TagsComponent {
+
   deleteTagDialog: boolean = false;
 
   deleteTagsDialog: boolean = false;
@@ -27,7 +28,6 @@ export class TagsComponent {
   selectedTags: Tag[] = [];
 
   statuses: any[] = [];
-
 
   rowsPerPageOptions = [5, 10, 20];
 

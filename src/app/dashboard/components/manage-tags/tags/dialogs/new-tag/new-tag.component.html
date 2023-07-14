@@ -10,13 +10,6 @@
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.name">Este campo es requerido.</small>
           </div>
 
-          <!-- <div class="field">
-              <label for="lastName">Entidad</label>
-
-              <input formControlName="entity" type="number" pInputText id="entity" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.entity}"/>
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.entity">Este campo es requerido.</small>
-          </div> -->
-
           <div class="field">
               <label for="entities">Entidad</label>
               <p-dropdown [options]="entities" formControlName="entities" id="entities" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.entities}"></p-dropdown>

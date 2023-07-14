@@ -164,7 +164,7 @@ export class PatientService {
           }
         }
       `,
-      variables: { id },
+      variables: id ,
     }).pipe(
       map( (result: any) => result.data.removePatient ),
       take(1)
