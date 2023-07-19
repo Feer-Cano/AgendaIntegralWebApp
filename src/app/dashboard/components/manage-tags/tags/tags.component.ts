@@ -1,23 +1,29 @@
 import { Component, ViewChild } from '@angular/core';
+import { take } from 'rxjs';
 
 import { Tag } from '../../../models/tag';
 import { TranslateData } from "../../../interfaces/translate-data";
 
-import { NewTagComponent } from './dialogs/new-tag/new-tag.component';
+import { DialogTagComponent } from './dialogs/dialog-tag/dialog-tag.component';
 
 import { TagService } from '../../../services/tag.service';
+import { RemoveTagComponent } from "./dialogs/remove-tag/remove-tag.component";
 import { TranslateService } from '../../../services/translate.service';
 
 import { Table } from 'primeng/table';
+import { RemovePatientComponent } from '../../manage-patients/patients/dialogs/remove-patient/remove-patient.component';
+import { AlertsService } from '../../../services/alerts.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.scss']
+  styleUrls: ['./tags.component.scss'],
+  providers: [AlertsService, MessageService]
 })
 export class TagsComponent {
 
-  deleteTagDialog: boolean = false;
+  removeTagDialog: boolean = false;
 
   deleteTagsDialog: boolean = false;
 
@@ -35,11 +41,13 @@ export class TagsComponent {
 
   translatedStrings: TranslateData = {};
 
-  @ViewChild( NewTagComponent ) dialogTag!: NewTagComponent;
+  @ViewChild( DialogTagComponent ) dialogTag!: DialogTagComponent;
+  @ViewChild( RemoveTagComponent ) dialogRemoveTag!: RemoveTagComponent;
 
   constructor(
     private tagService: TagService,
-    private TranslateService: TranslateService
+    private TranslateService: TranslateService,
+    private alertsService: AlertsService
   ) {}
 
   ngOnInit() {
@@ -48,26 +56,37 @@ export class TagsComponent {
       this.translatedStrings = translations;
     });
 
+    this.reloadTable();
+  }
 
+  reloadTable() {
     this.tagService.getTags().subscribe( ( result: Tag[] ) => {
       this.tags = result;
     });
 
   }
 
-  openNew() {
+  dialogNewTag() {
 
+    this.dialogTag.resetForm();
     this.dialogTag.typeDialog = 'new';
-    this.dialogTag.tag = new Tag({ isActive: 1 });
+    this.dialogTag.tag = new Tag;
     this.dialogTag.submitted = false;
     this.dialogTag.tagDialog = true;
 
-    this.dialogTag.tagEmitter.subscribe( ( tag: Tag ) => {
-      if ( tag ) {
-        this.tagService.getTags().subscribe( ( result: Tag[] ) => {
-          this.tags = result;
-        });
-      }
+      this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
+        tag ? ( this.alertsService.alertsTag.Insert(), this.reloadTable() ) : this.alertsService.alertsTag.Error();
+    });
+  }
+
+  dialogEditTag( tag: Tag ) {
+    this.dialogTag.typeDialog = 'edit';
+    this.dialogTag.tag = { ...tag };
+    this.dialogTag.tagDialog = true;
+    this.dialogTag.setValuesForm();
+
+    this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
+      tag ? ( this.alertsService.alertsTag.Update(), this.reloadTable() ) : this.alertsService.alertsTag.Error();
     });
   }
 
@@ -75,36 +94,15 @@ export class TagsComponent {
     this.deleteTagsDialog = true;
   }
 
-  editTag( tag: Tag ) {
-    this.dialogTag.typeDialog = 'edit';
-    this.dialogTag.tag = { ...tag };
-    this.dialogTag.tagDialog = true;
-    this.dialogTag.setValuesForm();
+  dialogDeleteTag( tag: Tag ) {
+    this.dialogRemoveTag.removeTagDialog = true;
+    this.dialogRemoveTag.tag = { ...tag };
 
-    this.dialogTag.tagEmitter.subscribe( ( tag: Tag ) => {
-      if ( tag ) {
-        this.tagService.getTags().subscribe( ( result: Tag[] ) => {
-          this.tags = result;
-        });
+    this.dialogRemoveTag.tagEmitter.pipe( take(1) ).subscribe( (result: any) => {
+      if ( result.id ) {
+        this.reloadTable();
       }
     });
-  }
-
-  deleteTag( tag: Tag ) {
-    this.deleteTagDialog = true;
-    this.dialogTag.tag = { ...tag };
-  }
-
-  confirmDeleteSelected() {
-    this.deleteTagsDialog = false;
-    this.tags = this.tags.filter( val => !this.selectedTags.includes( val ) );
-    this.selectedTags = [];
-  }
-
-  confirmDelete() {
-    this.deleteTagDialog = false;
-    this.tags = this.tags.filter( val => val.id !== this.dialogTag.tag.id );
-    this.dialogTag.tag = {};
   }
 
   findIndexById( id: number ): number {

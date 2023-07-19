@@ -35,11 +35,22 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: 'Parejas Sexuales',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-heart-fill',
                                 routerLink: ['/auth/error']
                             }
                         ]
                     },
+                    {
+                      label: 'Administrar Personal',
+                      icon: 'pi pi-plus-circle pi-tag',
+                      items: [
+                          {
+                              label: 'Personal',
+                              icon: 'pi pi-fw pi-sign-in',
+                              routerLink: ['/manage-hcps/hcp']
+                          }
+                      ]
+                  },
                     {
                       label: 'Administrar Etiquetas',
                       icon: 'pi pi-fw pi-tag',
@@ -50,18 +61,7 @@ export class AppMenuComponent implements OnInit {
                               routerLink: ['/manage-tags/tag']
                           }
                       ]
-                  },
-                  {
-                    label: 'Administrar Personal',
-                    icon: 'pi pi-users pi-tag',
-                    items: [
-                        {
-                            label: 'Personal',
-                            icon: 'pi pi-pencil pi-sign-in',
-                            routerLink: ['/manage-hcps/hcp']
-                        }
-                    ]
-                }
+                  }
 
                 ]
             }

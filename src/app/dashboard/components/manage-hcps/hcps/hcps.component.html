@@ -1,23 +1,25 @@
 <div class="grid">
 
   <div class="col-12">
+
+    <p-toast></p-toast>
+
       <div class="card px-6 py-6">
-          <!-- <p-toast></p-toast> -->
           <p-toolbar styleClass="mb-4">
               <ng-template pTemplate="left">
                   <div class="my-2">
                       <button
                           pButton pRipple
-                          label="{{ translatedStrings['hcps']['newHcp'] }}"
+                          label="{{ translatedStrings['hcps']['new'] }}"
                           icon="pi pi-plus"
                           class="p-button-success mr-2"
-                          (click)="openNew()">
+                          (click)="dialogNewHcp()">
                       </button>
 
 
                       <button
                           pButton pRipple
-                          label="{{ translatedStrings['hcps']['deleteHcps'] }}"
+                          label="{{ translatedStrings['hcps']['delete'] }}"
                           icon="pi pi-trash"
                           class="p-button-danger mr-2"
                           (click)="deleteSelectedHcps()"
@@ -46,7 +48,7 @@
 
               <ng-template pTemplate="caption">
                   <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                      <h5 class="m-0">Lista de Personal</h5>
+                      <h5 class="m-0">{{ translatedStrings['hcps']['list'] }}</h5>
                       <span class="block mt-2 md:mt-0 p-input-icon-left">
                           <i class="pi pi-search"></i>
                           <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
@@ -59,12 +61,12 @@
                       <th style="width: 3rem">
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                       </th>
-                      <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                      <th pSortableColumn="firstName">Nombre <p-sortIcon field="firstName"></p-sortIcon></th>
-                      <th pSortableColumn="lastName">Apellidos <p-sortIcon field="lastName"></p-sortIcon></th>
-                      <th pSortableColumn="birthSex">Entidad<p-sortIcon field="birthSex"></p-sortIcon></th>
-                      <th pSortableColumn="professionalLicense">Licencia Profesional <p-sortIcon field="professionalLicense"></p-sortIcon></th>
-                      <th pSortableColumn="maritalStatus">Type <p-sortIcon field="type"></p-sortIcon></th>
+                      <th pSortableColumn="id">{{ translatedStrings['hcps']['id'] }}<p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="firstName">{{ translatedStrings['hcps']['firstName'] }}<p-sortIcon field="firstName"></p-sortIcon></th>
+                      <th pSortableColumn="lastName">{{ translatedStrings['hcps']['lastName'] }}<p-sortIcon field="lastName"></p-sortIcon></th>
+                      <th pSortableColumn="entities">{{ translatedStrings['hcps']['entities'] }}<p-sortIcon field="entities"></p-sortIcon></th>
+                      <th pSortableColumn="professionalLicense">{{ translatedStrings['hcps']['professionalLicense'] }}<p-sortIcon field="professionalLicense"></p-sortIcon></th>
+                      <th pSortableColumn="birthSex">{{ translatedStrings['hcps']['birthSex'] }}<p-sortIcon field="birthSex"></p-sortIcon></th>
                       <th></th>
 
                   </tr>
@@ -75,33 +77,36 @@
                       <td>
                           <p-tableCheckbox [value]="hcp"></p-tableCheckbox>
                       </td>
-                      <td style="width:6%; min-width:auto;"><span class="p-column-title">Id</span>
-                          {{hcp.id}}
+                      <td style="width:10%; min-width:auto;"><span class="p-column-title">{{ translatedStrings['hcps']['id'] }}</span>
+                          {{ ( hcp.id ) ? hcp.id :  translatedStrings['warnings']['noData'] }}
                       </td>
                       <td style="width:18%; min-width:4rem;">
-                          <span class="p-column-title">Nombre</span>
-                          {{hcp.firstName}}
+                          <span class="p-column-title">{{ translatedStrings['hcps']['firstname'] }}</span>
+                          {{ ( hcp.firstName ) ? hcp.firstName :  translatedStrings['warnings']['noData'] }}
                       </td>
                       <td style="width:18%; min-width:10rem;">
-                          <span class="p-column-title">Apellidos</span>
-                          {{hcp.lastName}}
+                          <span class="p-column-title">{{  translatedStrings['hcps']['lastname'] }}</span>
+                          {{ ( hcp.lastName ) ? hcp.lastName :  translatedStrings['warnings']['noData'] }}
                       </td>
                       <td style="width:18%; min-width:10rem;">
                           <span class="p-column-title">{{  translatedStrings['hcps']['entity'] }}</span>
-                          {{ ( hcp.hcpTypeId ) ? hcp.hcpTypeId.name :  translatedStrings['warnings']['noData'] }}
+                          {{ ( hcp.hcpTypes ) ? hcp.hcpTypes.name :  translatedStrings['warnings']['noData'] }}
                       </td>
                       <td style="width:18%; min-width:10rem;">
-                        <span class="p-column-title">Licencia</span>
-                        {{hcp.professionalLicense}}
+                        <span class="p-column-title">{{  translatedStrings['hcps']['professionalLicense'] }}</span>
+                          {{ ( hcp.professionalLicense ) ? hcp.professionalLicense :  translatedStrings['warnings']['noData'] }}
                     </td>
                       <td style="width:18%; min-width:10rem;">
-                          <span class="p-column-title">Tipo</span>
-                          {{hcp.type}}
+                          <span class="p-column-title">{{  translatedStrings['hcps']['birthSex'] }}</span>
+                          <span [class]="'product-badge status-' + (this.birthSex && this.birthSex[hcp.birthSex] ? this.birthSex[hcp.birthSex].badge : '')">
+                            {{ this.birthSex && this.birthSex[hcp.birthSex] ? this.birthSex[hcp.birthSex].name : '' }}
+                          </span>
+
                       </td>
                       <td>
                           <div class="flex">
-                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editHcp(hcp)"></button>
-                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteHcp(hcp)"></button>
+                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="dialogEditHcp(hcp)"></button>
+                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="dialogDeleteHcp(hcp)"></button>
                           </div>
                       </td>
                   </tr>
@@ -109,34 +114,10 @@
           </p-table>
       </div>
 
-      <app-new-hcp></app-new-hcp>
+      <app-dialog-hcp></app-dialog-hcp>
 
-      <p-dialog [(visible)]="deleteHcpDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+      <app-remove-hcp></app-remove-hcp>
 
-          <div class="flex align-items-center justify-content-center">
-              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-              <span *ngIf="hcp">¿Está seguro de que desea eliminar al paciente<b>{{hcp.firstName}} {{ hcp.lastName }}</b>?</span>
-          </div>
 
-          <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteHcpDialog = false"></button>
-              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
-          </ng-template>
-
-      </p-dialog>
-
-      <p-dialog [(visible)]="deleteHcpDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-
-          <div class="flex align-items-center justify-content-center">
-              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-              <span>¿Está seguro de que desea eliminar los pacientes seleccionados?</span>
-          </div>
-
-          <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteHcpDialog = false"></button>
-              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
-          </ng-template>
-
-      </p-dialog>
   </div>
 </div>

@@ -8,24 +8,51 @@
     "firstName": "Nombre",
     "lastName": "Apellidos",
     "dialogDelete": "¿Está seguro de que desea eliminar al paciente:",
-    "confirmDelete": "Escribe 'eliminar' para confirmar"
+    "insert":"Paciente agregado exitosamente",
+    "remove":"Paciente eliminado exitosamente",
+    "update":"Paciente actualizado exitosamente",
+    "warning":"Cuidao",
+    "error": "Error"
   },
+
   "hcps": {
     "new": "Nuevo HCP",
     "delete": "Eliminar HCPS",
     "edit": "Editar HCP",
     "list": "Lista de HCPS",
-    "entity": "Entidad"
+    "entity": "Entidad",
+    "dialogDelete": "¿Está seguro de que desea eliminar al personal:",
+    "id": "Id",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "entities": "Entidad",
+    "professionalLicense": "Licencia",
+    "birthSex": "Sexo al nacer",
+    "insert":"Personal agregado exitosamente",
+    "remove":"Personal eliminado exitosamente",
+    "update":"Personal actualizado exitosamente",
+    "warning":"Cuidao",
+    "error": "Error"
   },
+
   "tags": {
     "new": "Nueva etiqueta",
     "delete": "Eliminar etiqueta",
-    "edit": "Editar etiqueta"
+    "edit": "Editar etiqueta",
+    "dialogDelete": "¿Está seguro de que desea eliminar al tag:",
+    "insert": "Etiqueta agregada de manera exitosa",
+    "remove":"Etiqueta eliminada exitosamente",
+    "update":"Etiqueta actualizada exitosamente",
+    "error": "Error",
+    "warning":"Cuidao"
   },
+
   "warnings": {
     "requiredField": "Este campo es requerido.",
-    "noData": "Sin datos"
+    "noData": "Sin datos",
+    "confirmDelete": "Escribe 'eliminar' para confirmar"
   },
+
   "actions": {
     "yes": "Si",
     "no": "No",
@@ -34,4 +61,6 @@
     "edit": "Editar"
   }
 }
+
+
 

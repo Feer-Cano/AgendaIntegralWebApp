@@ -16,8 +16,8 @@ export class HcpService {
   ];
 
   birthSex: any[]  = [
-    { name: 'Mujer', value: 1 },
-    { name: 'Hombre', value: 2 }
+    { name: 'Mujer', value: 0, badge: 'women' },
+    { name: 'Hombre', value: 1, badge: 'man' }
   ];
 
   hcpTypeId: any[] = [];
@@ -26,20 +26,20 @@ export class HcpService {
     ) {this.loadEntities();}
 
     loadEntities() {
-      this.getHCPS().subscribe((hcps: any[]) => {
+      this.getHCPS(1).subscribe((hcps: any[]) => {
         this.hcpTypeId = hcps.map(hcp => ({ label: hcp.hcpTypeId?.id as number, value: hcp.hcpTypeId?.id as number }));
       });
     }
 
-    getHCPS(): Observable<any> {
+    getHCPS(isActive: number): Observable<any> {
 
       return this.apollo
         .watchQuery({
           query: gql`
-            query {
-              getHCPS{
+            query getHCPS($isActive: Int!){
+              getHCPS(isActive: $isActive){
                 id,
-                hcpTypeId{
+                hcpTypes{
                   name
                 },
                 firstName,
@@ -52,6 +52,7 @@ export class HcpService {
               }
             }
           `,
+          variables: { isActive },
           fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
         })
         .valueChanges.pipe(
@@ -68,7 +69,7 @@ export class HcpService {
             query getHCP($id: ID!) {
               hcp(id: $id) {
                 id,
-                hcpTypeId{
+                hcpTypes{
                   name
                 },
                 firstName,
@@ -91,9 +92,6 @@ export class HcpService {
     }
 
   createHcp( hcp: Hcp ): Observable<any> {
-
-    console.log({hcp})
-
     return this.apollo.mutate({
       mutation: gql`
         mutation createHCP(
@@ -145,10 +143,9 @@ export class HcpService {
           $birthDate: String!,
           $professionalLicense: String!,
           $type: String!,
-          $isActive: Int!
         ) {
           updateHcp(
-            id: $id
+            id: $id,
             hcpTypeId: $hcpTypeId,
             firstName: $firstName,
             lastName: $lastName,
@@ -156,7 +153,6 @@ export class HcpService {
             birthDate: $birthDate,
             professionalLicense: $professionalLicense,
             type: $type,
-            isActive: $isActive
           ) {
             id
           }
@@ -169,4 +165,24 @@ export class HcpService {
     );
   }
 
+  removeHcp( id: number ): Observable<any> {
+
+    id = Number(id);
+
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation removeHcp($id: Int!) {
+          removeHcp(
+            id: $id
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { id },
+    }).pipe(
+      map( (result: any) => result.data.removeHcp ),
+      take(1)
+    );
+  }
 }

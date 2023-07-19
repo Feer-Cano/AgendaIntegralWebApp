@@ -32,7 +32,6 @@ export class TagService {
               name
             },
             name,
-            isActive
           }
         }
       `,
@@ -51,7 +50,6 @@ export class TagService {
             id,
             typeEntityId,
             name,
-            isActive
           }
         }
       `,
@@ -64,6 +62,7 @@ export class TagService {
   }
 
   createTags(tag: Tag): Observable<any> {
+    console.log({tag});
     return this.apollo.mutate({
       mutation: gql`
         mutation createTags(
@@ -97,13 +96,11 @@ export class TagService {
           $id: Int!,
           $name: String!,
           $typeEntityId: Int!,
-          $isActive: Int!
         ) {
           updateTag(
             id: $id
             name: $name,
             typeEntityId: $typeEntityId,
-            isActive: $isActive
           ) {
             id
           }
@@ -112,6 +109,27 @@ export class TagService {
       variables: { ...tag },
     }).pipe(
       map( (result: any) => result.data.updateTag ),
+      take(1)
+    );
+  }
+
+  removeTag( id: number ): Observable<any> {
+
+    id = Number(id);
+
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation removeTag($id: Int!) {
+          removeTag(
+            id: $id
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { id },
+    }).pipe(
+      map( (result: any) => result.data.removeTag ),
       take(1)
     );
   }

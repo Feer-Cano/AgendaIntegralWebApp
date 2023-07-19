@@ -19,14 +19,11 @@ import { CalendarModule } from "primeng/calendar";
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ManageTagsRoutingModule } from './manage-tags-routing.module';
 import { TagsComponent } from './tags/tags.component';
-import { NewTagComponent } from './tags/dialogs/new-tag/new-tag.component';
+import { DialogTagComponent } from './tags/dialogs/dialog-tag/dialog-tag.component';
+import { RemoveTagComponent } from './tags/dialogs/remove-tag/remove-tag.component';
 
 
 @NgModule({
-  declarations: [
-    TagsComponent,
-    NewTagComponent
-  ],
   imports: [
     CommonModule,
     ManageTagsRoutingModule,
@@ -49,6 +46,11 @@ import { NewTagComponent } from './tags/dialogs/new-tag/new-tag.component';
     CardModule,
     CalendarModule,
     SelectButtonModule
+  ],
+  declarations: [
+    TagsComponent,
+    DialogTagComponent,
+    RemoveTagComponent
   ]
 })
 export class ManageTagsModule { }

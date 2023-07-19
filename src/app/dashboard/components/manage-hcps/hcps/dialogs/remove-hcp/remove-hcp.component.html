@@ -1,0 +1,37 @@
+<p-toast></p-toast>
+
+<p-dialog class="p-fluid" [(visible)]="removeHcpDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+
+
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="hcp"> {{ translatedStrings['hcps']['dialogDelete'] }} <b>{{ hcp.firstName }} {{ hcp.lastName }}</b>?</span>
+    </div>
+
+    <div class="field" style="margin-top: 2rem;">
+        <label for="firstName"> {{ translatedStrings['hcps']['confirmDelete'] }}</label>
+        <input type="text" pInputText name="confirmationText" [(ngModel)]="confirmationText" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !confirmationText.length}"/>
+        <small class="ng-dirty ng-invalid" *ngIf="!confirmationText.length">{{ translatedStrings['warnings']['requiredField'] }}</small>
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ translatedStrings['actions']['no'] }}" (click)="onClose()"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [disabled]="!confirmationText.length" label="{{ translatedStrings['actions']['yes'] }}" (click)="confirmDelete()"></button>
+    </ng-template>
+
+</p-dialog>
+<!--
+<p-dialog [(visible)]="removePatientsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>¿Está seguro de que desea eliminar los pacientes seleccionados?</span>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="removePatientDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"></button>
+    </ng-template>
+
+</p-dialog> -->

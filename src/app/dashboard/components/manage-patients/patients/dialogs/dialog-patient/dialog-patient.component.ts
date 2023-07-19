@@ -16,7 +16,7 @@ registerLocaleData( localeEsMX );
   providers: [{ provide: LOCALE_ID, useValue: 'es-MX' }],
 })
 export class DialogPatientComponent implements OnInit {
-  
+
   @Output() patientEmitter: EventEmitter<Patient> = new EventEmitter<Patient>();
 
   datePipe: DatePipe = new DatePipe('es-MX');
@@ -65,6 +65,17 @@ export class DialogPatientComponent implements OnInit {
     });
   }
 
+  resetForm() {
+    this.form.patchValue({
+      firstName: '',
+      lastName: '',
+      birthSex: '',
+      birthDate: null,
+      maritalStatus: '',
+      isActive: null
+    });
+  }
+
   save() {
 
     this.submitted = false;
@@ -87,7 +98,7 @@ export class DialogPatientComponent implements OnInit {
       this.patientService.createPatient( this.patient ).subscribe( (result: Patient) => {
         this.patientEmitter.next( result );
       });
-      
+
     } else {
 
       this.patient.birthDate = moment( this.patient.birthDate, 'DD/MM/YYYY' ).toDate();
@@ -99,7 +110,7 @@ export class DialogPatientComponent implements OnInit {
 
     this.hideDialog();
   }
-  
+
   hideDialog() {
     this.form.reset();
     this.patientDialog = false;

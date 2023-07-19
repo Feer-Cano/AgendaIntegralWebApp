@@ -1,20 +1,25 @@
 import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '../../../services/translate.service';
-import { NewHcpComponent } from "./dialogs/new-hcp/new-hcp.component";
+import { DialogHcpComponent } from "./dialogs/dialog-hcp/dialog-hcp.component";
 import { Table } from 'primeng/table';
 import { Hcp } from '../../../models/hcp';
 import { HcpService } from '../../../services/hcp.service';
 import { TranslateData } from "../../../interfaces/translate-data";
+import { AlertsService } from '../../../services/alerts.service';
+import { take } from 'rxjs';
+import { RemoveHcpComponent } from "./dialogs/remove-hcp/remove-hcp.component";
 
 @Component({
   selector: 'app-hcps',
   templateUrl: './hcps.component.html',
-  styleUrls: ['./hcps.component.scss']
+  styleUrls: ['./hcps.component.scss'],
+  providers: [AlertsService]
+
 })
 
 export class HcpsComponent {
 
-  deleteHcpDialog: boolean = false;
+  removeHcpDialog: boolean = false;
 
   deleteHcpsDialog: boolean = false;
 
@@ -32,38 +37,62 @@ export class HcpsComponent {
 
   translatedStrings: TranslateData = {};
 
-  @ViewChild( NewHcpComponent ) dialogHcp!: NewHcpComponent;
+  birthSex: any[] = [];
+
+
+  @ViewChild( DialogHcpComponent ) dialogHcp!: DialogHcpComponent;
+  @ViewChild( RemoveHcpComponent ) dialogRemoveHcp!: RemoveHcpComponent;
 
   constructor(
     private hcpService: HcpService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private alertsService: AlertsService
   ) {}
 
   ngOnInit() {
+
+    this.birthSex = this.hcpService.birthSex;
 
     this.translateService.getTranslations().subscribe( ( translations: TranslateData ) => {
       this.translatedStrings = translations;
     });
 
-    this.hcpService.getHCPS().subscribe( ( result: Hcp[] ) => {
-      this.hcps = result;
-    });
+    this.reloadTable();
 
   }
 
-  openNew() {
+  reloadTable() {
+    this.hcpService.getHCPS(1).subscribe( ( result: Hcp[] ) => {
+      this.hcps = result;
+    });
+  }
 
+  dialogNewHcp() {
+
+    this.dialogHcp.resetForm();
     this.dialogHcp.typeDialog = 'new';
     this.dialogHcp.hcp = new Hcp({ isActive: 1 });
     this.dialogHcp.submitted = false;
     this.dialogHcp.hcpDialog = true;
 
-    this.dialogHcp.hcpEmitter.subscribe( ( Hcp: Hcp ) => {
-      if ( Hcp ) {
-        this.hcpService.getHCPS().subscribe( ( result: Hcp[] ) => {
-          this.hcps = result;
-        });
-      }
+    this.dialogHcp.hcpEmitter.pipe( take(1) ).subscribe( (hcp: Hcp) => {
+      hcp ? ( this.alertsService.alertsHCP.Insert(), this.reloadTable() ) : this.alertsService.alertsHCP.Error();
+    });
+
+  }
+
+
+
+  dialogEditHcp(hcp: Hcp) {
+
+    this.dialogHcp.typeDialog = 'edit';
+    this.dialogHcp.hcp = { ...hcp };
+    this.dialogHcp.hcpDialog = true;
+    this.dialogHcp.setValuesForm();
+
+    this.dialogHcp.hcpEmitter.pipe( take(1) ).subscribe( (hcp: Hcp) => {
+      hcp ? ( this.alertsService.alertsHCP.Update(), this.reloadTable() ) : this.alertsService.alertsHCP.Error();
+      ;
     });
 
   }
@@ -74,43 +103,16 @@ export class HcpsComponent {
 
   }
 
-  editHcp(hcp: Hcp) {
+  dialogDeleteHcp( hcp: Hcp ) {
 
-    this.dialogHcp.hcp = { ...hcp };
-    this.dialogHcp.hcpDialog = true;
-    this.dialogHcp.typeDialog = 'edit';
-    this.dialogHcp.setValuesForm();
+    this.dialogRemoveHcp.removeHcpDialog = true;
+    this.dialogRemoveHcp.hcp = { ...hcp };
 
-    this.dialogHcp.hcpEmitter.subscribe( ( hcp: Hcp ) => {
-      if ( hcp ) {
-        this.hcpService.getHCPS().subscribe( ( result: Hcp[] ) => {
-          this.hcps = result;
-        });
+    this.dialogRemoveHcp.hcpEmitter.pipe( take(1) ).subscribe( (result: any) => {
+      if ( result.id ) {
+        this.reloadTable();
       }
     });
-
-  }
-
-  deleteHcp( hcp: Hcp ) {
-
-    this.deleteHcpDialog = true;
-    this.dialogHcp.hcp = { ...hcp };
-
-  }
-
-  confirmDeleteSelected() {
-
-    this.deleteHcpsDialog = false;
-    this.hcps = this.hcps.filter( val => !this.selectedHcps.includes( val ) );
-    this.selectedHcps = [];
-
-  }
-
-  confirmDelete() {
-
-    this.deleteHcpDialog = false;
-    this.hcps = this.hcps.filter( val => val.id !== this.dialogHcp.hcp.id );
-    this.dialogHcp.hcp = {};
 
   }
 
