@@ -1,4 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="save()">
+
+  <p-toast></p-toast>
+
   <p-dialog [(visible)]="hcpDialog" [style]="{width: '450px'}" header="Nuevo Personal" [modal]="true" class="p-fluid">
 
       <ng-template pTemplate="content">
@@ -18,13 +21,13 @@
           <div class="field">
             <label for="birthSex">Sexo al nacer</label>
             <p-selectButton [options]="birthSex" id="birthSex" formControlName="birthSex" optionLabel="name" optionValue="value" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.birthSex}"></p-selectButton>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthSex">Este campo es requerido.</small>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthSex"></small>
         </div>
 
           <div class="field">
               <label for="birthDate">Fecha de nacimiento</label>
               <p-calendar [showIcon]="true" inputId="icon" formControlName="birthDate" id="birthDate" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.birthDate}"></p-calendar>
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthDate">Este campo es requerido.</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthDate"></small>
           </div>
 
           <div class="field">
@@ -36,7 +39,7 @@
           <div class="field">
               <label for="type">Tipo</label>
               <p-dropdown [options]="type" formControlName="type" id="type" placeholder="Selecciona un estado civil" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.type}"></p-dropdown>
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.type">Este campo es requerido.</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.type"></small>
           </div>
           <div class="field">
             <label for="hcpTypeId">hcpTypeId</label>

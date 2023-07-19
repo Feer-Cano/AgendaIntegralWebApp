@@ -9,12 +9,12 @@ import localeEsMX from '@angular/common/locales/es-MX';
 registerLocaleData( localeEsMX );
 
 @Component({
-  selector: 'app-new-tag',
-  templateUrl: './new-tag.component.html',
-  styleUrls: ['./new-tag.component.scss'],
+  selector: 'app-dialog-tag',
+  templateUrl: './dialog-tag.component.html',
+  styleUrls: ['./dialog-tag.component.scss'],
   providers: [{ provide: LOCALE_ID, useValue: 'es-MX' }],
 })
-export class NewTagComponent implements OnInit{
+export class DialogTagComponent implements OnInit{
 
   datePipe: DatePipe = new DatePipe('es-MX');
   @Output() tagEmitter: EventEmitter<Tag> = new EventEmitter<Tag>();
@@ -45,18 +45,19 @@ export class NewTagComponent implements OnInit{
 
   ngOnInit(): void {
     this.entities = this.tagService.entities;
-
-    console.log(this.entities)
   }
 
   setValuesForm() {
-
-    console.log(typeof this.tag.typeEntityId?.id)
-
     this.form.patchValue({
       name: this.tag.name,
       entities: Number( this.tag.typeEntityId?.id),
-      isActive: 1
+    });
+  }
+
+  resetForm() {
+    this.form.patchValue({
+      name: '',
+      entities: null,
     });
   }
 
@@ -72,19 +73,18 @@ export class NewTagComponent implements OnInit{
     const formValues = this.form.getRawValue();
 
     this.tag.name = formValues.name;
-    this.tag.typeEntityId = formValues.entity;
+    this.tag.typeEntityId = formValues.entities;
 
     if (this.typeDialog === 'new' ) {
       this.tagService.createTags( this.tag ).subscribe( (result: Tag) => {
-        this.tagEmitter.emit( result );
+        this.tagEmitter.next( result );
       });
     }else{
 
     this.tagService.updateTag( this.tag ).subscribe( (result: Tag) => {
-      this.tagEmitter.emit( result );
+      this.tagEmitter.next( result );
     });
   }
-
 
     this.hideDialog();
 

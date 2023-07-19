@@ -12,13 +12,14 @@ import { RemovePatientComponent } from "./dialogs/remove-patient/remove-patient.
 
 import { PatientService } from '../../../services/patient.service';
 import { TranslateService } from '../../../services/translate.service';
+import { AlertsService } from '../../../services/alerts.service';
 
 
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],
-  providers: [MessageService]
+  providers: [AlertsService, MessageService]
 })
 export class PatientsComponent {
 
@@ -44,10 +45,10 @@ export class PatientsComponent {
 
   @ViewChild( DialogPatientComponent ) dialogPatient!: DialogPatientComponent;
   @ViewChild( RemovePatientComponent ) dialogRemovePatient!: RemovePatientComponent;
-  
+
   constructor(
     private patientService: PatientService,
-    private messageService: MessageService,
+    private alertsService: AlertsService,
     private translateService: TranslateService
   ) {}
 
@@ -64,34 +65,35 @@ export class PatientsComponent {
 
   reloadTable() {
     this.patientService.getPatients( 1 ).subscribe( (result: Patient[]) => {
-      this.patients = result;          
+      this.patients = result;
     });
   }
-  
+
   dialogNewPatient() {
-    
+
+    this.dialogPatient.resetForm();
     this.dialogPatient.typeDialog = 'new';
     this.dialogPatient.patient = new Patient({ isActive: 1 });
     this.dialogPatient.submitted = false;
     this.dialogPatient.patientDialog = true;
 
     this.dialogPatient.patientEmitter.pipe( take(1) ).subscribe( (patient: Patient) => {
-      patient ? ( this.successSaveToast(), this.reloadTable() ) : this.errorSaveToast();
+      patient ? ( this.alertsService.alertsPatient.Insert(), this.reloadTable() ) : this.alertsService.alertsPatient.Error();
     });
   }
 
   dialogEditPatient( patient: Patient ) {
-    
+
     this.dialogPatient.typeDialog = 'edit';
     this.dialogPatient.patient = { ...patient };
     this.dialogPatient.patientDialog = true;
     this.dialogPatient.setValuesForm();
-    
+
     this.dialogPatient.patientEmitter.pipe( take(1) ).subscribe( (patient: Patient) => {
-      patient ? ( this.successSaveToast(), this.reloadTable() ) : this.errorSaveToast();
+      patient ? ( this.alertsService.alertsPatient.Update(), this.reloadTable() ) :  this.alertsService.alertsPatient.Error();
     });
   }
-  
+
   deleteSelectedPatients() {
     this.deletePatientsDialog = true;
   }
@@ -117,22 +119,6 @@ export class PatientsComponent {
     }
 
     return index;
-  }
-
-  successSaveToast() {
-    this.messageService.add({ 
-      severity: 'success', 
-      summary: 'OK!', 
-      detail: 'Los datos del paciente se guardaron correctamente'
-    });
-  }
-
-  errorSaveToast() {
-    this.messageService.add({ 
-      severity: 'error', 
-      summary: 'ERROR!', 
-      detail: 'Error al guardar los datos del paciente'
-    });
   }
 
   onGlobalFilter(table: Table, event: Event) {

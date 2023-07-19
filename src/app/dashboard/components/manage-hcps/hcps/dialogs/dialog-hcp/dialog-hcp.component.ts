@@ -9,13 +9,13 @@ import localeEsMX from '@angular/common/locales/es-MX';
 registerLocaleData( localeEsMX );
 
 @Component({
-  selector: 'app-new-hcp',
-  templateUrl: './new-hcp.component.html',
-  styleUrls: ['./new-hcp.component.scss'],
+  selector: 'app-dialog-hcp',
+  templateUrl: './dialog-hcp.component.html',
+  styleUrls: ['./dialog-hcp.component.scss'],
   providers: [{ provide: LOCALE_ID, useValue: 'es-MX' }],
 })
 
-export class NewHcpComponent implements OnInit {
+export class DialogHcpComponent implements OnInit {
 
   @Output() hcpEmitter: EventEmitter<Hcp> = new EventEmitter<Hcp>();
 
@@ -31,7 +31,7 @@ export class NewHcpComponent implements OnInit {
 
   type: any[] = [];
 
-  hcpTypeIds: any[] = [];
+  hcpTypeId: any[] = [];
 
   birthSex: any[] = [];
 
@@ -55,7 +55,7 @@ export class NewHcpComponent implements OnInit {
 
   ngOnInit(): void {
     this.type = this.hcpService.type;
-    this.hcpTypeIds = this.hcpService.hcpTypeId;
+    this.hcpTypeId = this.hcpService.hcpTypeId;
     this.birthSex = this.hcpService.birthSex;
 
   }
@@ -72,6 +72,20 @@ export class NewHcpComponent implements OnInit {
       isActive: 1
     });
   }
+
+  resetForm() {
+    this.form.patchValue({
+      firstName: '',
+      lastName: '',
+      birthSex: '',
+      birthDate: null,
+      professionalLicense: '',
+      type: '',
+      hcpTypeIds: null,
+      isActive: null
+    });
+  }
+
   save() {
 
     this.submitted = false;
@@ -93,16 +107,16 @@ export class NewHcpComponent implements OnInit {
 
     if ( this.typeDialog === 'new' ) {
 
-      this.hcpService.updateHcp( this.hcp ).subscribe( (result: Hcp) => {
-        this.hcpEmitter.emit(result);
+      this.hcpService.createHcp( this.hcp ).subscribe( (result: Hcp) => {
+        this.hcpEmitter.next( result );
       });
 
     } else {
 
-      this.hcp.birthDate = moment(this.hcp.birthDate, 'YYYY/MM/DD').toDate();
+      this.hcp.birthDate = moment( this.hcp.birthDate, 'YYYY/MM/DD' ).toDate();
 
       this.hcpService.updateHcp( this.hcp ).subscribe( (result: Hcp) => {
-        this.hcpEmitter.emit(result);
+        this.hcpEmitter.next( result );
       });
 
     }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewTagComponent } from './new-tag.component';
+import { RemoveHcpComponent } from './remove-hcp.component';
 
-describe('NewTagComponent', () => {
-  let component: NewTagComponent;
-  let fixture: ComponentFixture<NewTagComponent>;
+describe('RemoveHcpComponent', () => {
+  let component: RemoveHcpComponent;
+  let fixture: ComponentFixture<RemoveHcpComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewTagComponent ]
+      declarations: [ RemoveHcpComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NewTagComponent);
+    fixture = TestBed.createComponent(RemoveHcpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

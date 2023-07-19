@@ -23,7 +23,7 @@ export class RemovePatientComponent {
 
   submitted: boolean = false;
 
-  removePatientsDialog: boolean = false; 
+  removePatientsDialog: boolean = false;
 
   removePatientDialog: boolean = false;
 
@@ -39,34 +39,34 @@ export class RemovePatientComponent {
 
     this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
       this.translatedStrings = translations;
-    });  
+    });
   }
 
   confirmDelete() {
-    
+
     if ( this.confirmationText === 'eliminar' && this.patient.id ) {
       this.patientService.removePatient( this.patient.id ).subscribe({
         next: (result) => {
 
-          this.messageService.add({ 
-            severity: 'warn', 
-            summary: 'ADVERTENCIA!', 
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'ADVERTENCIA!',
             detail: 'Los datos del paciente fueron eliminados correctamente'
           });
           this.patientEmitter.next( result );
         },
         error: () => {
-          this.messageService.add({ 
-            severity: 'error', 
-            summary: 'ERROR!', 
+          this.messageService.add({
+            severity: 'error',
+            summary: 'ERROR!',
             detail: 'Error en el servidor'
           });
         }
       })
     } else {
-      this.messageService.add({ 
-        severity: 'error', 
-        summary: 'ERROR!', 
+      this.messageService.add({
+        severity: 'error',
+        summary: 'ERROR!',
         detail: 'La palabra escrita es incorrecta'
       });
     }
