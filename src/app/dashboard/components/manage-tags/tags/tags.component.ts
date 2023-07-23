@@ -11,7 +11,6 @@ import { RemoveTagComponent } from "./dialogs/remove-tag/remove-tag.component";
 import { TranslateService } from '../../../services/translate.service';
 
 import { Table } from 'primeng/table';
-import { RemovePatientComponent } from '../../manage-patients/patients/dialogs/remove-patient/remove-patient.component';
 import { AlertsService } from '../../../services/alerts.service';
 import { MessageService } from 'primeng/api';
 

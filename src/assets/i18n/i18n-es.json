@@ -1,5 +1,19 @@
 
 {
+  "sidebar": {
+    "home": "Home",
+    "modules": "Modulos",
+    "generalAgenda": "Agenda General",
+    "patients": "Pacientes",
+    "patientManagement": "Gestión de Pacientes",
+    "couplesManagement": "Gestión de Parejas",
+    "collaborators": "Colaboradores",
+    "hcpManagement": "Gestión de Personal Médico",
+    "userManagement": "Gestión de Usuarios",
+    "administrativeModules":"Modulos Administrativos",
+    "serviceManagement":"Gestión de Servicios",
+    "tagManagement":"Gestión de Etiquetas"
+  },
   "patients": {
     "new": "Nuevo paciente",
     "delete": "Eliminar pacientes",
