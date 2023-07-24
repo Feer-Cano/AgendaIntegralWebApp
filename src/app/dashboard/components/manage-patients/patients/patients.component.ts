@@ -7,7 +7,6 @@ import { TranslateData } from "../../../interfaces/translate-data";
 import { Patient } from "../../../models/patient";
 
 import { DialogPatientComponent } from "./dialogs/dialog-patient/dialog-patient.component";
-
 import { RemovePatientComponent } from "./dialogs/remove-patient/remove-patient.component";
 
 import { PatientService } from '../../../services/patient.service';

@@ -1,0 +1,23 @@
+<p-toast></p-toast> 
+
+<p-dialog class="p-fluid" [(visible)]="deleteServiceDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+
+    
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="service"> {{ translator['services']['dialogDelete'] }} <b>{{service.name}}</b>?</span>
+    </div>
+    
+    <div class="field" style="margin-top: 2rem;">
+        <label for="firstName"> {{ translator['warnings']['confirmDelete'] }}</label>
+        <input type="text" pInputText name="confirmationText" [(ngModel)]="confirmationText" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !confirmationText.length}"/>
+        <small class="ng-dirty ng-invalid" *ngIf="!confirmationText.length">{{ translator['warnings']['requiredField'] }}</small>
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ translator['actions']['no'] }}" (click)="onClose()"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" [disabled]="!confirmationText.length" label="{{ translator['actions']['yes'] }}" (click)="confirmDelete()"></button>
+    </ng-template>
+
+</p-dialog>

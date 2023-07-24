@@ -28,7 +28,6 @@
     "warning":"Cuidao",
     "error": "Error"
   },
-
   "hcps": {
     "new": "Nuevo HCP",
     "delete": "Eliminar HCPS",
@@ -44,29 +43,39 @@
     "birthSex": "Sexo al nacer",
     "insert":"Personal agregado exitosamente",
     "remove":"Personal eliminado exitosamente",
-    "update":"Personal actualizado exitosamente",
-    "warning":"Cuidao",
-    "error": "Error"
+    "update":"Personal actualizado exitosamente"
   },
 
   "tags": {
-    "new": "Nueva etiqueta",
-    "delete": "Eliminar etiqueta",
-    "edit": "Editar etiqueta",
+    "new": "Nueva Etiqueta",
+    "delete": "Eliminar Etiqueta",
+    "edit": "Editar Etiqueta",
+    "list": "Lista de Etiquetas",
     "dialogDelete": "¿Está seguro de que desea eliminar al tag:",
     "insert": "Etiqueta agregada de manera exitosa",
     "remove":"Etiqueta eliminada exitosamente",
-    "update":"Etiqueta actualizada exitosamente",
-    "error": "Error",
-    "warning":"Cuidao"
+    "update":"Etiqueta actualizada exitosamente"
   },
+  "services": {
+    "new": "Nuevo Servicio",
+    "delete": "Eliminar Servicio",
+    "edit": "Editar Servicio",
+    "list": "Lista de Servicios",
+    "dialogDelete": "¿Está seguro de que desea eliminar el servicio:",
+    "insert": "Servicio agregado de manera exitosa",
+    "remove":"Servicio eliminado exitosamente",
+    "update":"Servicio actualizado exitosamente",
+    "name":"Nombre",
+    "description":"Descripcion",
+    "status":"Status",
+    "serviceCost":"Costo del Servicio"
 
+  },
   "warnings": {
     "requiredField": "Este campo es requerido.",
     "noData": "Sin datos",
     "confirmDelete": "Escribe 'eliminar' para confirmar"
   },
-
   "actions": {
     "yes": "Si",
     "no": "No",

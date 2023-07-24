@@ -29,7 +29,15 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                        path: 'manage-tags', loadChildren: () => import('./dashboard/components/manage-tags/manage-tags.module').then(m => m.ManageTagsModule)
                   }
               ]
-          },
+            },
+            {
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                         path: 'manage-services', loadChildren: () => import('./dashboard/components/manage-services/manage-services.module').then(m => m.ManageServicesModule)
+                    }
+                ]
+              },
             { path: 'auth', loadChildren: () => import('./dashboard/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },

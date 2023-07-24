@@ -1,0 +1,43 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+
+    <p-toast></p-toast> 
+    
+    <p-dialog [(visible)]="serviceDialog" [style]="{width: '450px'}" header="{{ translator['services']['new'] }}" [modal]="true" class="p-fluid">
+
+        <ng-template pTemplate="content">
+            
+            <div class="field">
+                <label for="name">{{ translator['services']['name'] }}</label>
+                <input formControlName="name" type="text" pInputText id="name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.name}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.name">{{ translator['warnings']['requiredField'] }}</small>
+            </div>
+
+            <div class="field">
+                <label for="description">{{ translator['services']['description'] }}</label>
+                <input formControlName="description" type="text" pInputText id="description" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.description}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.description">{{ translator['warnings']['requiredField'] }}</small>
+            </div>
+
+            <div class="field">
+                <label for="description">{{ translator['services']['serviceCost'] }}</label>
+                <p-inputNumber 
+                    autofocus 
+                    prefix="$" 
+                    id="cost" 
+                    inputId="locale-user" 
+                    formControlName="cost" 
+                    [minFractionDigits]="2"
+                    [showButtons]="true"
+                    [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.cost}">
+                </p-inputNumber>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.cost">{{ translator['warnings']['requiredField'] }}</small>
+            </div>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button  type="button" pButton pRipple label="{{ translator['actions']['cancel'] }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button type="submit" pButton pRipple label="{{ translator['actions']['save'] }}" icon="pi pi-check" class="p-button-text"></button>
+        </ng-template>
+    </p-dialog>
+</form>

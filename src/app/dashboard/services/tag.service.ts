@@ -11,9 +11,8 @@ export class TagService {
 
   constructor(
     private apollo: Apollo
-  ) {
-
-  }
+  ) {}
+  
   entities: any[] = [
     { label: 'Pecoso', value: 1 },
     { label: 'HCP', value: 2 },

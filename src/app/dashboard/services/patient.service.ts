@@ -28,8 +28,7 @@ export class PatientService {
   ) {}
 
   getPatients( isActive: number ): Observable<any> {
-
-    console.log(isActive)
+    
     return this.apollo
       .watchQuery({
         query: gql`

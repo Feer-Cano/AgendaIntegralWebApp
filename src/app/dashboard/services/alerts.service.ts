@@ -12,10 +12,10 @@ export class AlertsService {
 
   constructor(
       private messageService: MessageService,
-      private TranslateService: TranslateService,
+      private translateService: TranslateService,
     )
     {
-      this.TranslateService.getTranslations().subscribe( ( translations: TranslateData ) => {
+      this.translateService.getTranslations().subscribe( ( translations: TranslateData ) => {
       this.translatedStrings = translations;
       });
     }

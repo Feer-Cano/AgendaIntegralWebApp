@@ -35,7 +35,6 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: this.translator['sidebar']['modules'],
-                icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {
                         label: this.translator['sidebar']['patients'],
@@ -76,7 +75,7 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: this.translator['sidebar']['serviceManagement'],
                                 icon: 'fa-solid fa-circle-dollar-to-slot',
-                                routerLink: ['/manage-tags/tag']
+                                routerLink: ['/manage-services/service']
                             },
                             {
                                 label: this.translator['sidebar']['tagManagement'],
