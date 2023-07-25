@@ -6,6 +6,8 @@ import { HcpService } from '../../../../../services/hcp.service';
 
 import * as moment from 'moment';
 import localeEsMX from '@angular/common/locales/es-MX';
+import { TranslateService } from '../../../../../services/translate.service';
+import { TranslateData } from '../../../../../interfaces/translate-data';
 registerLocaleData( localeEsMX );
 
 @Component({
@@ -37,9 +39,12 @@ export class DialogHcpComponent implements OnInit {
 
   typeDialog: string = '';
 
+  translatedStrings: TranslateData = {};
+
   constructor(
     private formBuilder: FormBuilder,
     private hcpService: HcpService,
+    private translateService: TranslateService,
   ) {
 
     this.form = this.formBuilder.group({
@@ -54,6 +59,11 @@ export class DialogHcpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
+      this.translatedStrings = translations;
+    });
+
     this.type = this.hcpService.type;
     this.hcpTypeId = this.hcpService.hcpTypeId;
     this.birthSex = this.hcpService.birthSex;
@@ -68,7 +78,7 @@ export class DialogHcpComponent implements OnInit {
       birthDate: this.datePipe.transform( this.hcp.birthDate, 'dd/MM/yyyy' ),
       professionalLicense: this.hcp.professionalLicense,
       type: this.hcp.type,
-      hcpTypeIds: this.hcp.hcpTypeId,
+      hcpTypeId: Number(this.hcp.hcpTypes?.id),
       isActive: 1
     });
   }
@@ -81,7 +91,7 @@ export class DialogHcpComponent implements OnInit {
       birthDate: null,
       professionalLicense: '',
       type: '',
-      hcpTypeIds: null,
+      hcpTypeId: null,
       isActive: null
     });
   }

@@ -9,6 +9,8 @@ export class Hcp {
   public birthDate?: Date;
   public professionalLicense?: string;
   public type?: string;
+  public hcpTypes?: TypeHCPTypes;
+
 
   public isActive?: number;
 

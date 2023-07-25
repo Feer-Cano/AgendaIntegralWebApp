@@ -1,36 +1,34 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { TranslateData } from 'src/app/dashboard/interfaces/translate-data';
-
-import { Hcp } from 'src/app/dashboard/models/hcp';
-
 import { TranslateService } from 'src/app/dashboard/services/translate.service';
-import { HcpService } from "../../../../../services/hcp.service";
 import { AlertsService } from '../../../../../services/alerts.service';
+import { HcpTypes } from '../../../../../models/hcp-types';
+import { HcpTypesService } from '../../../../../services/hcp-types.service';
 
 @Component({
-  selector: 'app-remove-hcp',
-  templateUrl: './remove-hcp.component.html',
-  styleUrls: ['./remove-hcp.component.scss'],
+  selector: 'app-remove-hcp-types',
+  templateUrl: './remove-hcp-types.component.html',
+  styleUrls: ['./remove-hcp-types.component.scss'],
   providers: [AlertsService],
 })
-export class RemoveHcpComponent {
+export class RemoveHcpTypesComponent {
 
-  @Output() hcpEmitter: EventEmitter<Hcp> = new EventEmitter<Hcp>();
+  @Output() hcpTypesEmitter: EventEmitter<HcpTypes> = new EventEmitter<HcpTypes>();
 
   translatedStrings: TranslateData = {};
 
-  hcp: Hcp = {};
+  hcpTypes: HcpTypes = {};
 
   submitted: boolean = false;
 
-  removeHcpsDialog: boolean = false;
+  removeHcpTypesDialog: boolean = false;
 
-  removeHcpDialog: boolean = false;
+  removeHcpTypeDialog: boolean = false;
 
   confirmationText: string = '';
 
   constructor(
-    public hcpService: HcpService,
+    public hcpTypesService: HcpTypesService,
     private translateService: TranslateService,
     private alertsService: AlertsService
   ){}
@@ -44,25 +42,25 @@ export class RemoveHcpComponent {
 
   confirmDelete() {
 
-    if ( this.confirmationText === 'eliminar' && this.hcp.id ) {
-      this.hcpService.removeHcp( this.hcp.id ).subscribe({
+    if ( this.confirmationText === 'eliminar' && this.hcpTypes.id ) {
+      this.hcpTypesService.removeHcpType( this.hcpTypes.id ).subscribe({
         next: (result) => {
-          this.alertsService.alertsHcp.Warning();
-          this.hcpEmitter.next( result );
+          this.alertsService.alertsHcpTypes.Warning();
+          this.hcpTypesEmitter.next( result );
         },
         error: () => {
-          this.alertsService.alertsHcp.Error();
+          this.alertsService.alertsHcpTypes.Error();
         }
       })
     } else {
-      this.alertsService.alertsHcp.Error();
+      this.alertsService.alertsHcpTypes.Error();
     }
 
     this.onClose();
   }
 
   onClose() {
-    this.removeHcpDialog = false;
+    this.removeHcpTypesDialog = false;
     this.confirmationText = '';
   }
 

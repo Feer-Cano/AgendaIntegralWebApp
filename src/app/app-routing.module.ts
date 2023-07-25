@@ -2,6 +2,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './dashboard/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
+import { ManageServicesModule } from './dashboard/components/manage-services/manage-services.module';
 
 @NgModule({
     imports: [
@@ -35,6 +36,14 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                 children: [
                     {
                          path: 'manage-services', loadChildren: () => import('./dashboard/components/manage-services/manage-services.module').then(m => m.ManageServicesModule)
+                    }
+                ]
+              },
+              {
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                         path: 'manage-hcpsTypes', loadChildren: () => import('./dashboard/components/manage-hcps-types/manage-hcps-types.module').then(m => m.ManageHcpsTypesModule)
                     }
                 ]
               },

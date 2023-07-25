@@ -23,12 +23,12 @@ export class PatientService {
     { name: 'Hombre', value: 1, badge: 'man' }
   ];
 
-  constructor( 
-    private apollo: Apollo 
+  constructor(
+    private apollo: Apollo
   ) {}
 
   getPatients( isActive: number ): Observable<any> {
-    
+
     return this.apollo
       .watchQuery({
         query: gql`
@@ -48,9 +48,9 @@ export class PatientService {
         variables: { isActive },
         fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
       })
-      .valueChanges.pipe( 
+      .valueChanges.pipe(
         map( (result: any) => result.data.getPatients ),
-        take(1) 
+        take(1)
       );
   }
 
@@ -75,11 +75,11 @@ export class PatientService {
         variables: { id },
         fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
       })
-      .valueChanges.pipe( 
+      .valueChanges.pipe(
         map( (result: any) => result.data.getPatient ),
-        take(1) 
+        take(1)
       );
-  } 
+  }
 
   createPatient( patient: Patient ): Observable<any> {
 
@@ -163,7 +163,7 @@ export class PatientService {
           }
         }
       `,
-      variables: id ,
+      variables: { id } ,
     }).pipe(
       map( (result: any) => result.data.removePatient ),
       take(1)

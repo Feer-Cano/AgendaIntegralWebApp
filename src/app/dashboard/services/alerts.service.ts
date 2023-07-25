@@ -43,11 +43,18 @@ export class AlertsService {
       });
     }
 
-    alertsHCP = {
+    alertsHcp = {
       Warning: () => this.showWarning(this.translatedStrings['hcps']['warning']),
       Insert: () => this.showSuccess(this.translatedStrings['hcps']['insert']),
       Update: () => this.showSuccess(this.translatedStrings['hcps']['update']),
       Error: () => this.showError(this.translatedStrings['hcps']['error']),
+    };
+
+    alertsHcpTypes = {
+      Warning: () => this.showWarning(this.translatedStrings['hcpsTypes']['warning']),
+      Insert: () => this.showSuccess(this.translatedStrings['hcpsTypes']['insert']),
+      Update: () => this.showSuccess(this.translatedStrings['hcpsTypes']['update']),
+      Error: () => this.showError(this.translatedStrings['hcpsTypes']['error']),
     };
 
     alertsTag = {
@@ -59,6 +66,7 @@ export class AlertsService {
 
     alertsPatient = {
       Warning: () => this.showWarning(this.translatedStrings['patients']['warning']),
+      Remove: () => this.showWarning(this.translatedStrings['patients']['remove']),
       Insert: () => this.showSuccess(this.translatedStrings['patients']['insert']),
       Update: () => this.showSuccess(this.translatedStrings['patients']['update']),
       Error: () => this.showError(this.translatedStrings['patients']['error']),
