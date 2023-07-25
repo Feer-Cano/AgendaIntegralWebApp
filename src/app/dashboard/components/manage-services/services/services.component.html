@@ -2,47 +2,47 @@
 
     <div class="col-12">
 
-        <p-toast></p-toast> 
-        
+        <p-toast></p-toast>
+
         <div class="card px-6 py-6">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button 
-                            pButton pRipple 
+                        <button
+                            pButton pRipple
                             label="{{ translator['services']['new'] }}"
-                            icon="pi pi-plus" 
-                            class="p-button-success mr-2" 
+                            icon="pi pi-plus"
+                            class="p-button-success mr-2"
                             (click)="dialogNewService()">
                         </button>
-                        
-                        <button 
-                            pButton pRipple 
-                            label="{{ translator['services']['delete']  }}"  
-                            icon="pi pi-trash" 
-                            class="p-button-danger mr-2" 
-                            (click)="deleteSelectedServices()" 
+
+                        <button
+                            pButton pRipple
+                            label="{{ translator['services']['delete']  }}"
+                            icon="pi pi-trash"
+                            class="p-button-danger mr-2"
+                            (click)="deleteSelectedServices()"
                             [disabled]="!selectedServices || !selectedServices.length">
                         </button>
-                        
+
                     </div>
                 </ng-template>
             </p-toolbar>
 
-            <p-table 
-                #dt 
-                responsiveLayout="scroll" 
-                currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros" 
-                selectionMode="multiple" 
-                [rowHover]="true" 
+            <p-table
+                #dt
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+                selectionMode="multiple"
+                [rowHover]="true"
                 dataKey="id"
-                [value]="services" 
-                [rows]="10" 
-                [columns]="cols" 
-                [paginator]="true" 
-                [globalFilterFields]="['name','description']" 
-                [rowsPerPageOptions]="[10,20,30]" 
-                [showCurrentPageReport]="true" 
+                [value]="services"
+                [rows]="10"
+                [columns]="cols"
+                [paginator]="true"
+                [globalFilterFields]="['name','description']"
+                [rowsPerPageOptions]="[10,20,30]"
+                [showCurrentPageReport]="true"
                 [(selection)]="selectedServices" >
 
                 <ng-template pTemplate="caption">
@@ -63,11 +63,12 @@
                         <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
                         <th pSortableColumn="name">{{ translator['services']['name'] }} <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="description">{{ translator['services']['description'] }} <p-sortIcon field="description"></p-sortIcon></th>
+                        <th pSortableColumn="description">{{ translator['services']['serviceCost'] }} <p-sortIcon field="cost"></p-sortIcon></th>
                         <th></th>
 
                     </tr>
                 </ng-template>
-                
+
                 <ng-template pTemplate="body" let-service>
                     <tr>
                         <td>
@@ -76,15 +77,20 @@
                         <td style="width:10%; min-width:10rem;"><span class="p-column-title">Id</span>
                             {{service.id}}
                         </td>
-                        <td style="width:44%; min-width:10rem;">
+                        <td style="width:30%; min-width:10rem;">
                             <span class="p-column-title">{{ translator['services']['name'] }}</span>
                             {{service.name}}
                         </td>
-                        <td style="width:44%; min-width:10rem;">
+                        <td style="width:30%; min-width:10rem;">
                             <span class="p-column-title">{{ translator['services']['description'] }}</span>
                             {{service.description}}
                         </td>
+                        <td style="width:30%; min-width:10rem;">
+                          <span class="p-column-title">{{ translator['services']['serviceCost'] }}</span>
+                          {{ service.costs?.cost }}
+                      </td>
                         <td>
+
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="dialogEditService( service )"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="dialogDelService( service )"></button>

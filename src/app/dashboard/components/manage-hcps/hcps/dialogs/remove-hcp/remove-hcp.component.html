@@ -8,8 +8,8 @@
         <span *ngIf="hcp"> {{ translatedStrings['hcps']['dialogDelete'] }} <b>{{ hcp.firstName }} {{ hcp.lastName }}</b>?</span>
     </div>
 
-    <div class="field" style="margin-top: 2rem;">
-        <label for="firstName"> {{ translatedStrings['hcps']['confirmDelete'] }}</label>
+    <div class="field" style="margin-top: 1rem;">
+        <label for="firstName"> {{ translatedStrings['warnings']['confirmDelete'] }}</label>
         <input type="text" pInputText name="confirmationText" [(ngModel)]="confirmationText" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !confirmationText.length}"/>
         <small class="ng-dirty ng-invalid" *ngIf="!confirmationText.length">{{ translatedStrings['warnings']['requiredField'] }}</small>
     </div>

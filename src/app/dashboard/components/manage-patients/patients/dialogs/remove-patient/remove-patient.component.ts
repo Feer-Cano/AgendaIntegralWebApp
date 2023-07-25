@@ -6,12 +6,13 @@ import { Patient } from 'src/app/dashboard/models/patient';
 
 import { TranslateService } from 'src/app/dashboard/services/translate.service';
 import { PatientService } from "../../../../../services/patient.service";
+import { AlertsService } from '../../../../../services/alerts.service';
 
 @Component({
   selector: 'app-remove-patient',
   templateUrl: './remove-patient.component.html',
   styleUrls: ['./remove-patient.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService, AlertsService]
 })
 export class RemovePatientComponent {
 
@@ -31,7 +32,7 @@ export class RemovePatientComponent {
 
   constructor(
     public patientService: PatientService,
-    private messageService: MessageService,
+    private alertsService: AlertsService,
     private translateService: TranslateService,
   ){}
 
@@ -47,28 +48,15 @@ export class RemovePatientComponent {
     if ( this.confirmationText === 'eliminar' && this.patient.id ) {
       this.patientService.removePatient( this.patient.id ).subscribe({
         next: (result) => {
-
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'ADVERTENCIA!',
-            detail: 'Los datos del paciente fueron eliminados correctamente'
-          });
+          this.alertsService.alertsPatient.Remove();
           this.patientEmitter.next( result );
         },
         error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'ERROR!',
-            detail: 'Error en el servidor'
-          });
+          this.alertsService.alertsPatient.Error();
         }
       })
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'ERROR!',
-        detail: 'La palabra escrita es incorrecta'
-      });
+      this.alertsService.alertsPatient.Error();
     }
 
     this.onClose();

@@ -7,45 +7,46 @@
       <ng-template pTemplate="content">
 
           <div class="field">
-              <label for="firstName">Nombre</label>
+              <label for="firstName">{{ translatedStrings['hcps']['firstName'] }}</label>
               <input formControlName="firstName" type="text" pInputText id="firstName" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.firstName}"/>
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.firstName">Este campo es requerido.</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.firstName">{{ translatedStrings['general']['requiredField'] }}</small>
           </div>
 
           <div class="field">
-              <label for="lastName">Apellidos</label>
+              <label for="lastName">{{ translatedStrings['hcps']['lastName'] }}</label>
               <input formControlName="lastName" type="text" pInputText id="lastName" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.lastName}"/>
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.lastName">Este campo es requerido.</small>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.lastName">{{ translatedStrings['general']['requiredField'] }}</small>
           </div>
 
           <div class="field">
-            <label for="birthSex">Sexo al nacer</label>
+            <label for="birthSex">{{ translatedStrings['hcps']['birthSex'] }}</label>
             <p-selectButton [options]="birthSex" id="birthSex" formControlName="birthSex" optionLabel="name" optionValue="value" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.birthSex}"></p-selectButton>
             <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthSex"></small>
         </div>
 
           <div class="field">
-              <label for="birthDate">Fecha de nacimiento</label>
+              <label for="birthDate">{{ translatedStrings['hcps']['birthDate'] }}</label>
               <p-calendar [showIcon]="true" inputId="icon" formControlName="birthDate" id="birthDate" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.birthDate}"></p-calendar>
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.birthDate"></small>
           </div>
 
           <div class="field">
-            <label for="professionalLicense">Licencia profesional</label>
+            <label for="professionalLicense">{{ translatedStrings['hcps']['professionalLicense'] }}</label>
             <input formControlName="professionalLicense" type="string" pInputText id="professionalLicense" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.professionalLicense}"/>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.professionalLicense">Este campo es requerido.</small>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.professionalLicense">{{ translatedStrings['general']['requiredField'] }}</small>
           </div>
 
           <div class="field">
-              <label for="type">Tipo</label>
+              <label for="type">{{ translatedStrings['hcps']['type'] }}</label>
               <p-dropdown [options]="type" formControlName="type" id="type" placeholder="Selecciona un estado civil" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.type}"></p-dropdown>
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.type"></small>
           </div>
-          <div class="field">
-            <label for="hcpTypeId">hcpTypeId</label>
-            <input formControlName="hcpTypeId" type="number" pInputText id="hcpTypeId" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.hcpTypeId}"/>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.hcpTypeId">Este campo es requerido.</small>
-        </div>
+
+        <div class="field">
+              <label for="hcpTypeId">{{ translatedStrings['hcps']['hcpType'] }}</label>
+              <p-dropdown [options]="hcpTypeId" formControlName="hcpTypeId" id="hcpTypeId" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.hcpTypeId}"></p-dropdown>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.hcpTypeId"></small>
+          </div>
 
       </ng-template>
 

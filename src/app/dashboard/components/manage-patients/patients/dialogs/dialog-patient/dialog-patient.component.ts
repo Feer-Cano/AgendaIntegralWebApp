@@ -7,6 +7,8 @@ import { PatientService } from "../../../../../services/patient.service";
 
 import * as moment from 'moment';
 import localeEsMX from '@angular/common/locales/es-MX';
+import { TranslateService } from '../../../../../services/translate.service';
+import { TranslateData } from '../../../../../interfaces/translate-data';
 registerLocaleData( localeEsMX );
 
 @Component({
@@ -35,9 +37,12 @@ export class DialogPatientComponent implements OnInit {
 
   typeDialog: string = '';
 
+  translatedStrings: TranslateData = {};
+
   constructor(
     private formBuilder: FormBuilder,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private translateService: TranslateService
   ) {
 
     this.form = this.formBuilder.group({
@@ -52,6 +57,9 @@ export class DialogPatientComponent implements OnInit {
   ngOnInit(): void {
     this.maritalStatus = this.patientService.maritalStatus;
     this.birthSex = this.patientService.birthSex;
+    this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
+      this.translatedStrings = translations;
+    });
   }
 
   setValuesForm() {

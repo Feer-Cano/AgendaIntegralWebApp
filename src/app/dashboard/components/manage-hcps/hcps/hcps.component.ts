@@ -76,7 +76,7 @@ export class HcpsComponent {
     this.dialogHcp.hcpDialog = true;
 
     this.dialogHcp.hcpEmitter.pipe( take(1) ).subscribe( (hcp: Hcp) => {
-      hcp ? ( this.alertsService.alertsHCP.Insert(), this.reloadTable() ) : this.alertsService.alertsHCP.Error();
+      hcp ? ( this.alertsService.alertsHcp.Insert(), this.reloadTable() ) : this.alertsService.alertsHcp.Error();
     });
 
   }
@@ -91,7 +91,7 @@ export class HcpsComponent {
     this.dialogHcp.setValuesForm();
 
     this.dialogHcp.hcpEmitter.pipe( take(1) ).subscribe( (hcp: Hcp) => {
-      hcp ? ( this.alertsService.alertsHCP.Update(), this.reloadTable() ) : this.alertsService.alertsHCP.Error();
+      hcp ? ( this.alertsService.alertsHcp.Update(), this.reloadTable() ) : this.alertsService.alertsHcp.Error();
       ;
     });
 

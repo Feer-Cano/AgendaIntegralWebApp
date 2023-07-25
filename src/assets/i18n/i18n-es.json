@@ -12,15 +12,19 @@
     "userManagement": "Gestión de Usuarios",
     "administrativeModules":"Modulos Administrativos",
     "serviceManagement":"Gestión de Servicios",
-    "tagManagement":"Gestión de Etiquetas"
+    "tagManagement":"Gestión de Etiquetas",
+    "hcpsTypesManagement": "Gestion de Tipos de Personal"
   },
   "patients": {
+    "id": "Id",
     "new": "Nuevo paciente",
     "delete": "Eliminar pacientes",
     "edit": "Editar paciente",
     "list": "Lista de Pacientes",
     "firstName": "Nombre",
     "lastName": "Apellidos",
+    "birthSex": "Sexo al nacer",
+    "maritalStatus": "Estado civil",
     "dialogDelete": "¿Está seguro de que desea eliminar al paciente:",
     "insert":"Paciente agregado exitosamente",
     "remove":"Paciente eliminado exitosamente",
@@ -28,22 +32,43 @@
     "warning":"Cuidao",
     "error": "Error"
   },
+
   "hcps": {
-    "new": "Nuevo HCP",
-    "delete": "Eliminar HCPS",
-    "edit": "Editar HCP",
-    "list": "Lista de HCPS",
+    "new": "Nuevo Personal Médico",
+    "delete": "Eliminar Personal Médico",
+    "edit": "Editar Personal Médico",
+    "list": "Lista de Personal Médico",
     "entity": "Entidad",
     "dialogDelete": "¿Está seguro de que desea eliminar al personal:",
     "id": "Id",
+    "type": "Estado civil",
+    "hcpType": "Tipo de Personal Médico",
     "firstName": "Nombre",
+    "birthDate": "Fecha de nacimiento",
     "lastName": "Apellidos",
     "entities": "Entidad",
     "professionalLicense": "Licencia",
     "birthSex": "Sexo al nacer",
     "insert":"Personal agregado exitosamente",
     "remove":"Personal eliminado exitosamente",
-    "update":"Personal actualizado exitosamente"
+    "warning":"Cuidao",
+    "update":"Personal actualizado exitosamente",
+    "error": "Error"
+  },
+
+  "hcpsTypes": {
+    "new": "Nuevo Tipo de Personal Médico",
+    "delete": "Eliminar Personal Médico",
+    "edit": "Editar Personal Médico",
+    "list": "Lista de Personal Médico",
+    "dialogDelete": "¿Está seguro de que desea eliminar al personal:",
+    "id": "Id",
+    "name": "Nombre",
+    "insert":"Personal Médico agregado exitosamente",
+    "remove":"Personal Médico eliminado exitosamente",
+    "update":"Personal Médico actualizado exitosamente",
+    "error": "Error",
+    "warning":"Cuidao"
   },
 
   "tags": {
@@ -54,8 +79,13 @@
     "dialogDelete": "¿Está seguro de que desea eliminar al tag:",
     "insert": "Etiqueta agregada de manera exitosa",
     "remove":"Etiqueta eliminada exitosamente",
-    "update":"Etiqueta actualizada exitosamente"
+    "update":"Etiqueta actualizada exitosamente",
+    "error": "Error",
+    "warning":"Cuidao",
+    "name": "Nombre",
+    "entity": "Entidad"
   },
+
   "services": {
     "new": "Nuevo Servicio",
     "delete": "Eliminar Servicio",
@@ -69,20 +99,28 @@
     "description":"Descripcion",
     "status":"Status",
     "serviceCost":"Costo del Servicio"
-
   },
+
   "warnings": {
     "requiredField": "Este campo es requerido.",
     "noData": "Sin datos",
     "confirmDelete": "Escribe 'eliminar' para confirmar"
   },
+
   "actions": {
     "yes": "Si",
     "no": "No",
     "save": "Guardar",
     "cancel": "Cancelar",
     "edit": "Editar"
+  },
+
+  "general" :{
+    "error": "Error",
+    "requiredField": "Campo requerido",
+    "id": "Id"
   }
+
 }
 
 

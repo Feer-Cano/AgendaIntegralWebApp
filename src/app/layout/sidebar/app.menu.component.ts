@@ -81,6 +81,11 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translator['sidebar']['tagManagement'],
                                 icon: 'fa-solid fa-tag',
                                 routerLink: ['/manage-tags/tag']
+                            },
+                            {
+                              label: this.translator['sidebar']['hcpsTypesManagement'],
+                              icon: 'fa-solid fa-th-large',
+                              routerLink: ['/manage-hcpsTypes/hcpTypes']
                             }
                         ]
                     },

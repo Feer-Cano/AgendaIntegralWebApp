@@ -3,20 +3,14 @@
 
   <p-toast></p-toast>
 
-  <p-dialog [(visible)]="tagDialog" [style]="{width: '450px'}" header="Nueva Etiqueta" [modal]="true" class="p-fluid">
+  <p-dialog [(visible)]="hcpTypesDialog" [style]="{width: '450px'}" header="Nuevo Personal Médico" [modal]="true" class="p-fluid">
 
       <ng-template pTemplate="content">
 
           <div class="field">
-              <label for="firstName">{{ translatedStrings['tags']['name'] }}</label>
+              <label for="name">{{ translatedStrings['hcpsTypes']['name'] }}</label>
               <input formControlName="name" type="text" pInputText id="name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.name}"/>
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.name">Este campo es requerido.</small>
-          </div>
-
-          <div class="field">
-              <label for="entities">{{ translatedStrings['tags']['entity'] }}</label>
-              <p-dropdown [options]="entities" formControlName="entities" id="entities" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.entities}"></p-dropdown>
-              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.entities"></small>
           </div>
 
       </ng-template>

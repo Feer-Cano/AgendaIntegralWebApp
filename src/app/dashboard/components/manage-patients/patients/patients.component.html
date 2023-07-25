@@ -2,47 +2,47 @@
 
     <div class="col-12">
 
-        <p-toast></p-toast> 
-        
+        <p-toast></p-toast>
+
         <div class="card px-6 py-6">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button 
-                            pButton pRipple 
+                        <button
+                            pButton pRipple
                             label="{{ translatedStrings['patients']['new'] }}"
-                            icon="pi pi-plus" 
-                            class="p-button-success mr-2" 
+                            icon="pi pi-plus"
+                            class="p-button-success mr-2"
                             (click)="dialogNewPatient()">
                         </button>
-                        
-                        <button 
-                            pButton pRipple 
-                            label="{{ translatedStrings['patients']['delete']  }}"  
-                            icon="pi pi-trash" 
-                            class="p-button-danger mr-2" 
-                            (click)="deleteSelectedPatients()" 
+
+                        <button
+                            pButton pRipple
+                            label="{{ translatedStrings['patients']['delete']  }}"
+                            icon="pi pi-trash"
+                            class="p-button-danger mr-2"
+                            (click)="deleteSelectedPatients()"
                             [disabled]="!selectedPatients || !selectedPatients.length">
                         </button>
-                        
+
                     </div>
                 </ng-template>
             </p-toolbar>
 
-            <p-table 
-                #dt 
-                responsiveLayout="scroll" 
-                currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros" 
-                selectionMode="multiple" 
-                [rowHover]="true" 
+            <p-table
+                #dt
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+                selectionMode="multiple"
+                [rowHover]="true"
                 dataKey="id"
-                [value]="patients" 
-                [rows]="10" 
-                [columns]="cols" 
-                [paginator]="true" 
-                [globalFilterFields]="['firstName','lastName','birthSex', 'maritalStatus']" 
-                [rowsPerPageOptions]="[10,20,30]" 
-                [showCurrentPageReport]="true" 
+                [value]="patients"
+                [rows]="10"
+                [columns]="cols"
+                [paginator]="true"
+                [globalFilterFields]="['firstName','lastName','birthSex', 'maritalStatus']"
+                [rowsPerPageOptions]="[10,20,30]"
+                [showCurrentPageReport]="true"
                 [(selection)]="selectedPatients" >
 
                 <ng-template pTemplate="caption">
@@ -60,46 +60,47 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                        <th pSortableColumn="firstName">Nombre <p-sortIcon field="firstName"></p-sortIcon></th>
-                        <th pSortableColumn="lastName">Apellidos <p-sortIcon field="lastName"></p-sortIcon></th>
-                        <th pSortableColumn="birthSex">Sexo al nacer <p-sortIcon field="birthSex"></p-sortIcon></th>
-                        <th pSortableColumn="maritalStatus">Estado civil <p-sortIcon field="maritalStatus"></p-sortIcon></th>
+                        <th pSortableColumn="id">{{ translatedStrings['patients']['id'] }} <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="firstName">{{ translatedStrings['patients']['firstName'] }} <p-sortIcon field="firstName"></p-sortIcon></th>
+                        <th pSortableColumn="lastName">{{ translatedStrings['patients']['lastName'] }} <p-sortIcon field="lastName"></p-sortIcon></th>
+                        <th pSortableColumn="birthSex">{{ translatedStrings['patients']['birthSex'] }}<p-sortIcon field="birthSex"></p-sortIcon></th>
+                        <th pSortableColumn="maritalStatus">{{ translatedStrings['patients']['maritalStatus'] }}<p-sortIcon field="maritalStatus"></p-sortIcon></th>
                         <th></th>
 
                     </tr>
                 </ng-template>
-                
+
                 <ng-template pTemplate="body" let-patient>
                     <tr>
                         <td>
                             <p-tableCheckbox [value]="patient"></p-tableCheckbox>
                         </td>
-                        <td style="width:6%; min-width:10rem;"><span class="p-column-title">Id</span>
-                            {{patient.id}}
+                        <td style="width:6%; min-width:10rem;"><span class="p-column-title">{{ translatedStrings['patients']['id'] }}</span>
+                          {{ ( patient.id ) ? patient.id :  translatedStrings['warnings']['noData'] }}
+
                         </td>
                         <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Nombre</span>
-                            {{patient.firstName}}
+                            <span class="p-column-title">{{ translatedStrings['patients']['firstName'] }} </span>
+                          {{ ( patient.firstName ) ? patient.firstName :  translatedStrings['warnings']['noData'] }}
                         </td>
                         <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Apellidos</span>
-                            {{patient.lastName}}
+                            <span class="p-column-title">{{ translatedStrings['patients']['lastName'] }} </span>
+                          {{ ( patient.lastName ) ? patient.lastName :  translatedStrings['warnings']['noData'] }}
                         </td>
                         <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Sexo al nacer</span>
+                            <span class="p-column-title">{{ translatedStrings['patients']['birthSex'] }}</span>
                             <span [class]="'product-badge status-' + this.birthSex[patient.birthSex].badge">
-                                {{ this.birthSex[patient.birthSex].name }}
-                            </span>                    
+                            {{ this.birthSex && this.birthSex[patient.birthSex] ? this.birthSex[patient.birthSex].name : '' }}
+                            </span>
                         </td>
                         <td style="width:18%; min-width:10rem;">
-                            <span class="p-column-title">Estado civil</span>
-                            {{ getMaritalStatusLabel(patient.maritalStatus) }}
+                            <span class="p-column-title">{{ translatedStrings['patients']['maritalStatus'] }}</span>
+                          {{ ( getMaritalStatusLabel(patient.maritalStatus) ) ? getMaritalStatusLabel(patient.maritalStatus) :  translatedStrings['warnings']['noData'] }}
                         </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="dialogEditPatient( patient )"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="dialogDeletePatient( patient )"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="dialogDeletePatient( patient )"></button>
                             </div>
                         </td>
                     </tr>
