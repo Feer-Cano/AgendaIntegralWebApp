@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { take } from 'rxjs';
@@ -65,15 +65,16 @@ export class ServicesComponent {
   }
 
   dialogNewService() {
-
-    this.dialogService.resetForm();
+    
     this.dialogService.typeDialog = 'new';
     this.dialogService.service = new Service({ isActive: 1 });
     this.dialogService.submitted = false;
     this.dialogService.serviceDialog = true;
+    
+    this.dialogService.serviceEmitter = new EventEmitter<Service>();
 
-    this.dialogService.serviceEmitter.pipe( take(1) ).subscribe( (service: Service) => {
-      service ? ( this.alertsService.alertsPatient.Insert(), this.reloadTable() ) : this.alertsService.alertsPatient.Error();
+    this.dialogService.serviceEmitter.subscribe( (service: Service) => {
+      service ? ( this.alertsService.alertsService.Insert(), this.reloadTable() ) : this.alertsService.alertsService.Error();
     });
   }
 
@@ -84,8 +85,10 @@ export class ServicesComponent {
     this.dialogService.serviceDialog = true;
     this.dialogService.setValuesForm();
 
-    this.dialogService.serviceEmitter.pipe( take(1) ).subscribe( (service: Service) => {
-      service ? ( this.alertsService.alertsPatient.Update(), this.reloadTable() ) :  this.alertsService.alertsPatient.Error();
+    this.dialogService.serviceEmitter = new EventEmitter<Service>();
+
+    this.dialogService.serviceEmitter.subscribe( (service: Service) => {
+      service ? ( this.alertsService.alertsService.Update(), this.reloadTable() ) : this.alertsService.alertsService.Error();
     });
   }
 
@@ -98,7 +101,9 @@ export class ServicesComponent {
     this.dialogDeleteService.deleteServiceDialog = true;
     this.dialogDeleteService.service = { ...service };
 
-    this.dialogDeleteService.serviceEmitter.pipe( take(1) ).subscribe( (result: any) => {
+    this.dialogService.serviceEmitter = new EventEmitter<Service>();
+
+    this.dialogDeleteService.serviceEmitter.subscribe( (result: any) => {
       if ( result.id ) {
         this.reloadTable();
       }

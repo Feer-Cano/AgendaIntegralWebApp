@@ -23,7 +23,8 @@ export class ServiceService {
         ) {
           createService(
             name: $name,
-            description: $description
+            description: $description,
+            isActive: 1
           ) {
             id
           }
@@ -31,7 +32,8 @@ export class ServiceService {
       `,
       variables: { ...service },
     }).pipe(
-      map( (result: any) => result.data.createService )
+      map( (result: any) => result.data.createService ),
+      take(1)
     );
   }
   
@@ -74,16 +76,27 @@ export class ServiceService {
             getServices(isActive: $isActive) {
               id,
               name,
-              description
+              description,
+              costs {
+                id,
+                cost,
+                createdAt
+              }
             }
           }
         `,
         variables: { isActive },
-        fetchPolicy: 'network-only', // indica que siempre haga una solicitud al servidor
+        fetchPolicy: 'network-only', // Indica que siempre haga una solicitud al servidor
       })
-      .valueChanges.pipe( 
-        map( (result: any) => result.data.getServices ),
-        take(1) 
+      .valueChanges.pipe(
+        map((result: any) => {
+          // Ordenamos de mayor a menor por fecha de creacion y creamos una copia profunda de costs
+          return result.data.getServices.map( (service: any) => ({
+            ...service,
+            costs: Array.from( service.costs ).sort( (a: any, b: any) => b.createdAt - a.createdAt ) 
+          }));
+        }),
+        take(1)
       );
   }
 
@@ -96,34 +109,52 @@ export class ServiceService {
             getService(id: $id) {
               id,
               name,
-              description
+              description,
+              costs {
+                id,
+                cost,
+                createdAt
+              }
             }
           }
         `,
         variables: { id },
       })
-      .valueChanges.pipe( 
-        map( (result: any) => result.data.getService ),
-        take(1) 
+      .valueChanges.pipe(
+        map((result: any) => {
+          // Ordenamos de mayor a menor por fecha de creacion
+          return result.data.getServices.map( (service: any) => ({
+            ...service,
+            costs: Array.from( service.costs ).sort( (a: any, b: any) => b.createdAt - a.createdAt ) 
+          }));
+        }),
+        take(1)
       );
   }  
 
-  deleteService( id: number ): Observable<any> {
+  removeService( service: Service ): Observable<any> {
 
-    id = Number( id );
+    service = {
+      ...service,
+      id: Number( service.id )
+    }
 
     return this.apollo.mutate({
       mutation: gql`
-        mutation deleteService($id: Int!) {
-          deleteService(id: $id) {
-            status
-            message
+        mutation removeService(
+          $id: Int!
+          ) {
+          removeService(
+            id: $id
+          ) {
+            id
           }
         }
       `,
-      variables: { id },
+      variables: { ...service } ,
     }).pipe(
-      map( (result: any) => result.data.deleteService )
+      map( (result: any) => result.data.removeService ),
+      take(1)
     );
   }
 }

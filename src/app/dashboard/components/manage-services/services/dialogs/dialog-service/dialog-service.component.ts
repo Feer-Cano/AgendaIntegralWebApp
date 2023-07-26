@@ -1,12 +1,15 @@
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 import { TranslateData } from "src/app/dashboard/interfaces/translate-data";
+import { CostServices } from "src/app/dashboard/interfaces/costs-services";
+import { Service } from "src/app/dashboard/models/service";
 
 import { TranslateService } from 'src/app/dashboard//services/translate.service';
-import { Service } from "src/app/dashboard/models/service";
 import { ServiceService } from "src/app/dashboard/services/service.service";
+import { ServiceCostService } from "src/app/dashboard/services/service-cost.service";
 
 @Component({
   selector: 'app-dialog-service',
@@ -32,12 +35,14 @@ export class DialogServiceComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private translateService: TranslateService,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private serviceCostService: ServiceCostService,
   ) {
 
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      cost: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
     });
   }
 
@@ -51,18 +56,8 @@ export class DialogServiceComponent implements OnInit {
     this.form.patchValue({
       name: this.service.name,
       description: this.service.description,
-      isActive: 1
-    });
-  }
-
-  resetForm() {
-    this.form.patchValue({
-      firstName: '',
-      lastName: '',
-      birthSex: '',
-      birthDate: null,
-      maritalStatus: '',
-      isActive: null
+      cost: this.service.costs?.[0]?.cost ?? null,
+      isActive: this.service.isActive
     });
   }
 
@@ -82,13 +77,37 @@ export class DialogServiceComponent implements OnInit {
 
     if ( this.typeDialog === 'new' ) {
 
-      this.serviceService.createService( this.service ).subscribe( (result: Service) => {
+      this.form.reset();
+
+      this.serviceService.createService( this.service ).subscribe( async(result: Service) => {
+
+        if ( result && result.id ) {
+
+          const costService: CostServices = {
+            serviceId: result.id,
+            cost: formValues.cost
+          }
+
+          await lastValueFrom( this.serviceCostService.createServiceCost( costService ) );
+        }
+
         this.serviceEmitter.next( result );
       });
 
     } else {
       
-      this.serviceService.updateService( this.service ).subscribe( (result: Service) => {
+      this.serviceService.updateService( this.service ).subscribe( async(result: Service) => {
+
+        if ( result && result.id ) {
+
+          const costService: CostServices = {
+            serviceId: result.id,
+            cost: formValues.cost
+          }
+
+          await lastValueFrom( this.serviceCostService.createServiceCost( costService ) );
+        }
+        
         this.serviceEmitter.next( result );
       });
     }
@@ -101,7 +120,5 @@ export class DialogServiceComponent implements OnInit {
     this.serviceDialog = false;
     this.submitted = false;
   }
-
-
 
 }

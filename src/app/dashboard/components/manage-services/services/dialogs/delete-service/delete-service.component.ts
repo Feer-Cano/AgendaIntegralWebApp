@@ -45,7 +45,8 @@ export class DeleteServiceComponent {
   confirmDelete() {
 
     if ( this.confirmationText === 'eliminar' && this.service.id ) {
-      this.serviceService.deleteService( this.service.id ).subscribe({
+      
+      this.serviceService.removeService( this.service ).subscribe({
         next: (result) => {
 
           this.messageService.add({

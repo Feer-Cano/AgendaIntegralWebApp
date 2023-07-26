@@ -86,8 +86,8 @@
                             {{service.description}}
                         </td>
                         <td style="width:30%; min-width:10rem;">
-                          <span class="p-column-title">{{ translator['services']['serviceCost'] }}</span>
-                          {{ service.costs?.cost }}
+                            <span class="p-column-title">{{ translator['services']['serviceCost'] }}</span>
+                            ${{ service.costs[0].cost}}
                       </td>
                         <td>
 
