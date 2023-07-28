@@ -13,7 +13,7 @@ export class EntityService {
     private apollo: Apollo
   ) { }
 
-  getEntities(isActive: number): Observable<any> {
+  getEntities(): Observable<any> {
 
     return this.apollo
     .watchQuery({
@@ -22,11 +22,9 @@ export class EntityService {
           getEntities{
             id,
             name,
-            isActive
           }
         }
       `,
-      variables: { isActive },
       fetchPolicy: 'network-only',
     })
     .valueChanges.pipe(
@@ -42,7 +40,6 @@ export class EntityService {
           getEntity(id: $id) {
             id,
             name,
-            isActive,
           }
         }
       `,
@@ -59,12 +56,10 @@ export class EntityService {
       mutation: gql`
         mutation createEntities(
           $name: String!,
-          $isActive: Int!
 
         ) {
           createEntities(
             name: $name,
-            isActive: $isActive,
           ) {
             id
           }

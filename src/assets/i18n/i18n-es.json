@@ -13,8 +13,12 @@
     "administrativeModules":"Modulos Administrativos",
     "serviceManagement":"Gestión de Servicios",
     "tagManagement":"Gestión de Etiquetas",
-    "hcpsTypesManagement": "Gestion de Tipos de Personal"
+    "entityManagement":"Gestión de Entidades",
+    "hcpsTypesManagement": "Gestion de Tipos de Personal",
+    "accessLevelManagement": "Gestion de Tipos de Nivel"
+
   },
+
   "patients": {
     "id": "Id",
     "new": "Nuevo paciente",
@@ -56,17 +60,69 @@
     "error": "Error"
   },
 
+  "users": {
+    "new": "Nuevo usuario",
+    "delete": "Eliminar usuario",
+    "edit": "Editar usuario",
+    "list": "Lista de usuario",
+    "password": "Contraseña",
+    "dialogDelete": "¿Está seguro de que desea eliminar al usuario:",
+    "id": "Id",
+    "email": "Correo",
+    "hcpType": "Tipo de usuario",
+    "firstName": "Nombre",
+    "birthDate": "Fecha de nacimiento",
+    "lastName": "Apellidos",
+    "mobilePhone": "Teléfono",
+    "birthSex": "Sexo al nacer",
+    "insert":"usuario agregado exitosamente",
+    "remove":"usuario eliminado exitosamente",
+    "warning":"Cuidao",
+    "update":"usuario actualizado exitosamente",
+    "error": "Error"
+  },
+
   "hcpsTypes": {
     "new": "Nuevo Tipo de Personal Médico",
     "delete": "Eliminar Personal Médico",
     "edit": "Editar Personal Médico",
     "list": "Lista de Personal Médico",
-    "dialogDelete": "¿Está seguro de que desea eliminar al personal:",
+    "dialogDelete": "¿Está seguro de que desea eliminar al tipo de personal:",
     "id": "Id",
     "name": "Nombre",
     "insert":"Personal Médico agregado exitosamente",
     "remove":"Personal Médico eliminado exitosamente",
     "update":"Personal Médico actualizado exitosamente",
+    "error": "Error",
+    "warning":"Cuidao"
+  },
+
+  "entities": {
+    "new": "Nueva Entidad",
+    "delete": "Eliminar Entidad",
+    "edit": "Editar Entidad",
+    "list": "Lista de Entidad",
+    "dialogDelete": "¿Está seguro de que desea eliminar la entidad:",
+    "id": "Id",
+    "name": "Nombre",
+    "insert":"Entidad agregado exitosamente",
+    "remove":"Entidad eliminado exitosamente",
+    "update":"Entidad actualizado exitosamente",
+    "error": "Error",
+    "warning":"Cuidao"
+  },
+
+  "accessLevels": {
+    "new": "Nuevo nivel",
+    "delete": "Eliminar nivel",
+    "edit": "Editar nivel",
+    "list": "Lista de niveles",
+    "dialogDelete": "¿Está seguro de que desea eliminar el nivel:",
+    "id": "Id",
+    "name": "Nombre",
+    "insert":"Nivel agregado exitosamente",
+    "remove":"Nivel eliminado exitosamente",
+    "update":"Nivel actualizado exitosamente",
     "error": "Error",
     "warning":"Cuidao"
   },

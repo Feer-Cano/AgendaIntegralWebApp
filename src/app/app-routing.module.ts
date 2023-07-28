@@ -47,6 +47,28 @@ import { ManageServicesModule } from './dashboard/components/manage-services/man
                     }
                 ]
               },
+              {
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                         path: 'manage-entities', loadChildren: () => import('./dashboard/components/manage-entities/manage-entities.module').then(m => m.ManageEntitiesModule)
+                    }
+                ]
+              },{
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                         path: 'manage-accessLevels', loadChildren: () => import('./dashboard/components/manage-access-levels/manage-access-levels.module').then(m => m.ManageAccessLevelsModule)
+                    }
+                ]
+              },{
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                         path: 'manage-users', loadChildren: () => import('./dashboard/components/manage-users/manage-users.module').then(m => m.ManageUsersModule)
+                    }
+                ]
+              },
             { path: 'auth', loadChildren: () => import('./dashboard/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },

@@ -1,11 +1,11 @@
 <p-toast></p-toast>
 
-<p-dialog class="p-fluid" [(visible)]="removePatientDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+<p-dialog class="p-fluid" [(visible)]="removeUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
 
 
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="patient"> {{ translatedStrings['patients']['dialogDelete'] }} <b>{{patient.firstName}} {{ patient.lastName }}</b>?</span>
+        <span *ngIf="user"> {{ translatedStrings['users']['dialogDelete'] }} <b>{{user.firstName}} {{ user.lastName }}</b>?</span>
     </div>
 
     <div class="field" style="margin-top: 1rem;">
@@ -21,3 +21,4 @@
     </ng-template>
 
 </p-dialog>
+

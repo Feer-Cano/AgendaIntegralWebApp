@@ -15,13 +15,8 @@ export class HcpTypesService {
 
   constructor(
     private apollo: Apollo
-    ) {this.loadEntities();}
+    ) {}
 
-    loadEntities() {
-      this.getHcpTypes(1).subscribe((hcps: any[]) => {
-        this.hcpTypes = hcps.map(hcp => ({ value: hcp.hcpTypes?.id as number, name: hcp.hcpTypes?.name as string }));
-      });
-    }
     getHcpTypes(isActive: number): Observable<any> {
 
       return this.apollo
@@ -69,11 +64,11 @@ export class HcpTypesService {
   createHcpTypes( hcpTypes: HcpTypes ): Observable<any> {
     return this.apollo.mutate({
       mutation: gql`
-        mutation createHCPType(
+        mutation createHCPTypes(
           $name: String!,
           $isActive: Int!
         ) {
-          createHCPType(
+          createHCPTypes(
             name: $name,
             isActive: $isActive
           ) {

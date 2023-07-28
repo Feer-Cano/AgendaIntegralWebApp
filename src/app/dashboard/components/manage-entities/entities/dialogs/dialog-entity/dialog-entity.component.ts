@@ -1,55 +1,45 @@
 import { Component,LOCALE_ID, OnInit, Output, EventEmitter } from '@angular/core';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TagService } from '../../../../../services/tag.service';
-import { Tag } from '../../../../../models/tag';
-
+import { EntityService } from '../../../../../services/entity.service';
+import { Entity } from '../../../../../models/entity';
 import * as moment from 'moment';
 import localeEsMX from '@angular/common/locales/es-MX';
 import { TranslateData } from '../../../../../interfaces/translate-data';
 import { TranslateService } from '../../../../../services/translate.service';
-import { EntityService } from '../../../../../services/entity.service';
-import { Entity } from '../../../../../models/entity';
+
 registerLocaleData( localeEsMX );
 
 @Component({
-  selector: 'app-dialog-tag',
-  templateUrl: './dialog-tag.component.html',
-  styleUrls: ['./dialog-tag.component.scss'],
+  selector: 'app-dialog-entity',
+  templateUrl: './dialog-entity.component.html',
+  styleUrls: ['./dialog-entity.component.scss'],
   providers: [{ provide: LOCALE_ID, useValue: 'es-MX' }],
 })
-export class DialogTagComponent implements OnInit{
+export class DialogEntityComponent implements OnInit{
 
   datePipe: DatePipe = new DatePipe('es-MX');
-  @Output() tagEmitter: EventEmitter<Tag> = new EventEmitter<Tag>();
+  @Output() entityEmitter: EventEmitter<Entity> = new EventEmitter<Entity>();
 
   translatedStrings: TranslateData= {};
 
   form: FormGroup;
 
-  tagDialog: boolean = false;
+  entityDialog: boolean = false;
 
   submitted: boolean = false;
 
-  tag: Tag = {};
-
-  entity: Entity[] = [];
-
-  entities: any[] = [];
-
-  birthSex: any[] = [];
+  entity: Entity = {};
 
   typeDialog: string = '';
   constructor(
     private formBuilder: FormBuilder,
-    private tagService: TagService,
+    private entityService: EntityService,
     private TranslateService: TranslateService,
-    private entityService : EntityService
   ) {
 
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      entities: ['', Validators.required],
     });
   }
 
@@ -58,20 +48,12 @@ export class DialogTagComponent implements OnInit{
       this.translatedStrings = translations;
     });
 
-    this.getEntity();
   }
 
-  getEntity(){
-    this.entityService.getEntities().subscribe( ( result: Entity[] ) => {
-      this.entity = result;
-    } )
-
-  }
   setValuesForm() {
-    console.log(this.tag.typeEntityId);
+    console.log(this.entity.name);
     this.form.patchValue({
-      name: this.tag.name,
-      entities: this.tag.typeEntityId.id,
+      name: this.entity.name,
     });
   }
 
@@ -85,19 +67,17 @@ export class DialogTagComponent implements OnInit{
     }
 
     const formValues = this.form.getRawValue();
-    this.tag.name = formValues.name;
-    let a = parseInt(formValues.entities, 10);
-    this.tag.typeEntityId = a;
+    this.entity.name = formValues.name;
 
     if (this.typeDialog === 'new' ) {
 
-      this.tagService.createTags( this.tag ).subscribe( (result: Tag) => {
-        this.tagEmitter.next( result );
+      this.entityService.createEntity( this.entity ).subscribe( (result: Entity) => {
+        this.entityEmitter.next( result );
       });
     }else{
 
-    this.tagService.updateTag( this.tag ).subscribe( (result: Tag) => {
-      this.tagEmitter.next( result );
+    this.entityService.updateEntity( this.entity ).subscribe( (result: Entity) => {
+      this.entityEmitter.next( result );
     });
   }
 
@@ -107,7 +87,7 @@ export class DialogTagComponent implements OnInit{
 
   hideDialog() {
     this.form.reset();
-    this.tagDialog = false;
+    this.entityDialog = false;
     this.submitted = false;
   }
 }

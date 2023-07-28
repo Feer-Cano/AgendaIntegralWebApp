@@ -50,11 +50,25 @@ export class AlertsService {
     Error: () => this.showError(this.translatedStrings['hcps']['error']),
   };
 
+  alertsAccessLevel = {
+    Warning: () => this.showWarning(this.translatedStrings['accessLevels']['warning']),
+    Insert: () => this.showSuccess(this.translatedStrings['accessLevels']['insert']),
+    Update: () => this.showSuccess(this.translatedStrings['accessLevels']['update']),
+    Error: () => this.showError(this.translatedStrings['accessLevels']['error']),
+  };
+
   alertsHcpTypes = {
     Warning: () => this.showWarning(this.translatedStrings['hcpsTypes']['warning']),
     Insert: () => this.showSuccess(this.translatedStrings['hcpsTypes']['insert']),
     Update: () => this.showSuccess(this.translatedStrings['hcpsTypes']['update']),
     Error: () => this.showError(this.translatedStrings['hcpsTypes']['error']),
+  };
+
+  alertsEntities = {
+    Warning: () => this.showWarning(this.translatedStrings['entities']['warning']),
+    Insert: () => this.showSuccess(this.translatedStrings['entities']['insert']),
+    Update: () => this.showSuccess(this.translatedStrings['entities']['update']),
+    Error: () => this.showError(this.translatedStrings['entities']['error']),
   };
 
   alertsTag = {
@@ -78,5 +92,12 @@ export class AlertsService {
     Insert: () => this.showSuccess(this.translatedStrings['services']['insert']),
     Update: () => this.showSuccess(this.translatedStrings['services']['update']),
     Error: () => this.showError(this.translatedStrings['services']['error']),
+  };
+
+  alertsUser = {
+    Warning: () => this.showWarning(this.translatedStrings['entities']['warning']),
+    Insert: () => this.showSuccess(this.translatedStrings['entities']['insert']),
+    Update: () => this.showSuccess(this.translatedStrings['entities']['update']),
+    Error: () => this.showError(this.translatedStrings['entities']['error']),
   };
 }

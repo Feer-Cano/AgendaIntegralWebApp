@@ -77,7 +77,7 @@ export class HcpsTypesComponent {
     this.dialogHcpTypes.hcpTypesEmitter = new EventEmitter<HcpTypes>();
 
     this.dialogHcpTypes.hcpTypesEmitter.pipe( take(1) ).subscribe( (hcpTypes: HcpTypes) => {
-      hcpTypes ? ( this.alertsService.alertsHcpTypes.Error() ) : this.alertsService.alertsHcpTypes.Insert(), this.reloadTable();
+      hcpTypes ? ( this.alertsService.alertsHcpTypes.Insert(), this.reloadTable() ) : this.alertsService.alertsHcpTypes.Error();
     });
 
   }

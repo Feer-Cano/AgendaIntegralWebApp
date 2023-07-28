@@ -67,7 +67,7 @@ export class TagsComponent {
   }
 
   getEntity(){
-    this.entityService.getEntities(1).subscribe( ( result: Entity[] ) => {
+    this.entityService.getEntities().subscribe( ( result: Entity[] ) => {
       this.entity = result;
 
     } )
@@ -82,7 +82,7 @@ export class TagsComponent {
   }
 
   dialogNewTag() {
-    this.dialogTag.resetForm();
+    this.dialogTag.hideDialog();
     this.dialogTag.typeDialog = 'new';
     this.dialogTag.tag = new Tag();
     this.dialogTag.submitted = false;
@@ -92,7 +92,7 @@ export class TagsComponent {
       this.dialogTag.tagEmitter.unsubscribe();
     }
 
-    this.dialogTag.tagEmitter = new EventEmitter<Service>();
+    this.dialogTag.tagEmitter = new EventEmitter<Tag>();
 
       this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
         tag ? ( this.alertsService.alertsTag.Insert(), this.reloadTable() ) : this.alertsService.alertsTag.Error();
@@ -109,7 +109,7 @@ export class TagsComponent {
       this.dialogTag.tagEmitter.unsubscribe();
     }
 
-    this.dialogTag.tagEmitter = new EventEmitter<Service>();
+    this.dialogTag.tagEmitter = new EventEmitter<Tag>();
 
     this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
       tag ? ( this.alertsService.alertsTag.Update(), this.reloadTable() ) : this.alertsService.alertsTag.Error();
@@ -128,7 +128,7 @@ export class TagsComponent {
       this.dialogTag.tagEmitter.unsubscribe();
     }
 
-    this.dialogTag.tagEmitter = new EventEmitter<Service>();
+    this.dialogTag.tagEmitter = new EventEmitter<Tag>();
 
     this.dialogRemoveTag.tagEmitter.pipe( take(1) ).subscribe( (result: any) => {
       if ( result.id ) {
