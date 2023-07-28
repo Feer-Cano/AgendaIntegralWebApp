@@ -1,118 +1,117 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { Tag } from '../models/tag';
+import { map, take, tap } from 'rxjs/operators';
+import { Entity } from '../models/entity';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TagService {
+export class EntityService {
 
   constructor(
     private apollo: Apollo
-  ) {}
+  ) { }
 
-  getTags(): Observable<Tag[]> {
-    return this.apollo.watchQuery({
+  getEntities(isActive: number): Observable<any> {
+
+    return this.apollo
+    .watchQuery({
       query: gql`
-        query {
-          getTags {
+        query{
+          getEntities{
             id,
-            typeEntityId {
-              id,
-              name
-            },
             name,
+            isActive
           }
         }
       `,
+      variables: { isActive },
       fetchPolicy: 'network-only',
-    }).valueChanges.pipe(
-      map((result: any) => result.data.getTags),
+    })
+    .valueChanges.pipe(
+      map((result: any) => result.data.getEntities),
       take(1)
     );
   }
 
-  getTag(id: number): Observable<Tag> {
+  getEntity(id: number): Observable<Entity> {
     return this.apollo.watchQuery({
       query: gql`
-        query getTag($id: ID!) {
-          tag(id: $id) {
+        query getEntity($id: ID!) {
+          getEntity(id: $id) {
             id,
-            typeEntityId,
             name,
+            isActive,
           }
         }
       `,
       variables: { id },
       fetchPolicy: 'network-only',
     }).valueChanges.pipe(
-      map((result: any) => result.data.getTag),
+      map((result: any) => result.data.getEntity),
       take(1)
     );
   }
 
-  createTags(tag: Tag): Observable<any> {
+  createEntity(entity: Entity): Observable<any> {
     return this.apollo.mutate({
       mutation: gql`
-        mutation createTags(
+        mutation createEntities(
           $name: String!,
-          $typeEntityId: Int!,
+          $isActive: Int!
+
         ) {
-          createTags(
+          createEntities(
             name: $name,
-            typeEntityId: $typeEntityId,
+            isActive: $isActive,
           ) {
             id
           }
         }
       `,
-      variables: { ...tag},
+      variables: { ...entity },
     }).pipe(
-      map((result: any) => result.data.createTags),
-      take(1)
+      map((result: any) => result.data.createEntities)
     );
   }
 
-  updateTag( tag: Tag ): Observable<any> {
+  updateEntity( entity: Entity ): Observable<any> {
 
-    tag = {
-      ...tag,
-      id: Number( tag.id ),
+    entity = {
+      ...entity,
+      id: Number( entity.id ),
     }
 
     return this.apollo.mutate({
       mutation: gql`
-        mutation updateTag(
+        mutation updateEntity(
           $id: Int!,
           $name: String!,
-          $typeEntityId: Int!,
         ) {
-          updateTag(
+          updateEntity(
             id: $id
             name: $name,
-            typeEntityId: $typeEntityId,
           ) {
             id
           }
         }
       `,
-      variables: { ...tag },
+      variables: { ...entity },
     }).pipe(
-      map( (result: any) => result.data.updateTag ),
+      map( (result: any) => result.data.updateEntity ),
       take(1)
     );
   }
 
-  deleteTag( id: number ): Observable<any> {
+  removeEntity( id: number ): Observable<any> {
 
     id = Number(id);
 
     return this.apollo.mutate({
       mutation: gql`
-        mutation deleteTag($id: Int!) {
-          deleteTag(
+        mutation removeEntity($id: Int!) {
+          removeEntity(
             id: $id
           ) {
             id
@@ -121,7 +120,7 @@ export class TagService {
       `,
       variables: { id },
     }).pipe(
-      map( (result: any) => result.data.deleteTag ),
+      map( (result: any) => result.data.removeEntity ),
       take(1)
     );
   }

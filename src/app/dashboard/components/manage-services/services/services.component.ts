@@ -51,6 +51,7 @@ export class ServicesComponent {
 
   ngOnInit() {
 
+
     this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
       this.translator = translations;
     });
@@ -62,17 +63,17 @@ export class ServicesComponent {
     this.serviceService.getServices( 1 ).subscribe( (result: Service[]) => {
       this.services = result;
     });
+
   }
 
   dialogNewService() {
-    
+
     this.dialogService.typeDialog = 'new';
     this.dialogService.service = new Service({ isActive: 1 });
     this.dialogService.submitted = false;
     this.dialogService.serviceDialog = true;
-    
-    this.dialogService.serviceEmitter = new EventEmitter<Service>();
 
+    this.dialogService.serviceEmitter = new EventEmitter<Service>();
     this.dialogService.serviceEmitter.subscribe( (service: Service) => {
       service ? ( this.alertsService.alertsService.Insert(), this.reloadTable() ) : this.alertsService.alertsService.Error();
     });

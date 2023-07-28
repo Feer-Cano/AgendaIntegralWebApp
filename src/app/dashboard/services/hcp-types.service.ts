@@ -7,12 +7,21 @@ import { HcpTypes } from '../models/hcp-types';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class HcpTypesService {
+
+  hcpTypes: any[]  = [];
 
   constructor(
     private apollo: Apollo
-    ) { }
+    ) {this.loadEntities();}
 
+    loadEntities() {
+      this.getHcpTypes(1).subscribe((hcps: any[]) => {
+        this.hcpTypes = hcps.map(hcp => ({ value: hcp.hcpTypes?.id as number, name: hcp.hcpTypes?.name as string }));
+      });
+    }
     getHcpTypes(isActive: number): Observable<any> {
 
       return this.apollo
@@ -60,11 +69,11 @@ export class HcpTypesService {
   createHcpTypes( hcpTypes: HcpTypes ): Observable<any> {
     return this.apollo.mutate({
       mutation: gql`
-        mutation createHCPTypes(
+        mutation createHCPType(
           $name: String!,
           $isActive: Int!
         ) {
-          createHCPTypes(
+          createHCPType(
             name: $name,
             isActive: $isActive
           ) {

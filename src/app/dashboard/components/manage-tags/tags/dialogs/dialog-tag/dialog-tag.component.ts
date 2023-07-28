@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import localeEsMX from '@angular/common/locales/es-MX';
 import { TranslateData } from '../../../../../interfaces/translate-data';
 import { TranslateService } from '../../../../../services/translate.service';
+import { EntityService } from '../../../../../services/entity.service';
+import { Entity } from '../../../../../models/entity';
 registerLocaleData( localeEsMX );
 
 @Component({
@@ -31,6 +33,8 @@ export class DialogTagComponent implements OnInit{
 
   tag: Tag = {};
 
+  entity: Entity[] = [];
+
   entities: any[] = [];
 
   birthSex: any[] = [];
@@ -39,7 +43,8 @@ export class DialogTagComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     private tagService: TagService,
-    private TranslateService: TranslateService
+    private TranslateService: TranslateService,
+    private entityService : EntityService
   ) {
 
     this.form = this.formBuilder.group({
@@ -52,13 +57,21 @@ export class DialogTagComponent implements OnInit{
     this.TranslateService.getTranslations().subscribe( ( translations: TranslateData ) => {
       this.translatedStrings = translations;
     });
-    this.entities = this.tagService.entities;
+
+    this.getEntity();
   }
 
+  getEntity(){
+    this.entityService.getEntities(1).subscribe( ( result: Entity[] ) => {
+      this.entity = result;
+    } )
+
+  }
   setValuesForm() {
+    console.log(this.tag.typeEntityId);
     this.form.patchValue({
       name: this.tag.name,
-      entities: Number( this.tag.typeEntityId?.id),
+      entities: this.tag.typeEntityId.id,
     });
   }
 
@@ -79,11 +92,12 @@ export class DialogTagComponent implements OnInit{
     }
 
     const formValues = this.form.getRawValue();
-
     this.tag.name = formValues.name;
-    this.tag.typeEntityId = formValues.entities;
+    let a = parseInt(formValues.entities, 10);
+    this.tag.typeEntityId = a;
 
     if (this.typeDialog === 'new' ) {
+
       this.tagService.createTags( this.tag ).subscribe( (result: Tag) => {
         this.tagEmitter.next( result );
       });

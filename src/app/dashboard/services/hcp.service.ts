@@ -20,16 +20,9 @@ export class HcpService {
     { name: 'Hombre', value: 1, badge: 'man' }
   ];
 
-  hcpTypeId: any[] = [];
   constructor(
     private apollo: Apollo
-    ) {this.loadEntities();}
-
-    loadEntities() {
-      this.getHCPS(1).subscribe((hcps: any[]) => {
-        this.hcpTypeId = hcps.map(hcp => ({ label: hcp.hcpTypeId?.id as number, value: hcp.hcpTypeId?.id as number }));
-      });
-    }
+    ) {}
 
     getHCPS(isActive: number): Observable<any> {
 
@@ -39,7 +32,8 @@ export class HcpService {
             query getHCPS($isActive: Int!){
               getHCPS(isActive: $isActive){
                 id,
-                hcpTypes{
+                hcpType{
+                  id,
                   name
                 },
                 firstName,
@@ -69,7 +63,8 @@ export class HcpService {
             query getHCP($id: ID!) {
               hcp(id: $id) {
                 id,
-                hcpTypes{
+                hcpType{
+                  id,
                   name
                 },
                 firstName,

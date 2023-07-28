@@ -44,7 +44,7 @@
 
         <div class="field">
               <label for="hcpTypeId">{{ translatedStrings['hcps']['hcpType'] }}</label>
-              <p-dropdown [options]="hcpTypeId" formControlName="hcpTypeId" id="hcpTypeId" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.hcpTypeId}"></p-dropdown>
+              <p-dropdown [options]="hcpTypes" formControlName="hcpTypeId" id="hcpTypeId" optionLabel="name" optionValue="id" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.hcpTypeId}"></p-dropdown>
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.hcpTypeId"></small>
           </div>
 

@@ -1,8 +1,6 @@
-import { TypeEntity } from "./../interfaces/type-entity";
 
 export class Tag {
   public id?: number;
-  public typeEntityId?: TypeEntity;
+  public typeEntityId?: any;
   public name?: string;
-
 }

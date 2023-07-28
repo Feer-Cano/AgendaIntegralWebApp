@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, EventEmitter } from '@angular/core';
 import { take } from 'rxjs';
 
 import { Tag } from '../../../models/tag';
@@ -7,12 +7,15 @@ import { TranslateData } from "../../../interfaces/translate-data";
 import { DialogTagComponent } from './dialogs/dialog-tag/dialog-tag.component';
 
 import { TagService } from '../../../services/tag.service';
-import { RemoveTagComponent } from "./dialogs/remove-tag/remove-tag.component";
+import { DeleteTagComponent } from "./dialogs/delete-tag/delete-tag.component";
 import { TranslateService } from '../../../services/translate.service';
 
 import { Table } from 'primeng/table';
 import { AlertsService } from '../../../services/alerts.service';
 import { MessageService } from 'primeng/api';
+import { Service } from '../../../models/service';
+import { EntityService } from '../../../services/entity.service';
+import { Entity } from '../../../models/entity';
 
 @Component({
   selector: 'app-tags',
@@ -38,15 +41,18 @@ export class TagsComponent {
 
   cols: any[] = [];
 
+  entity: Entity[]= [];
+
   translatedStrings: TranslateData = {};
 
   @ViewChild( DialogTagComponent ) dialogTag!: DialogTagComponent;
-  @ViewChild( RemoveTagComponent ) dialogRemoveTag!: RemoveTagComponent;
+  @ViewChild( DeleteTagComponent ) dialogRemoveTag!: DeleteTagComponent;
 
   constructor(
     private tagService: TagService,
     private TranslateService: TranslateService,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private entityService:EntityService
   ) {}
 
   ngOnInit() {
@@ -55,7 +61,17 @@ export class TagsComponent {
       this.translatedStrings = translations;
     });
 
+    this.getEntity();
+
     this.reloadTable();
+  }
+
+  getEntity(){
+    this.entityService.getEntities(1).subscribe( ( result: Entity[] ) => {
+      this.entity = result;
+
+    } )
+
   }
 
   reloadTable() {
@@ -67,11 +83,11 @@ export class TagsComponent {
 
   dialogNewTag() {
 
-    this.dialogTag.resetForm();
     this.dialogTag.typeDialog = 'new';
-    this.dialogTag.tag = new Tag;
+    this.dialogTag.tag = new Tag();
     this.dialogTag.submitted = false;
     this.dialogTag.tagDialog = true;
+    this.dialogTag.tagEmitter = new EventEmitter<Service>();
 
       this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
         tag ? ( this.alertsService.alertsTag.Insert(), this.reloadTable() ) : this.alertsService.alertsTag.Error();
@@ -83,6 +99,7 @@ export class TagsComponent {
     this.dialogTag.tag = { ...tag };
     this.dialogTag.tagDialog = true;
     this.dialogTag.setValuesForm();
+    this.dialogTag.tagEmitter = new EventEmitter<Service>();
 
     this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
       tag ? ( this.alertsService.alertsTag.Update(), this.reloadTable() ) : this.alertsService.alertsTag.Error();
@@ -96,6 +113,7 @@ export class TagsComponent {
   dialogDeleteTag( tag: Tag ) {
     this.dialogRemoveTag.removeTagDialog = true;
     this.dialogRemoveTag.tag = { ...tag };
+    this.dialogTag.tagEmitter = new EventEmitter<Service>();
 
     this.dialogRemoveTag.tagEmitter.pipe( take(1) ).subscribe( (result: any) => {
       if ( result.id ) {

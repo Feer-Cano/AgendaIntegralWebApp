@@ -20,7 +20,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ManageTagsRoutingModule } from './manage-tags-routing.module';
 import { TagsComponent } from './tags/tags.component';
 import { DialogTagComponent } from './tags/dialogs/dialog-tag/dialog-tag.component';
-import { RemoveTagComponent } from './tags/dialogs/remove-tag/remove-tag.component';
+import { DeleteTagComponent } from './tags/dialogs/delete-tag/delete-tag.component';
 
 
 @NgModule({
@@ -50,7 +50,7 @@ import { RemoveTagComponent } from './tags/dialogs/remove-tag/remove-tag.compone
   declarations: [
     TagsComponent,
     DialogTagComponent,
-    RemoveTagComponent
+    DeleteTagComponent
   ]
 })
 export class ManageTagsModule { }

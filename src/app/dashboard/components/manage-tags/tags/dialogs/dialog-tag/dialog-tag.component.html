@@ -15,7 +15,7 @@
 
           <div class="field">
               <label for="entities">{{ translatedStrings['tags']['entity'] }}</label>
-              <p-dropdown [options]="entities" formControlName="entities" id="entities" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.entities}"></p-dropdown>
+              <p-dropdown [options]="entity" formControlName="entities" id="entities" optionLabel="name" optionValue="id" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.entities}"></p-dropdown>
               <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.entities"></small>
           </div>
 

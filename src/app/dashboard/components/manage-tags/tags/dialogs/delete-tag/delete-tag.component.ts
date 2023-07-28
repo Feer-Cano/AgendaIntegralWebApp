@@ -8,14 +8,14 @@ import { TagService } from "../../../../../services/tag.service";
 import { AlertsService } from '../../../../../services/alerts.service';
 
 @Component({
-  selector: 'app-remove-tag',
-  templateUrl: './remove-tag.component.html',
-  styleUrls: ['./remove-tag.component.scss'],
+  selector: 'app-delete-tag',
+  templateUrl: './delete-tag.component.html',
+  styleUrls: ['./delete-tag.component.scss'],
   providers: [AlertsService]
 
 })
 
-export class RemoveTagComponent {
+export class DeleteTagComponent {
 
   @Output() tagEmitter: EventEmitter<Tag> = new EventEmitter<Tag>();
 
@@ -47,7 +47,7 @@ export class RemoveTagComponent {
   confirmDelete() {
 
     if ( this.confirmationText === 'eliminar' && this.tag.id ) {
-      this.tagService.removeTag( this.tag.id ).subscribe({
+      this.tagService.deleteTag( this.tag.id ).subscribe({
         next: (result) => {
 
           this.alertsService.alertsTag.Warning();

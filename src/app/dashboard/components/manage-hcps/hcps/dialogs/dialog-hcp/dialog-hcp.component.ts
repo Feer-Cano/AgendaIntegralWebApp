@@ -3,11 +3,12 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { Hcp } from '../../../../../models/hcp';
 import { HcpService } from '../../../../../services/hcp.service';
-
 import * as moment from 'moment';
 import localeEsMX from '@angular/common/locales/es-MX';
 import { TranslateService } from '../../../../../services/translate.service';
 import { TranslateData } from '../../../../../interfaces/translate-data';
+import { HcpTypesService } from '../../../../../services/hcp-types.service';
+import { HcpTypes } from '../../../../../models/hcp-types';
 registerLocaleData( localeEsMX );
 
 @Component({
@@ -33,7 +34,7 @@ export class DialogHcpComponent implements OnInit {
 
   type: any[] = [];
 
-  hcpTypeId: any[] = [];
+  hcpTypes: HcpTypes[] = [];
 
   birthSex: any[] = [];
 
@@ -45,6 +46,7 @@ export class DialogHcpComponent implements OnInit {
     private formBuilder: FormBuilder,
     private hcpService: HcpService,
     private translateService: TranslateService,
+    private hcpTypesService:HcpTypesService
   ) {
 
     this.form = this.formBuilder.group({
@@ -54,7 +56,8 @@ export class DialogHcpComponent implements OnInit {
       birthSex: ['', [Validators.required]],
       birthDate: ['', Validators.required],
       professionalLicense: ['', Validators.required],
-      type: ['', Validators.required]
+      type: ['', Validators.required],
+
     });
   }
 
@@ -64,13 +67,23 @@ export class DialogHcpComponent implements OnInit {
       this.translatedStrings = translations;
     });
 
+    this.getHcpTypes();
+
     this.type = this.hcpService.type;
-    this.hcpTypeId = this.hcpService.hcpTypeId;
     this.birthSex = this.hcpService.birthSex;
 
   }
 
+  getHcpTypes(){
+    this.hcpTypesService.getHcpTypes(1).subscribe( ( result: HcpTypes[] ) => {
+      this.hcpTypes = result;
+
+    } )
+
+  }
+
   setValuesForm() {
+
     this.form.patchValue({
       firstName: this.hcp.firstName,
       lastName: this.hcp.lastName,
@@ -78,9 +91,10 @@ export class DialogHcpComponent implements OnInit {
       birthDate: this.datePipe.transform( this.hcp.birthDate, 'dd/MM/yyyy' ),
       professionalLicense: this.hcp.professionalLicense,
       type: this.hcp.type,
-      hcpTypeId: Number(this.hcp.hcpTypes?.id),
+      hcpTypeId: this.hcp.hcpType.id,
       isActive: 1
     });
+
   }
 
   resetForm() {

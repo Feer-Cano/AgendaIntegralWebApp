@@ -1,15 +1,14 @@
-import { TypeHCPTypes } from '../interfaces/type-HCPTypes';
 
 export class Hcp {
   public id?: number;
-  public hcpTypeId?: TypeHCPTypes;
+  public hcpTypeId?: number;
   public firstName?: string;
   public lastName?: string;
   public birthSex?: number;
   public birthDate?: Date;
   public professionalLicense?: string;
   public type?: string;
-  public hcpTypes?: TypeHCPTypes;
+  public hcpType?: any;
 
 
   public isActive?: number;
