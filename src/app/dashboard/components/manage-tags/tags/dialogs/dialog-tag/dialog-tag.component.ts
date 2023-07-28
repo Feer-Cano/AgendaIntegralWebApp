@@ -76,10 +76,7 @@ export class DialogTagComponent implements OnInit{
   }
 
   resetForm() {
-    this.form.patchValue({
-      name: '',
-      entities: null,
-    });
+    this.form.reset();
   }
 
   save() {

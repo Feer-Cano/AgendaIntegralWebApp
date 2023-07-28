@@ -73,17 +73,6 @@ export class DialogPatientComponent implements OnInit {
     });
   }
 
-  resetForm() {
-    this.form.patchValue({
-      firstName: '',
-      lastName: '',
-      birthSex: '',
-      birthDate: null,
-      maritalStatus: '',
-      isActive: null
-    });
-  }
-
   save() {
 
     this.submitted = false;

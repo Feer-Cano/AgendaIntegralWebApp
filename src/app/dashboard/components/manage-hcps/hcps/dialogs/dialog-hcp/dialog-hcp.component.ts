@@ -97,19 +97,6 @@ export class DialogHcpComponent implements OnInit {
 
   }
 
-  resetForm() {
-    this.form.patchValue({
-      firstName: '',
-      lastName: '',
-      birthSex: '',
-      birthDate: null,
-      professionalLicense: '',
-      type: '',
-      hcpTypeId: null,
-      isActive: null
-    });
-  }
-
   save() {
 
     this.submitted = false;

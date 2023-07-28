@@ -68,12 +68,18 @@ export class ServicesComponent {
 
   dialogNewService() {
 
+    this.dialogService.hideDialog();
     this.dialogService.typeDialog = 'new';
     this.dialogService.service = new Service({ isActive: 1 });
     this.dialogService.submitted = false;
     this.dialogService.serviceDialog = true;
 
+    if ( this.dialogService.serviceEmitter ) {
+      this.dialogService.serviceEmitter.unsubscribe();
+    }
+
     this.dialogService.serviceEmitter = new EventEmitter<Service>();
+
     this.dialogService.serviceEmitter.subscribe( (service: Service) => {
       service ? ( this.alertsService.alertsService.Insert(), this.reloadTable() ) : this.alertsService.alertsService.Error();
     });
@@ -86,6 +92,9 @@ export class ServicesComponent {
     this.dialogService.serviceDialog = true;
     this.dialogService.setValuesForm();
 
+    if ( this.dialogService.serviceEmitter ) {
+      this.dialogService.serviceEmitter.unsubscribe();
+    }
     this.dialogService.serviceEmitter = new EventEmitter<Service>();
 
     this.dialogService.serviceEmitter.subscribe( (service: Service) => {
@@ -101,6 +110,10 @@ export class ServicesComponent {
 
     this.dialogDeleteService.deleteServiceDialog = true;
     this.dialogDeleteService.service = { ...service };
+
+    if ( this.dialogService.serviceEmitter ) {
+      this.dialogService.serviceEmitter.unsubscribe();
+    }
 
     this.dialogService.serviceEmitter = new EventEmitter<Service>();
 

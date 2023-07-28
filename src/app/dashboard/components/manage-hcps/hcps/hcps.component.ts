@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, EventEmitter } from '@angular/core';
 import { TranslateService } from '../../../services/translate.service';
 import { DialogHcpComponent } from "./dialogs/dialog-hcp/dialog-hcp.component";
 import { Table } from 'primeng/table';
@@ -69,11 +69,17 @@ export class HcpsComponent {
 
   dialogNewHcp() {
 
-    this.dialogHcp.resetForm();
+    this.dialogHcp.hideDialog();
     this.dialogHcp.typeDialog = 'new';
     this.dialogHcp.hcp = new Hcp({ isActive: 1 });
     this.dialogHcp.submitted = false;
     this.dialogHcp.hcpDialog = true;
+
+    if ( this.dialogHcp.hcpEmitter ) {
+      this.dialogHcp.hcpEmitter.unsubscribe();
+    }
+
+    this.dialogHcp.hcpEmitter = new EventEmitter<Hcp>();
 
     this.dialogHcp.hcpEmitter.pipe( take(1) ).subscribe( (hcp: Hcp) => {
       hcp ? ( this.alertsService.alertsHcp.Insert(), this.reloadTable() ) : this.alertsService.alertsHcp.Error();
@@ -89,6 +95,12 @@ export class HcpsComponent {
     this.dialogHcp.hcp = { ...hcp };
     this.dialogHcp.hcpDialog = true;
     this.dialogHcp.setValuesForm();
+
+    if ( this.dialogHcp.hcpEmitter ) {
+      this.dialogHcp.hcpEmitter.unsubscribe();
+    }
+
+    this.dialogHcp.hcpEmitter = new EventEmitter<Hcp>();
 
     this.dialogHcp.hcpEmitter.pipe( take(1) ).subscribe( (hcp: Hcp) => {
       hcp ? ( this.alertsService.alertsHcp.Update(), this.reloadTable() ) : this.alertsService.alertsHcp.Error();
@@ -107,6 +119,12 @@ export class HcpsComponent {
 
     this.dialogRemoveHcp.removeHcpDialog = true;
     this.dialogRemoveHcp.hcp = { ...hcp };
+
+    if ( this.dialogHcp.hcpEmitter ) {
+      this.dialogHcp.hcpEmitter.unsubscribe();
+    }
+
+    this.dialogHcp.hcpEmitter = new EventEmitter<Hcp>();
 
     this.dialogRemoveHcp.hcpEmitter.pipe( take(1) ).subscribe( (result: any) => {
       if ( result.id ) {

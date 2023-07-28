@@ -6,12 +6,13 @@ import { Service } from 'src/app/dashboard/models/service';
 
 import { TranslateService } from 'src/app/dashboard/services/translate.service';
 import { ServiceService } from "src/app/dashboard/services/service.service";
+import { AlertsService } from '../../../../../services/alerts.service';
 
 @Component({
   selector: 'app-delete-service',
   templateUrl: './delete-service.component.html',
   styleUrls: ['./delete-service.component.scss'],
-  providers: [MessageService]
+  providers: [AlertsService]
 })
 export class DeleteServiceComponent {
 
@@ -31,7 +32,7 @@ export class DeleteServiceComponent {
 
   constructor(
     public serviceService: ServiceService,
-    private messageService: MessageService,
+    private alertsService: AlertsService,
     private translateService: TranslateService,
   ){}
 
@@ -45,31 +46,18 @@ export class DeleteServiceComponent {
   confirmDelete() {
 
     if ( this.confirmationText === 'eliminar' && this.service.id ) {
-      
+
       this.serviceService.removeService( this.service ).subscribe({
         next: (result) => {
-
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'ADVERTENCIA!',
-            detail: 'Los datos del servicio fueron eliminados correctamente'
-          });
+          this.alertsService.alertsService.Warning();
           this.serviceEmitter.next( result );
         },
         error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'ERROR!',
-            detail: 'Error en el servidor'
-          });
+          this.alertsService.alertsService.Error();
         }
       })
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'ERROR!',
-        detail: 'La palabra escrita es incorrecta'
-      });
+      this.alertsService.alertsService.Error();
     }
 
     this.onClose();

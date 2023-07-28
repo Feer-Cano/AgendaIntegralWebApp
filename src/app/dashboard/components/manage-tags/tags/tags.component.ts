@@ -82,11 +82,16 @@ export class TagsComponent {
   }
 
   dialogNewTag() {
-
+    this.dialogTag.resetForm();
     this.dialogTag.typeDialog = 'new';
     this.dialogTag.tag = new Tag();
     this.dialogTag.submitted = false;
     this.dialogTag.tagDialog = true;
+
+    if ( this.dialogTag.tagEmitter ) {
+      this.dialogTag.tagEmitter.unsubscribe();
+    }
+
     this.dialogTag.tagEmitter = new EventEmitter<Service>();
 
       this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
@@ -99,6 +104,11 @@ export class TagsComponent {
     this.dialogTag.tag = { ...tag };
     this.dialogTag.tagDialog = true;
     this.dialogTag.setValuesForm();
+
+    if ( this.dialogTag.tagEmitter ) {
+      this.dialogTag.tagEmitter.unsubscribe();
+    }
+
     this.dialogTag.tagEmitter = new EventEmitter<Service>();
 
     this.dialogTag.tagEmitter.pipe( take(1) ).subscribe( (tag: Tag) => {
@@ -113,6 +123,11 @@ export class TagsComponent {
   dialogDeleteTag( tag: Tag ) {
     this.dialogRemoveTag.removeTagDialog = true;
     this.dialogRemoveTag.tag = { ...tag };
+
+    if ( this.dialogTag.tagEmitter ) {
+      this.dialogTag.tagEmitter.unsubscribe();
+    }
+
     this.dialogTag.tagEmitter = new EventEmitter<Service>();
 
     this.dialogRemoveTag.tagEmitter.pipe( take(1) ).subscribe( (result: any) => {

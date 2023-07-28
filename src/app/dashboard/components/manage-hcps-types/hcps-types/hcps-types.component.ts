@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, EventEmitter } from '@angular/core';
 import { TranslateService } from '../../../services/translate.service';
 import { Table } from 'primeng/table';
 import { TranslateData } from "../../../interfaces/translate-data";
@@ -63,12 +63,18 @@ export class HcpsTypesComponent {
   }
 
   dialogNewHcpTypes() {
-
+    this.dialogHcpTypes.hideDialog();
     this.dialogHcpTypes.resetForm();
     this.dialogHcpTypes.typeDialog = 'new';
     this.dialogHcpTypes.hcpTypes = new HcpTypes({ isActive: 1 });
     this.dialogHcpTypes.submitted = false;
     this.dialogHcpTypes.hcpTypesDialog = true;
+
+    if ( this.dialogHcpTypes.hcpTypesEmitter ) {
+      this.dialogHcpTypes.hcpTypesEmitter.unsubscribe();
+    }
+
+    this.dialogHcpTypes.hcpTypesEmitter = new EventEmitter<HcpTypes>();
 
     this.dialogHcpTypes.hcpTypesEmitter.pipe( take(1) ).subscribe( (hcpTypes: HcpTypes) => {
       hcpTypes ? ( this.alertsService.alertsHcpTypes.Error() ) : this.alertsService.alertsHcpTypes.Insert(), this.reloadTable();
@@ -84,6 +90,12 @@ export class HcpsTypesComponent {
     this.dialogHcpTypes.hcpTypes = { ...hcpTypes };
     this.dialogHcpTypes.hcpTypesDialog = true;
     this.dialogHcpTypes.setValuesForm();
+
+    if ( this.dialogHcpTypes.hcpTypesEmitter ) {
+      this.dialogHcpTypes.hcpTypesEmitter.unsubscribe();
+    }
+
+    this.dialogHcpTypes.hcpTypesEmitter = new EventEmitter<HcpTypes>();
 
     this.dialogHcpTypes.hcpTypesEmitter.pipe( take(1) ).subscribe( (hcpTypes: HcpTypes) => {
       hcpTypes ? ( this.alertsService.alertsHcpTypes.Update(), this.reloadTable() ) : this.alertsService.alertsHcpTypes.Error();
@@ -102,6 +114,12 @@ export class HcpsTypesComponent {
 
     this.dialogRemoveHcpTypes.removeHcpTypesDialog = true;
     this.dialogRemoveHcpTypes.hcpTypes = { ...hcpTypes };
+
+    if ( this.dialogHcpTypes.hcpTypesEmitter ) {
+      this.dialogHcpTypes.hcpTypesEmitter.unsubscribe();
+    }
+
+    this.dialogHcpTypes.hcpTypesEmitter = new EventEmitter<HcpTypes>();
 
     this.dialogRemoveHcpTypes.hcpTypesEmitter.pipe( take(1) ).subscribe( (result: any) => {
       if ( result.id ) {

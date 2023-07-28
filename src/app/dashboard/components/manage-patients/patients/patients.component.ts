@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, EventEmitter } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { take } from 'rxjs';
@@ -70,11 +70,17 @@ export class PatientsComponent {
 
   dialogNewPatient() {
 
-    this.dialogPatient.resetForm();
+    this.dialogPatient.hideDialog();
     this.dialogPatient.typeDialog = 'new';
     this.dialogPatient.patient = new Patient({ isActive: 1 });
     this.dialogPatient.submitted = false;
     this.dialogPatient.patientDialog = true;
+
+    if ( this.dialogPatient.patientEmitter ) {
+      this.dialogPatient.patientEmitter.unsubscribe();
+    }
+
+    this.dialogPatient.patientEmitter = new EventEmitter<Patient>();
 
     this.dialogPatient.patientEmitter.pipe( take(1) ).subscribe( (patient: Patient) => {
       patient ? ( this.alertsService.alertsPatient.Insert(), this.reloadTable() ) : this.alertsService.alertsPatient.Error();
@@ -88,6 +94,12 @@ export class PatientsComponent {
     this.dialogPatient.patientDialog = true;
     this.dialogPatient.setValuesForm();
 
+    if ( this.dialogPatient.patientEmitter ) {
+      this.dialogPatient.patientEmitter.unsubscribe();
+    }
+
+    this.dialogPatient.patientEmitter = new EventEmitter<Patient>();
+
     this.dialogPatient.patientEmitter.pipe( take(1) ).subscribe( (patient: Patient) => {
       patient ? ( this.alertsService.alertsPatient.Update(), this.reloadTable() ) :  this.alertsService.alertsPatient.Error();
     });
@@ -100,6 +112,12 @@ export class PatientsComponent {
   dialogDeletePatient( patient: Patient ) {
     this.dialogRemovePatient.removePatientDialog = true;
     this.dialogRemovePatient.patient = { ...patient };
+
+    if ( this.dialogPatient.patientEmitter ) {
+      this.dialogPatient.patientEmitter.unsubscribe();
+    }
+
+    this.dialogPatient.patientEmitter = new EventEmitter<Patient>();
 
     this.dialogRemovePatient.patientEmitter.pipe( take(1) ).subscribe( (result: any) => {
       if ( result.id ) {
