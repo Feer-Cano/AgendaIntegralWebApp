@@ -1,1 +1,47 @@
-<p>dialog-access-level works!</p>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+
+  <p-toast></p-toast>
+
+  <p-dialog [(visible)]="accessLevelDialog" [style]="{width: '450px'}" header="Nuevo Permiso" [modal]="true" class="p-fluid">
+
+      <ng-template pTemplate="content">
+
+        <div class="field">
+          <label for="users">{{ translatedStrings['accessLevels']['users'] }}</label>
+          <p-dropdown [options]="user" formControlName="users" id="users" optionLabel="firstName" optionValue="id" placeholder="Selecciona un usuario" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.users}"></p-dropdown>
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.users"></small>
+        </div>
+
+          <div class="field">
+              <label for="entities">{{ translatedStrings['accessLevels']['entities'] }}</label>
+              <p-dropdown [options]="entity" formControlName="entities" id="entities" optionLabel="name" optionValue="id" placeholder="Selecciona una entidad" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.entities}"></p-dropdown>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.entities"></small>
+          </div>
+
+          <div class="field">
+            <label for="permission">{{ translatedStrings['accessLevels']['permission'] }}</label>
+            <p-dropdown [options]="permission" formControlName="permission" id="permission" placeholder="Selecciona un Permiso" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.permission}"></p-dropdown>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.permission"></small>
+          </div>
+          <!--
+          <div class="field">
+            <label for="permission">{{ translatedStrings['accessLevels']['permission'] }}</label>
+            <p-multiSelect [options]="permission" formControlName="permission" id="permission" defaultLabel="Selecciona Permisos" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.permission}"></p-multiSelect>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.permission"></small>
+          </div> -->
+
+          <!-- <div class="field">
+            <label for="permission">{{ translatedStrings['accessLevels']['permission'] }}</label>
+            <p-multiSelect-trigger  [ngClass]="{'ng-invalid ng-dirty' : submitted && !form.value.permission}" id="permission" formControlName="permission"  optionLabel="name"></p-multiSelect-trigger>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !form.value.permission"></small>
+        </div> -->
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+          <button  type="button" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+          <button type="submit" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"></button>
+           <!-- Alerta de éxito -->
+      </ng-template>
+  </p-dialog>
+</form>

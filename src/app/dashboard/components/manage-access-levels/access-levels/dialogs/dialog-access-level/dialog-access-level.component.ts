@@ -1,14 +1,18 @@
 import { Component, EventEmitter, OnInit, Output, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { Hcp } from '../../../../../models/hcp';
-import { HcpService } from '../../../../../services/hcp.service';
-import * as moment from 'moment';
-import localeEsMX from '@angular/common/locales/es-MX';
+import { AccessLevel } from '../../../../../models/access-level';
+import { AccessLevelService } from '../../../../../services/access-level.service';
 import { TranslateService } from '../../../../../services/translate.service';
 import { TranslateData } from '../../../../../interfaces/translate-data';
-import { HcpTypesService } from '../../../../../services/hcp-types.service';
-import { HcpTypes } from '../../../../../models/hcp-types';
+import { EntityService } from '../../../../../services/entity.service';
+import { Entity } from '../../../../../models/entity';
+import { UserService } from '../../../../../services/user.service';
+import { User } from '../../../../../models/user';
+import localeEsMX from '@angular/common/locales/es-MX';
+
+import * as moment from 'moment';
+
 registerLocaleData( localeEsMX );
 
 @Component({
@@ -17,84 +21,79 @@ registerLocaleData( localeEsMX );
   styleUrls: ['./dialog-access-level.component.scss'],
   providers: [{ provide: LOCALE_ID, useValue: 'es-MX' }],
 })
-export class DialogAccessLevelComponent implements OnInit {
 
+export class DialogAccessLevelComponent implements OnInit{
 
-  @Output() hcpEmitter: EventEmitter<Hcp> = new EventEmitter<Hcp>();
+  datePipe: DatePipe = new DatePipe('es-MX');
+  @Output() accessLevelEmitter: EventEmitter<AccessLevel> = new EventEmitter<AccessLevel>();
+
+  translatedStrings: TranslateData= {};
 
   form: FormGroup;
 
-  datePipe: DatePipe = new DatePipe('es-MX');
-
-  hcpDialog: boolean = false;
+  accessLevelDialog: boolean = false;
 
   submitted: boolean = false;
 
-  hcp: Hcp = {};
+  accessLevel: AccessLevel = {};
 
-  type: any[] = [];
+  entity: Entity[] = [];
 
-  hcpTypes: HcpTypes[] = [];
+  user: User[] = [];
 
-  birthSex: any[] = [];
+  entities: any[] = [];
+
+  users: any[] = [];
+
+  permission: any[] = [];
 
   typeDialog: string = '';
 
-  translatedStrings: TranslateData = {};
-
   constructor(
     private formBuilder: FormBuilder,
-    private hcpService: HcpService,
-    private translateService: TranslateService,
-    private hcpTypesService:HcpTypesService
+    private accessLevelService: AccessLevelService,
+    private TranslateService: TranslateService,
+    private entityService : EntityService,
+    private userService : UserService,
+
   ) {
 
     this.form = this.formBuilder.group({
-      hcpTypeId: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      birthSex: ['', [Validators.required]],
-      birthDate: ['', Validators.required],
-      professionalLicense: ['', Validators.required],
-      type: ['', Validators.required],
-
+      users: ['', Validators.required],
+      permission: ['', Validators.required],
+      entities: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
-
-    this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
+    this.permission = this.accessLevelService.permission;
+    this.TranslateService.getTranslations().subscribe( ( translations: TranslateData ) => {
       this.translatedStrings = translations;
     });
 
-    this.getHcpTypes();
-
-    this.type = this.hcpService.type;
-    this.birthSex = this.hcpService.birthSex;
-
+    this.getEntity();
+    this.getUser();
   }
 
-  getHcpTypes(){
-    this.hcpTypesService.getHcpTypes(1).subscribe( ( result: HcpTypes[] ) => {
-      this.hcpTypes = result;
-
+  getEntity(){
+    this.entityService.getEntities().subscribe( ( result: Entity[] ) => {
+      this.entity = result;
     } )
+  }
 
+  getUser(){
+    this.userService.getUsers(1).subscribe( ( result: User[] ) => {
+      this.user = result;
+    } )
   }
 
   setValuesForm() {
-
+    console.log(this.accessLevel);
     this.form.patchValue({
-      firstName: this.hcp.firstName,
-      lastName: this.hcp.lastName,
-      birthSex: this.hcp.birthSex,
-      birthDate: this.datePipe.transform( this.hcp.birthDate, 'dd/MM/yyyy' ),
-      professionalLicense: this.hcp.professionalLicense,
-      type: this.hcp.type,
-      hcpTypeId: this.hcp.hcpType.id,
-      isActive: 1
+      permission: this.accessLevel.permission,
+      entities: this.accessLevel.typeEntity.id,
+      users: this.accessLevel.user.id,
     });
-
   }
 
   save() {
@@ -107,30 +106,23 @@ export class DialogAccessLevelComponent implements OnInit {
     }
 
     const formValues = this.form.getRawValue();
-    this.hcp.firstName = formValues.firstName;
-    this.hcp.lastName = formValues.lastName;
-    this.hcp.birthSex = formValues.birthSex;
-    this.hcp.birthDate = formValues.birthDate;
-    this.hcp.professionalLicense = formValues.professionalLicense;
-    this.hcp.type = formValues.type;
-    this.hcp.hcpTypeId = formValues.hcpTypeId;
+    this.accessLevel.permission = formValues.permission;
+    let a = parseInt(formValues.entities, 10);
+    this.accessLevel.typeEntity = a;
+    let b = parseInt(formValues.users, 10);
+    this.accessLevel.user = b;
+    console.log(this.accessLevel);
+    if (this.typeDialog === 'new' ) {
 
-
-    if ( this.typeDialog === 'new' ) {
-
-      this.hcpService.createHcp( this.hcp ).subscribe( (result: Hcp) => {
-        this.hcpEmitter.next( result );
+      this.accessLevelService.createAccessLevel( this.accessLevel ).subscribe( (result: AccessLevel) => {
+        this.accessLevelEmitter.next( result );
       });
+    }else{
 
-    } else {
-
-      this.hcp.birthDate = moment( this.hcp.birthDate, 'YYYY/MM/DD' ).toDate();
-
-      this.hcpService.updateHcp( this.hcp ).subscribe( (result: Hcp) => {
-        this.hcpEmitter.next( result );
-      });
-
-    }
+    this.accessLevelService.updateAccessLevel( this.accessLevel ).subscribe( (result: AccessLevel) => {
+      this.accessLevelEmitter.next( result );
+    });
+  }
 
     this.hideDialog();
 
@@ -138,8 +130,7 @@ export class DialogAccessLevelComponent implements OnInit {
 
   hideDialog() {
     this.form.reset();
-    this.hcpDialog = false;
+    this.accessLevelDialog = false;
     this.submitted = false;
   }
-
 }

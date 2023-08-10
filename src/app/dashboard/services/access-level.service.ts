@@ -9,35 +9,53 @@ import { AccessLevel } from '../models/access-level';
 })
 export class AccessLevelService {
 
+  permission: any[] = [
+    { label: 'Lector', value: 'READ' },
+    { label: 'Editor', value: 'EDIT' },
+    { label: 'Administrador', value: 'ADMIN' }
+  ];
+
   constructor( private apollo: Apollo ) { }
 
-  getAccesLevels(): Observable<AccessLevel[]> {
+  getAccessLevels(): Observable<AccessLevel[]> {
     return this.apollo.watchQuery({
       query: gql`
         query {
           getAccessLevels {
             id,
-            userId,
-            entity,
+            user{
+              id,
+              firstName
+            },
+            typeEntity{
+              id,
+              name
+            },
             permission
           }
         }
       `,
       fetchPolicy: 'network-only',
     }).valueChanges.pipe(
-      map((result: any) => result.data.getAccesLevels),
+      map((result: any) => result.data.getAccessLevels),
       take(1)
     );
   }
 
-  getAccesLevel(id: number): Observable<AccessLevel> {
+  getAccessLevel(id: number): Observable<AccessLevel> {
     return this.apollo.watchQuery({
       query: gql`
         query getAccesLevel($id: ID!) {
           accesLevel(id: $id) {
             id,
-            userId,
-            entity,
+            user{
+              id,
+              firstName
+            },
+            typeEntity{
+              id,
+              name
+            },
             permission
           }
         }
@@ -45,22 +63,23 @@ export class AccessLevelService {
       variables: { id },
       fetchPolicy: 'network-only',
     }).valueChanges.pipe(
-      map((result: any) => result.data.getAccesLevel),
+      map((result: any) => result.data.getAccessLevel),
       take(1)
     );
   }
 
-  createAccesLevel(accessLevel: AccessLevel): Observable<any> {
+  createAccessLevel(accessLevel: AccessLevel): Observable<any> {
+    console.log("Jelouy", accessLevel);
     return this.apollo.mutate({
       mutation: gql`
-        mutation createAccesLevel(
-          $userId: Int!,
-          $entity: String!,
+        mutation createAccessLevel(
+          $user: Int!,
+          $typeEntity: Int!,
           $permission: String!,
         ) {
-          createAccesLevel(
-            userId: $userId,
-            entity: $entity,
+          createAccessLevel(
+            userId: $user,
+            typeEntityId:  $typeEntity,
             permission: $permission,
           ) {
             id
@@ -69,12 +88,12 @@ export class AccessLevelService {
       `,
       variables: { ...accessLevel},
     }).pipe(
-      map((result: any) => result.data.createAccesLevel),
+      map((result: any) => result.data.createAccessLevel),
       take(1)
     );
   }
 
-  updateAccesLevel( accessLevel: AccessLevel ): Observable<any> {
+  updateAccessLevel( accessLevel: AccessLevel ): Observable<any> {
 
     accessLevel = {
       ...accessLevel,
@@ -83,16 +102,16 @@ export class AccessLevelService {
 
     return this.apollo.mutate({
       mutation: gql`
-        mutation updateAccesLevel(
+        mutation updateAccessLevel(
           $id: Int!,
-          $userId: Int!,
-          $entity: String!,
+          $user: Int!,
+          $typeEntity: Int!,
           $permission: String!,
         ) {
-          updateAccesLevel(
+          updateAccessLevel(
             id: $id
-            userId: $userId,
-            entity: $entity,
+            userId: $user,
+            typeEntityId: $typeEntity,
             permission: $permission,
           ) {
             id
@@ -101,19 +120,19 @@ export class AccessLevelService {
       `,
       variables: { ...accessLevel },
     }).pipe(
-      map( (result: any) => result.data.updateAccesLevel ),
+      map( (result: any) => result.data.updateAccessLevel ),
       take(1)
     );
   }
 
-  deleteAccesLevel( id: number ): Observable<any> {
+  deleteAccessLevel( id: number ): Observable<any> {
 
     id = Number(id);
 
     return this.apollo.mutate({
       mutation: gql`
-        mutation deleteAccesLevel($id: Int!) {
-          deleteAccesLevel(
+        mutation deleteAccessLevel($id: Int!) {
+          deleteAccessLevel(
             id: $id
           ) {
             id
@@ -122,7 +141,7 @@ export class AccessLevelService {
       `,
       variables: { id },
     }).pipe(
-      map( (result: any) => result.data.deleteAccesLevel ),
+      map( (result: any) => result.data.deleteAccessLevel ),
       take(1)
     );
   }

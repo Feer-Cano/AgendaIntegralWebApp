@@ -1,1 +1,107 @@
-<p>access-levels works!</p>
+<div class="grid">
+
+  <div class="col-12">
+    <p-toast></p-toast>
+    <div class="card px-6 py-6">
+      <p-toolbar styleClass="mb-4">
+          <ng-template pTemplate="left">
+              <div class="my-2">
+                      <button
+                          pButton pRipple
+                          label="{{ translatedStrings['accessLevels']['new'] }}"
+                          icon="pi pi-plus"
+                          class="p-button-success mr-2"
+                          (click)="dialogNewAccessLevel()">
+                      </button>
+
+
+                      <button
+                          pButton pRipple
+                          label="{{ translatedStrings['accessLevels']['delete'] }}"
+                          icon="pi pi-trash"
+                          class="p-button-danger mr-2"
+                          (click)="deleteSelectedAccessLevels()"
+                          [disabled]="!selectedAccessLevels || !selectedAccessLevels.length">
+                      </button>
+
+                  </div>
+              </ng-template>
+          </p-toolbar>
+
+          <p-table
+              #dt
+              responsiveLayout="scroll"
+              currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros"
+              selectionMode="multiple"
+              [rowHover]="true"
+              dataKey="id"
+              [value]="accessLevels"
+              [rows]="10"
+              [columns]="cols"
+              [paginator]="true"
+              [globalFilterFields]="['user']"
+              [rowsPerPageOptions]="[10,20,30]"
+              [showCurrentPageReport]="true"
+              [(selection)]="selectedAccessLevels" >
+
+              <ng-template pTemplate="caption">
+                  <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                    <h5 class="m-0">{{ translatedStrings['accessLevels']['list'] }}</h5>
+                      <span class="block mt-2 md:mt-0 p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                      </span>
+                  </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th style="width: 10%">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                      <th pSortableColumn="id">{{ translatedStrings['general']['id'] }} <p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="users">{{ translatedStrings['accessLevels']['users'] }} <p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="permission">{{ translatedStrings['accessLevels']['permission'] }}<p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="entities">{{ translatedStrings['accessLevels']['entities'] }}<p-sortIcon field="id"></p-sortIcon></th>
+                  <th></th>
+                  </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-accessLevel>
+                  <tr>
+                      <td>
+                          <p-tableCheckbox [value]="accessLevel"></p-tableCheckbox>
+                      </td>
+                      <td style="width:20%; min-width:10rem;"><span class="p-column-title">{{ translatedStrings['general']['id'] }}</span>
+                        {{ ( accessLevel.id ) ? accessLevel.id :  translatedStrings['warnings']['noData'] }}
+                      </td>
+                      <td style="width:25%; min-width:10rem;">
+                          <span class="p-column-title">{{ translatedStrings['accessLevels']['name'] }}</span>
+                        {{ ( accessLevel.user.firstName ) ? accessLevel.user.firstName :  translatedStrings['warnings']['noData'] }}
+                      </td>
+                      <td style="width:25%; min-width:10rem;">
+                        <span class="p-column-title">{{ translatedStrings['accessLevels']['permission'] }}</span>
+                        {{ ( getPermissionLabel(accessLevel.permission) ) ? getPermissionLabel(accessLevel.permission) :  translatedStrings['warnings']['noData'] }}
+
+                      </td>
+                      <td style="width:50%; min-width:10rem;">
+                        <span class="p-column-title">{{ translatedStrings['accessLevels']['entities'] }}</span>
+                        {{ ( accessLevel.typeEntity.name ) ? accessLevel.typeEntity.name :  translatedStrings['warnings']['noData'] }}
+                      </td>
+                      <td>
+                          <div class="flex">
+                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="dialogEditAccessLevel(accessLevel)"></button>
+                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="dialogDeleteAccessLevel(accessLevel)"></button>
+                          </div>
+                      </td>
+                  </tr>
+              </ng-template>
+          </p-table>
+      </div>
+
+      <app-dialog-access-level></app-dialog-access-level>
+
+      <app-delete-access-level></app-delete-access-level>
+
+  </div>
+</div>

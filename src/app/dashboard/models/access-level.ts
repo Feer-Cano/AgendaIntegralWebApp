@@ -1,8 +1,8 @@
 export class AccessLevel {
 
   public id?: number;
-  public userId?: number;
-  public entity?: string;
+  public user?: any;
+  public typeEntity?: any;
   public permission?: string;
 
 }

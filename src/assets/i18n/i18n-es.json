@@ -124,7 +124,10 @@
     "remove":"Nivel eliminado exitosamente",
     "update":"Nivel actualizado exitosamente",
     "error": "Error",
-    "warning":"Cuidao"
+    "warning":"Cuidao",
+    "users":"Usuario",
+    "permission":"Permisos",
+    "entities": "Entidad"
   },
 
   "tags": {

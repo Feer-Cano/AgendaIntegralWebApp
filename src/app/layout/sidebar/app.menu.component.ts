@@ -84,18 +84,18 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                               label: this.translator['sidebar']['hcpsTypesManagement'],
-                              icon: 'fa-solid fa-th-large',
+                              icon: 'fa-solid fa-id-card ',
                               routerLink: ['/manage-hcpsTypes/hcpTypes']
                             },
                             {
                               label: this.translator['sidebar']['entityManagement'],
-                              icon: 'fa-solid fa-id-card',
+                              icon: 'fa-solid fa-th-large',
                               routerLink: ['/manage-entities/entity']
                             },
                             {
                               label: this.translator['sidebar']['accessLevelManagement'],
-                              icon: 'fa-solid fa-id-card',
-                              routerLink: ['/manage-access-Levels/accessLevel']
+                              icon: 'fa-solid fa-sitemap',
+                              routerLink: ['/manage-accessLevels/accessLevel']
                             }
                         ]
                     },
