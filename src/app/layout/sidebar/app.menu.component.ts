@@ -30,7 +30,11 @@ export class AppMenuComponent implements OnInit {
             {
                 label: this.translator['sidebar']['home'],
                 items: [
-                    { label: this.translator['sidebar']['generalAgenda'], icon: 'fa-regular fa-calendar-days', routerLink: ['/'] }
+                    { 
+                        label: this.translator['sidebar']['generalAgenda'], 
+                        icon: 'fa-regular fa-calendar-days', 
+                        routerLink: ['/manage-agenda/agenda'] 
+                    }
                 ]
             },
             {

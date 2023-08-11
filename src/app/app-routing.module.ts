@@ -7,7 +7,15 @@ import { ManageServicesModule } from './dashboard/components/manage-services/man
 @NgModule({
     imports: [
         RouterModule.forRoot([
-             {
+            {
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                        path: 'manage-agenda', loadChildren: () => import('./dashboard/components/manage-agenda/manage-agenda.module').then(m => m.ManageAgendaModule)
+                    }
+                ]
+            },
+            {
                 path: '', component: AppLayoutComponent,
                 children: [
                     {
