@@ -15,8 +15,8 @@
     "tagManagement":"Gestión de Etiquetas",
     "entityManagement":"Gestión de Entidades",
     "hcpsTypesManagement": "Gestion de Tipos de Personal",
-    "accessLevelManagement": "Gestion de Tipos de Nivel"
-
+    "accessLevelManagement": "Gestion de Tipos de Nivel",
+    "accessLevelDetailsManagement": "Gestion de Detalles de Nivel"
   },
 
   "patients": {

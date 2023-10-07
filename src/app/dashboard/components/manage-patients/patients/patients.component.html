@@ -65,6 +65,7 @@
                         <th pSortableColumn="lastName">{{ translatedStrings['patients']['lastName'] }} <p-sortIcon field="lastName"></p-sortIcon></th>
                         <th pSortableColumn="birthSex">{{ translatedStrings['patients']['birthSex'] }}<p-sortIcon field="birthSex"></p-sortIcon></th>
                         <th pSortableColumn="maritalStatus">{{ translatedStrings['patients']['maritalStatus'] }}<p-sortIcon field="maritalStatus"></p-sortIcon></th>
+                        <th style="text-align: center;" pSortableColumn="qr">QR</th>
                         <th></th>
 
                     </tr>
@@ -75,33 +76,40 @@
                         <td>
                             <p-tableCheckbox [value]="patient"></p-tableCheckbox>
                         </td>
-                        <td style="width:6%; min-width:10rem;"><span class="p-column-title">{{ translatedStrings['patients']['id'] }}</span>
+                        <td style="width:3%; min-width:5rem;"><span class="p-column-title">{{ translatedStrings['patients']['id'] }}</span>
                           {{ ( patient.id ) ? patient.id :  translatedStrings['warnings']['noData'] }}
 
                         </td>
-                        <td style="width:18%; min-width:10rem;">
+                        <td style="width:15%; min-width:10rem;">
                             <span class="p-column-title">{{ translatedStrings['patients']['firstName'] }} </span>
                           {{ ( patient.firstName ) ? patient.firstName :  translatedStrings['warnings']['noData'] }}
                         </td>
-                        <td style="width:18%; min-width:10rem;">
+                        <td style="width:15%; min-width:10rem;">
                             <span class="p-column-title">{{ translatedStrings['patients']['lastName'] }} </span>
                           {{ ( patient.lastName ) ? patient.lastName :  translatedStrings['warnings']['noData'] }}
                         </td>
-                        <td style="width:18%; min-width:10rem;">
+                        <td style="width:15%; min-width:10rem;">
                             <span class="p-column-title">{{ translatedStrings['patients']['birthSex'] }}</span>
                             <span [class]="'product-badge status-' + this.birthSex[patient.birthSex].badge">
                             {{ this.birthSex && this.birthSex[patient.birthSex] ? this.birthSex[patient.birthSex].name : '' }}
                             </span>
                         </td>
-                        <td style="width:18%; min-width:10rem;">
+                        <td style="width:15%; min-width:10rem;">
                             <span class="p-column-title">{{ translatedStrings['patients']['maritalStatus'] }}</span>
                           {{ ( getMaritalStatusLabel(patient.maritalStatus) ) ? getMaritalStatusLabel(patient.maritalStatus) :  translatedStrings['warnings']['noData'] }}
                         </td>
+                        <td style="width:15%; min-width:10rem;">
+                          <span class="p-column-title">QR</span>
+                        <ngx-qrcode [value]="patient.id"></ngx-qrcode>
+
+                      </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="dialogEditPatient( patient )"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="dialogDeletePatient( patient )"></button>
-                            </div>
+
+                              </div>
+
                         </td>
                     </tr>
                 </ng-template>

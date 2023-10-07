@@ -76,6 +76,13 @@ import { ManageServicesModule } from './dashboard/components/manage-services/man
                          path: 'manage-users', loadChildren: () => import('./dashboard/components/manage-users/manage-users.module').then(m => m.ManageUsersModule)
                     }
                 ]
+              },{
+                path: '', component: AppLayoutComponent,
+                children: [
+                    {
+                         path: 'manage-accessLevelsDetails', loadChildren: () => import('./dashboard/components/manage-access-levels-details/manage-access-levels-details.module').then(m => m.ManageAccessLevelsDetailsModule)
+                    }
+                ]
               },
             { path: 'auth', loadChildren: () => import('./dashboard/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'notfound', component: NotfoundComponent },

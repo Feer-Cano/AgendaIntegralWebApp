@@ -9,11 +9,7 @@ import { TranslateService } from '../../../services/translate.service';
 import { Table } from 'primeng/table';
 import { AlertsService } from '../../../services/alerts.service';
 import { MessageService } from 'primeng/api';
-import { EntityService } from '../../../services/entity.service';
-import { Entity } from '../../../models/entity';
-import { UserService } from '../../../services/user.service';
-import { User } from '../../../models/user';
-import { Console } from 'console';
+
 
 @Component({
   selector: 'app-access-levels',
@@ -24,25 +20,16 @@ import { Console } from 'console';
 })
 export class AccessLevelsComponent {
 
-  removeAccessLevelDialog: boolean = false;
 
   deleteAccessLevelsDialog: boolean = false;
 
   accessLevels: AccessLevel[] = [];
 
-  accessLevel: AccessLevel = {}
-
   selectedAccessLevels: AccessLevel[] = [];
-
-  statuses: any[] = [];
 
   rowsPerPageOptions = [5, 10, 20];
 
   cols: any[] = [];
-
-  entity: Entity[]= [];
-
-  user: User[]= [];
 
   translatedStrings: TranslateData = {};
 
@@ -53,8 +40,6 @@ export class AccessLevelsComponent {
     private accessLevelService: AccessLevelService,
     private TranslateService: TranslateService,
     private alertsService: AlertsService,
-    private entityService:EntityService,
-    private userService:UserService
   ) {}
 
   ngOnInit() {
@@ -62,23 +47,7 @@ export class AccessLevelsComponent {
     this.TranslateService.getTranslations().subscribe( ( translations: TranslateData ) => {
       this.translatedStrings = translations;
     });
-
-    this.getEntity();
-    this.getUser();
     this.reloadTable();
-  }
-
-  getEntity(){
-    this.entityService.getEntities().subscribe( ( result: Entity[] ) => {
-      this.entity = result;
-    } )
-  }
-
-  getUser(){
-    this.userService.getUsers(1).subscribe( ( result: User[] ) => {
-      this.user = result;
-    } )
-
   }
 
   reloadTable() {
@@ -160,8 +129,4 @@ export class AccessLevelsComponent {
     table.filterGlobal( ( event.target as HTMLInputElement ).value, 'contains' );
   }
 
-  getPermissionLabel( value: string ): string {
-    const status = this.accessLevelService.permission.find( item => item.value === value );
-    return status ? status.label : '';
-  }
 }

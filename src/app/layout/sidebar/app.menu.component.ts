@@ -30,10 +30,10 @@ export class AppMenuComponent implements OnInit {
             {
                 label: this.translator['sidebar']['home'],
                 items: [
-                    { 
-                        label: this.translator['sidebar']['generalAgenda'], 
-                        icon: 'fa-regular fa-calendar-days', 
-                        routerLink: ['/manage-agenda/agenda'] 
+                    {
+                        label: this.translator['sidebar']['generalAgenda'],
+                        icon: 'fa-regular fa-calendar-days',
+                        routerLink: ['/manage-agenda/agenda']
                     }
                 ]
             },
@@ -100,6 +100,11 @@ export class AppMenuComponent implements OnInit {
                               label: this.translator['sidebar']['accessLevelManagement'],
                               icon: 'fa-solid fa-sitemap',
                               routerLink: ['/manage-accessLevels/accessLevel']
+                            },
+                            {
+                              label: this.translator['sidebar']['accessLevelDetailsManagement'],
+                              icon: 'fa-solid fa-sitemap',
+                              routerLink: ['/manage-accessLevelsDetails/accessLevelDetails']
                             }
                         ]
                     },

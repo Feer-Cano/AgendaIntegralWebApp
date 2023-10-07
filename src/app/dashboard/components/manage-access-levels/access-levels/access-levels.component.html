@@ -60,9 +60,7 @@
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                       </th>
                       <th pSortableColumn="id">{{ translatedStrings['general']['id'] }} <p-sortIcon field="id"></p-sortIcon></th>
-                      <th pSortableColumn="users">{{ translatedStrings['accessLevels']['users'] }} <p-sortIcon field="id"></p-sortIcon></th>
-                      <th pSortableColumn="permission">{{ translatedStrings['accessLevels']['permission'] }}<p-sortIcon field="id"></p-sortIcon></th>
-                      <th pSortableColumn="entities">{{ translatedStrings['accessLevels']['entities'] }}<p-sortIcon field="id"></p-sortIcon></th>
+                      <th pSortableColumn="name">{{ translatedStrings['accessLevels']['name'] }} <p-sortIcon field="name"></p-sortIcon></th>
                   <th></th>
                   </tr>
               </ng-template>
@@ -72,22 +70,15 @@
                       <td>
                           <p-tableCheckbox [value]="accessLevel"></p-tableCheckbox>
                       </td>
-                      <td style="width:20%; min-width:10rem;"><span class="p-column-title">{{ translatedStrings['general']['id'] }}</span>
+                      <td style="width:50%; min-width:10rem;"><span class="p-column-title">{{ translatedStrings['general']['id'] }}</span>
                         {{ ( accessLevel.id ) ? accessLevel.id :  translatedStrings['warnings']['noData'] }}
                       </td>
-                      <td style="width:25%; min-width:10rem;">
-                          <span class="p-column-title">{{ translatedStrings['accessLevels']['name'] }}</span>
-                        {{ ( accessLevel.user.firstName ) ? accessLevel.user.firstName :  translatedStrings['warnings']['noData'] }}
-                      </td>
-                      <td style="width:25%; min-width:10rem;">
-                        <span class="p-column-title">{{ translatedStrings['accessLevels']['permission'] }}</span>
-                        {{ ( getPermissionLabel(accessLevel.permission) ) ? getPermissionLabel(accessLevel.permission) :  translatedStrings['warnings']['noData'] }}
 
-                      </td>
                       <td style="width:50%; min-width:10rem;">
-                        <span class="p-column-title">{{ translatedStrings['accessLevels']['entities'] }}</span>
-                        {{ ( accessLevel.typeEntity.name ) ? accessLevel.typeEntity.name :  translatedStrings['warnings']['noData'] }}
+                          <span class="p-column-title">{{ translatedStrings['accessLevels']['name'] }}</span>
+                        {{ ( accessLevel.name ) ? accessLevel.name :  translatedStrings['warnings']['noData'] }}
                       </td>
+
                       <td>
                           <div class="flex">
                               <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="dialogEditAccessLevel(accessLevel)"></button>

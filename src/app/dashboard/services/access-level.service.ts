@@ -23,15 +23,7 @@ export class AccessLevelService {
         query {
           getAccessLevels {
             id,
-            user{
-              id,
-              firstName
-            },
-            typeEntity{
-              id,
-              name
-            },
-            permission
+            name
           }
         }
       `,
@@ -48,15 +40,7 @@ export class AccessLevelService {
         query getAccesLevel($id: ID!) {
           accesLevel(id: $id) {
             id,
-            user{
-              id,
-              firstName
-            },
-            typeEntity{
-              id,
-              name
-            },
-            permission
+            name
           }
         }
       `,
@@ -69,18 +53,13 @@ export class AccessLevelService {
   }
 
   createAccessLevel(accessLevel: AccessLevel): Observable<any> {
-    console.log("Jelouy", accessLevel);
     return this.apollo.mutate({
       mutation: gql`
         mutation createAccessLevel(
-          $user: Int!,
-          $typeEntity: Int!,
-          $permission: String!,
+          $name: String!,
         ) {
           createAccessLevel(
-            userId: $user,
-            typeEntityId:  $typeEntity,
-            permission: $permission,
+            name: $name
           ) {
             id
           }
@@ -104,15 +83,11 @@ export class AccessLevelService {
       mutation: gql`
         mutation updateAccessLevel(
           $id: Int!,
-          $user: Int!,
-          $typeEntity: Int!,
-          $permission: String!,
+          $name: String!,
         ) {
           updateAccessLevel(
             id: $id
-            userId: $user,
-            typeEntityId: $typeEntity,
-            permission: $permission,
+            name: $name,
           ) {
             id
           }

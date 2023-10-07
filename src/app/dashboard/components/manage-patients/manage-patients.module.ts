@@ -25,6 +25,7 @@ import { CardModule } from 'primeng/card';
 import { CalendarModule } from "primeng/calendar";
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PrimeNGConfig } from 'primeng/api';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { PrimeNGConfig } from 'primeng/api';
     ListboxModule,
     CardModule,
     CalendarModule,
-    SelectButtonModule
+    SelectButtonModule,
+    NgxQRCodeModule
   ],
   declarations: [
     PatientsComponent,
@@ -57,7 +59,7 @@ import { PrimeNGConfig } from 'primeng/api';
     RemovePatientComponent
   ]
 })
-export class ManagePatientsModule { 
+export class ManagePatientsModule {
   constructor(private primengConfig: PrimeNGConfig) {
     // Establece el idioma por defecto en español
     this.primengConfig.setTranslation({

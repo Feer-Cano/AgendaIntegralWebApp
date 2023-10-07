@@ -22,9 +22,13 @@ import { AlertsService } from '../../../services/alerts.service';
 })
 export class PatientsComponent {
 
+  qrCodeValue: string = '';
+
   removePatientDialog: boolean = false;
 
   deletePatientsDialog: boolean = false;
+
+  d: string = 'sasa';
 
   patients: Patient[] = [];
 
@@ -48,7 +52,7 @@ export class PatientsComponent {
   constructor(
     private patientService: PatientService,
     private alertsService: AlertsService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -88,7 +92,6 @@ export class PatientsComponent {
   }
 
   dialogEditPatient( patient: Patient ) {
-
     this.dialogPatient.typeDialog = 'edit';
     this.dialogPatient.patient = { ...patient };
     this.dialogPatient.patientDialog = true;

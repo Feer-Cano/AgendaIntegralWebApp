@@ -50,8 +50,9 @@ export class DialogPatientComponent implements OnInit {
       lastName: ['', Validators.required],
       birthSex: ['', [Validators.required]],
       birthDate: ['', Validators.required],
-      maritalStatus: ['', Validators.required]
+      maritalStatus: ['', Validators.required],
     });
+
   }
 
   ngOnInit(): void {
@@ -69,8 +70,10 @@ export class DialogPatientComponent implements OnInit {
       birthSex: this.patient.birthSex,
       birthDate: this.datePipe.transform( this.patient.birthDate, 'dd/MM/yyyy' ),
       maritalStatus: this.patient.maritalStatus,
-      isActive: 1
+      isActive: 1,
+
     });
+
   }
 
   save() {

@@ -39,12 +39,6 @@ export class DialogAccessLevelComponent implements OnInit{
 
   entity: Entity[] = [];
 
-  user: User[] = [];
-
-  entities: any[] = [];
-
-  users: any[] = [];
-
   permission: any[] = [];
 
   typeDialog: string = '';
@@ -53,15 +47,11 @@ export class DialogAccessLevelComponent implements OnInit{
     private formBuilder: FormBuilder,
     private accessLevelService: AccessLevelService,
     private TranslateService: TranslateService,
-    private entityService : EntityService,
-    private userService : UserService,
 
   ) {
 
     this.form = this.formBuilder.group({
-      users: ['', Validators.required],
-      permission: ['', Validators.required],
-      entities: ['', Validators.required],
+      name: ['', Validators.required],
     });
   }
 
@@ -70,29 +60,12 @@ export class DialogAccessLevelComponent implements OnInit{
     this.TranslateService.getTranslations().subscribe( ( translations: TranslateData ) => {
       this.translatedStrings = translations;
     });
-
-    this.getEntity();
-    this.getUser();
   }
 
-  getEntity(){
-    this.entityService.getEntities().subscribe( ( result: Entity[] ) => {
-      this.entity = result;
-    } )
-  }
-
-  getUser(){
-    this.userService.getUsers(1).subscribe( ( result: User[] ) => {
-      this.user = result;
-    } )
-  }
 
   setValuesForm() {
-    console.log(this.accessLevel);
     this.form.patchValue({
-      permission: this.accessLevel.permission,
-      entities: this.accessLevel.typeEntity.id,
-      users: this.accessLevel.user.id,
+      name: this.accessLevel.name,
     });
   }
 
@@ -106,12 +79,8 @@ export class DialogAccessLevelComponent implements OnInit{
     }
 
     const formValues = this.form.getRawValue();
-    this.accessLevel.permission = formValues.permission;
-    let a = parseInt(formValues.entities, 10);
-    this.accessLevel.typeEntity = a;
-    let b = parseInt(formValues.users, 10);
-    this.accessLevel.user = b;
-    console.log(this.accessLevel);
+    this.accessLevel.name = formValues.name;
+
     if (this.typeDialog === 'new' ) {
 
       this.accessLevelService.createAccessLevel( this.accessLevel ).subscribe( (result: AccessLevel) => {

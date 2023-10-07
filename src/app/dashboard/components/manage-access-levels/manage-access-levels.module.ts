@@ -22,7 +22,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { RatingModule } from 'primeng/rating';
 import { RippleModule } from 'primeng/ripple';
-import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -38,21 +37,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
     TableModule,
     ToastModule,
     ToolbarModule,
-    FormsModule,
     ButtonModule,
-    RippleModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
     DialogModule,
-    ListboxModule,
-    CardModule,
-    CalendarModule,
-    SelectButtonModule,
-    MultiSelectModule
+    InputTextModule,
   ]
 })
 export class ManageAccessLevelsModule { }

@@ -26,6 +26,7 @@
     "@fullcalendar/interaction": "^6.1.5",
     "@fullcalendar/list": "^6.1.5",
     "@fullcalendar/timegrid": "^6.1.5",
+    "@techiediaries/ngx-qrcode": "^9.1.0",
     "apollo-angular": "^5.0.0",
     "chart.js": "^3.3.2",
     "graphql": "^16.7.1",
