@@ -41,7 +41,28 @@ export class PatientService {
             birthDate,
             maritalStatus,
             medicalRecord,
-            isActive
+            isActive,
+            contacts{
+              id,
+              entityId,
+              typeEntity,
+              mobilePhone,
+              homePhone,
+              email
+            }
+            addresses{
+              id,
+              entityId,
+              typeEntity,
+              geocoder,
+              street,
+              extNumber,
+              intNumber,
+              neighborhood,
+              city,
+              state,
+              country
+            }
           }
         }
         `,
@@ -68,7 +89,28 @@ export class PatientService {
               birthDate,
               maritalStatus,
               medicalRecord,
-              isActive
+              isActive,
+              contacts{
+                id,
+                entityId,
+                typeEntity,
+                mobilePhone,
+                homePhone,
+                email
+              }
+              addresses{
+                id,
+                entityId,
+                typeEntity,
+                geocoder,
+                street,
+                extNumber,
+                intNumber,
+                neighborhood,
+                city,
+                state,
+                country
+              }
             }
           }
         `,

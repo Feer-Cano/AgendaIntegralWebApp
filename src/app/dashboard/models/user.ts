@@ -1,3 +1,4 @@
+
 export class User {
 
   public id?: number;
@@ -10,6 +11,8 @@ export class User {
   public password?: string;
   public token?: string;
   public isActive?: number;
+  public contacts?: any;
+
 
     constructor (
         options: {

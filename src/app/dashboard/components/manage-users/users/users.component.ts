@@ -48,7 +48,7 @@ export class UsersComponent {
   ) {}
 
   ngOnInit() {
-
+    
     this.birthSex = this.userService.birthSex;
 
     this.translateService.getTranslations().subscribe( (translations: TranslateData) => {
@@ -56,12 +56,14 @@ export class UsersComponent {
     });
 
     this.reloadTable();
+    
   }
 
   reloadTable() {
     this.userService.getUsers( 1 ).subscribe( (result: User[]) => {
       this.users = result;
     });
+
   }
 
   dialogNewUser() {
