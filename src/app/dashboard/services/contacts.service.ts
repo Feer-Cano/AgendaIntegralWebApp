@@ -56,14 +56,14 @@ export class ContactsService {
   createContact( contacts: Contacts ): Observable<any> {
     return this.apollo.mutate({
       mutation: gql`
-        mutation createAddress(
+        mutation createContact(
           $entityId: Int!,
           $typeEntity: String!,
           $mobilePhone: String!,
           $homePhone: String!,
           $email: String!,
         ) {
-          createAddress(
+          createContact(
             entityId: $entityId,
             typeEntity: $typeEntity,
             mobilePhone: $mobilePhone,
