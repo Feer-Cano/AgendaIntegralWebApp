@@ -53,17 +53,17 @@ export class ContactsService {
       take(1)
     );
   }
-  createContact( contacts: Contacts ): Observable<any> {
+  createContacts( contacts: Contacts ): Observable<any> {
     return this.apollo.mutate({
       mutation: gql`
-        mutation createContact(
+        mutation createContacts(
           $entityId: Int!,
           $typeEntity: String!,
           $mobilePhone: String!,
           $homePhone: String!,
           $email: String!,
         ) {
-          createContact(
+          createContacts(
             entityId: $entityId,
             typeEntity: $typeEntity,
             mobilePhone: $mobilePhone,
@@ -76,75 +76,8 @@ export class ContactsService {
       `,
       variables: { ...contacts },
     }).pipe(
-      map( (result: any) => result.data.createContact )
+      map( (result: any) => result.data.createContacts )
     );
   }
-
-//   updateAddress( address: Contacts ): Observable<any> {
-
-//     address = {
-//       ...address,
-//       id: Number( address.id ),
-//     }
-
-//     return this.apollo.mutate({
-//       mutation: gql`
-//         mutation updateAddress(
-//           $id: Int!,
-//           $entityId: Int!,
-//           $typeEntity: String!,
-//           $geocoder: String!,
-//           $street: String!,
-//           $extNumber: String!,
-//           $intNumber: String!,
-//           $neighborhood: String!,
-//           $city: String!,
-//           $state: String!,
-//           $country: String!
-//         ) {
-//           updateAddress(
-//             id: $id,
-//             entityId: $entityId,
-//             typeEntity: $typeEntity,
-//             geocoder: $geocoder,
-//             street: $street,
-//             extNumber: $extNumber,
-//             intNumber: $intNumber,
-//             neighborhood: $neighborhood,
-//             city: $city,
-//             state: $state,
-//             country: $country
-//           ) {
-//             id
-//           }
-//         }
-//       `,
-//       variables: { ...address },
-//     }).pipe(
-//       map( (result: any) => result.data.updateAddress ),
-//       take(1)
-//     );
-//   }
-
-//   removeAddress( id: number ): Observable<any> {
-
-//     id = Number(id);
-
-//     return this.apollo.mutate({
-//       mutation: gql`
-//         mutation deleteAddress($id: Int!) {
-//           deleteAddress(
-//             id: $id
-//           ) {
-//             id
-//           }
-//         }
-//       `,
-//       variables: { id },
-//     }).pipe(
-//       map( (result: any) => result.data.deleteAddress ),
-//       take(1)
-//     );
-//   }
 
  }
